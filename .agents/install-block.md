@@ -14,7 +14,9 @@ cd skills
 ./scripts/link-skills.sh
 ```
 
-Symlinks every skill outside `deprecated/` and `misc/` into `~/.claude/skills` (Claude Code) and `~/.agents/skills` (Codex and other Agent Skills-compatible harnesses). The skills are files you own and edit: a change is live in the next session, and `git pull` updates every installed skill at once. Re-run the script after adding, removing, or renaming a skill.
+Symlinks every skill outside `deprecated/` and `misc/` into the directory each harness reads: `~/.claude/skills` (Claude Code), `$CODEX_HOME/skills`, default `~/.codex/skills` (Codex), and `~/.agents/skills` (other Agent Skills-compatible harnesses). Codex reads `$CODEX_HOME/skills` and not `~/.agents/skills`, so both are linked; Codex's bundled skills sit in a `.system` subdirectory there and are left alone.
+
+The skills are files you own and edit: a change is live in the next session, and `git pull` updates every installed skill at once. Re-run the script after adding, removing, or renaming a skill, and restart any session that was already open.
 
 </canonical-block>
 

@@ -1,19 +1,23 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# NOTE: This is a dev-only script, intended for use by maintainers of this repo.
-# It is not a supported installer. Modifications to it, or requests for
-# modifications, will not be approved.
-#
-# Links all skills in the repository into the local skill directories used by
-# each agent harness:
-#   - ~/.claude/skills: Claude Code
-#   - ~/.agents/skills: Codex and other Agent Skills-compatible harnesses
+# This is the installer. It links all skills in the repository into the local
+# skill directory each agent harness actually reads:
+#   - ~/.claude/skills:          Claude Code
+#   - $CODEX_HOME/skills:        Codex (defaults to ~/.codex/skills)
+#   - ~/.agents/skills:          other Agent Skills-compatible harnesses
 # Each entry is a symlink into this repo, so a `git pull` is all that's needed
-# to keep installed skills up to date.
+# to keep installed skills up to date, and an edit is live in the next session.
+#
+# Codex reads $CODEX_HOME/skills, NOT ~/.agents/skills: its bundled
+# skill-installer installs to "$CODEX_HOME/skills/<skill-name> (defaults to
+# ~/.codex/skills)". Linking only into ~/.agents/skills leaves Codex seeing
+# none of these. Codex's own bundled skills live in a `.system` subdirectory
+# there and are never touched, since no skill in this repo is named `.system`.
 
 REPO="$(cd "$(dirname "$0")/.." && pwd)"
-DESTS=("$HOME/.claude/skills" "$HOME/.agents/skills")
+CODEX_HOME="${CODEX_HOME:-$HOME/.codex}"
+DESTS=("$HOME/.claude/skills" "$CODEX_HOME/skills" "$HOME/.agents/skills")
 
 # Collect the repo's skills once, link into every destination. `deprecated/`
 # is retired, and `misc/` is kept around but rarely used and not promoted (see
