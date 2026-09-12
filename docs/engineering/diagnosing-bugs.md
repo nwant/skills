@@ -1,3 +1,5 @@
+# diagnosing-bugs
+
 ## What it does
 
 `diagnosing-bugs` runs a six-phase diagnosis on a hard bug or a performance regression: build a repro, minimise it, rank hypotheses, instrument, fix with a regression test, clean up.
@@ -15,10 +17,10 @@ Reach for it on the hard ones: a bug that resists a first look, an intermittent 
 | A specific defect you can describe as a symptom | This skill |
 | A slow endpoint or a timing regression with a known before-and-after | This skill: it has a performance branch (measure a baseline, then bisect) |
 | "Where are the bottlenecks in this codebase?", no specific symptom | Not this skill. It diagnoses one known failure, it does not audit |
-| A raw bug report from someone else, not yet confirmed or written up | [triage](https://aihero.dev/skills-triage) first |
-| Throwaway code to answer a design question, not chase a defect | [prototype](https://aihero.dev/skills-prototype) |
-| Building a planned behaviour test-first | [tdd](https://aihero.dev/skills-tdd) |
-| No good seam exists to lock the bug down | [improve-codebase-architecture](https://aihero.dev/skills-improve-codebase-architecture): this skill hands off there itself |
+| A raw bug report from someone else, not yet confirmed or written up | [triage](./triage.md) first |
+| Throwaway code to answer a design question, not chase a defect | [prototype](./prototype.md) |
+| Building a planned behaviour test-first | [tdd](./tdd.md) |
+| No good seam exists to lock the bug down | [improve-codebase-architecture](./improve-codebase-architecture.md): this skill hands off there itself |
 
 ## The tight loop is the skill
 
@@ -88,6 +90,6 @@ Renamed to `/diagnosing-bugs` in v1.0.0. The old name no longer exists. Anything
 
 ## Where it fits
 
-`diagnosing-bugs` is a reach-for-it-anytime standalone. You drop into it when something is broken and drop out when the fix and its regression test are in; it holds no state and needs no prior setup. [ask-matt](https://aihero.dev/skills-ask-matt) routes "Something's broken" here.
+`diagnosing-bugs` is a reach-for-it-anytime standalone. You drop into it when something is broken and drop out when the fix and its regression test are in; it holds no state and needs no prior setup. [which-skill](./which-skill.md) routes "Something's broken" here.
 
-Two neighbours matter. [improve-codebase-architecture](https://aihero.dev/skills-improve-codebase-architecture) takes the [handoff](https://www.aihero.dev/ai-coding-dictionary/handoff) when the real finding is that the code has no seam to lock the bug down; the recommendation is made after the fix is in, when there is more information. [triage](https://aihero.dev/skills-triage) sits upstream of it for bugs that arrive as raw reports from other people, and does a shallower version of the same first two phases.
+Two neighbours matter. [improve-codebase-architecture](./improve-codebase-architecture.md) takes the [handoff](https://www.aihero.dev/ai-coding-dictionary/handoff) when the real finding is that the code has no seam to lock the bug down; the recommendation is made after the fix is in, when there is more information. [triage](./triage.md) sits upstream of it for bugs that arrive as raw reports from other people, and does a shallower version of the same first two phases.

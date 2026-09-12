@@ -1,3 +1,5 @@
+# teach
+
 ## What it does
 
 `teach` turns the directory you run it in into a standing teaching workspace and teaches you one topic across many [sessions](https://www.aihero.dev/ai-coding-dictionary/session), in short self-contained HTML lessons.
@@ -14,10 +16,10 @@ Reach for it when the learning is the project: a language, a framework, a codeba
 | --- | --- |
 | To learn a topic over weeks, with sessions that accumulate | `teach` |
 | One idea explained inside the session you are already in | Just ask, in that session |
-| The agent's last message re-pitched because it didn't land | [wait-what](https://aihero.dev/skills-wait-what) |
-| To sharpen thinking you already have, rather than acquire new material | [grill-me](https://aihero.dev/skills-grill-me) |
-| A background agent to read [primary sources](https://www.aihero.dev/ai-coding-dictionary/primary-source) and leave you a cited document | [research](https://aihero.dev/skills-research) |
-| To learn something that came up mid-grilling, without derailing the [grilling](https://www.aihero.dev/ai-coding-dictionary/grilling) | [handoff](https://aihero.dev/skills-handoff) out to a teaching workspace, then `teach` there |
+| The agent's last message re-pitched because it didn't land | [wait-what](./wait-what.md) |
+| To sharpen thinking you already have, rather than acquire new material | [grill-me](./grill-me.md) |
+| A background agent to read [primary sources](https://www.aihero.dev/ai-coding-dictionary/primary-source) and leave you a cited document | [research](../engineering/research.md) |
+| To learn something that came up mid-grilling, without derailing the [grilling](https://www.aihero.dev/ai-coding-dictionary/grilling) | [handoff](./handoff.md) out to a teaching workspace, then `teach` there |
 
 ## Prerequisites
 
@@ -94,4 +96,4 @@ There is no canonical answer, and the reported differences are large. Higher [re
 
 `teach` is a **reach-for-it-anytime standalone**. It is not a step in a build chain and shares no artifacts with the engineering flow; it owns its directory and lives there for as long as the topic lasts.
 
-Its one real neighbour is [handoff](https://aihero.dev/skills-handoff), through the composition Matt named as the answer to "what do I do if I'm being grilled about something I don't understand?": don't stop the grilling to learn: `/handoff` to a teaching workspace, learn it there with `/teach`, then go back and pick up where you left off. The nearby alternative is [research](https://aihero.dev/skills-research), for when what you want is a cited document rather than lessons and retention. When you are not sure which skill or flow fits, [ask-matt](https://aihero.dev/skills-ask-matt) routes you over the whole set.
+Its one real neighbour is [handoff](./handoff.md), through the composition that answers "what do I do if I'm being grilled about something I don't understand?": don't stop the grilling to learn: `/handoff` to a teaching workspace, learn it there with `/teach`, then go back and pick up where you left off. The nearby alternative is [research](../engineering/research.md), for when what you want is a cited document rather than lessons and retention. When you are not sure which skill or flow fits, [which-skill](../engineering/which-skill.md) routes you over the whole set.

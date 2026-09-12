@@ -1,3 +1,5 @@
+# codebase-design
+
 ## What it does
 
 `codebase-design` fixes the words you use to design a module: **module**, **interface**, **depth**, **seam**, **adapter**, **leverage**, **locality**. It defines each one precisely, bans the loose substitutes ("component", "service", "API", "boundary"), and states the handful of principles that follow from them.
@@ -15,10 +17,10 @@ Several skills sit close to it. Which one you want depends on what the actual pr
 | The problem | The skill |
 |---|---|
 | The shape of one module: its interface, its seam, its depth | `codebase-design` |
-| The *words of the domain*: "account" means three things, two people mean different things by "cancellation" | [domain-modeling](https://aihero.dev/skills-domain-modeling) |
-| You don't yet know *which* module to redesign | [improve-codebase-architecture](https://aihero.dev/skills-improve-codebase-architecture) (the survey that finds candidates) |
-| You want the design argued with, not just named | [grilling](https://aihero.dev/skills-grilling) |
-| There's a concrete behaviour to build and you want tests that survive a refactor | [tdd](https://aihero.dev/skills-tdd) |
+| The *words of the domain*: "account" means three things, two people mean different things by "cancellation" | [domain-modeling](./domain-modeling.md) |
+| You don't yet know *which* module to redesign | [improve-codebase-architecture](./improve-codebase-architecture.md) (the survey that finds candidates) |
+| You want the design argued with, not just named | [grilling](../productivity/grilling.md) |
+| There's a concrete behaviour to build and you want tests that survive a refactor | [tdd](./tdd.md) |
 
 ## The vocabulary
 
@@ -43,7 +45,7 @@ Depth is deliberately *not* defined as the ratio of implementation lines to inte
 - **The interface is the test surface.** Callers and tests cross the same seam. If you want to test *past* the interface, the module is the wrong shape.
 - **One adapter means a hypothetical seam. Two adapters means a real one.** Don't cut a seam until something actually varies across it. A single-adapter seam is just indirection.
 
-Two supporting files go further, and the skill reads them on demand rather than up front. [DEEPENING.md](https://github.com/mattpocock/skills/blob/main/skills/engineering/codebase-design/DEEPENING.md) classifies a candidate's dependencies into four categories (in-process, local-substitutable, remote-but-owned, true-external), because the category decides how the deepened module gets tested across its seam. [DESIGN-IT-TWICE.md](https://github.com/mattpocock/skills/blob/main/skills/engineering/codebase-design/DESIGN-IT-TWICE.md) spins up parallel [sub-agents](https://www.aihero.dev/ai-coding-dictionary/subagent) to produce three or more radically different interfaces for the same module, then compares them on depth, locality and seam placement.
+Two supporting files go further, and the skill reads them on demand rather than up front. [DEEPENING.md](../../skills/engineering/codebase-design/DEEPENING.md) classifies a candidate's dependencies into four categories (in-process, local-substitutable, remote-but-owned, true-external), because the category decides how the deepened module gets tested across its seam. [DESIGN-IT-TWICE.md](../../skills/engineering/codebase-design/DESIGN-IT-TWICE.md) spins up parallel [sub-agents](https://www.aihero.dev/ai-coding-dictionary/subagent) to produce three or more radically different interfaces for the same module, then compares them on depth, locality and seam placement.
 
 ## Common questions
 
@@ -85,4 +87,4 @@ People have proposed exactly those. [Issue #180](https://github.com/mattpocock/s
 
 ## Where it fits
 
-`codebase-design` is a **reach-for-it-anytime standalone**, and the vocabulary layer underneath the engineering skills rather than a step in any chain. Its closest neighbour is [domain-modeling](https://aihero.dev/skills-domain-modeling), the parallel reference for the *problem domain*'s words rather than the module's shape. The two are usually wanted together, since naming a deep module well needs both. [improve-codebase-architecture](https://aihero.dev/skills-improve-codebase-architecture) is the other: it surveys a codebase for deepening candidates and writes every one of them in this glossary, so it finds the module and this skill is the bench you design it on. When you're unsure which skill or flow fits, [ask-matt](https://aihero.dev/skills-ask-matt) routes you.
+`codebase-design` is a **reach-for-it-anytime standalone**, and the vocabulary layer underneath the engineering skills rather than a step in any chain. Its closest neighbour is [domain-modeling](./domain-modeling.md), the parallel reference for the *problem domain*'s words rather than the module's shape. The two are usually wanted together, since naming a deep module well needs both. [improve-codebase-architecture](./improve-codebase-architecture.md) is the other: it surveys a codebase for deepening candidates and writes every one of them in this glossary, so it finds the module and this skill is the bench you design it on. When you're unsure which skill or flow fits, [which-skill](./which-skill.md) routes you.

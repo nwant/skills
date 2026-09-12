@@ -39,3 +39,17 @@ Verified 2026-08-05, on Claude Code 2.1.222, against the live listing:
 - `claude plugin details mattpocock-skills` then reports version 1.2.0 and loads the promoted skills.
 - The listing's `source` is `{"source": "url", "url": "https://github.com/mattpocock/skills.git", "sha": …}`: the **sha is pinned**, so a release reaches installed users when that pin moves, not the moment we tag. At the time of writing the pin sits two commits behind `main`, which is why it lists 22 skills rather than the 24 in `plugin.json`.
 - The in-session `/plugin install mattpocock-skills` was **not** exercised: `/plugin` is unavailable in headless (`claude -p`) sessions. It runs the same resolver as the CLI, and the documented example form is `/plugin install <name>@claude-plugins-official`.
+
+## Fork status, 2026-09-12: reversed
+
+Everything above is the **upstream** record ([mattpocock/skills](https://github.com/mattpocock/skills)) and is preserved verbatim, including the names `mattpocock-skills` and `mattpocock/skills`. None of the 2026-08-05 verification was performed against this fork.
+
+**This fork ships no plugin.** The decision above is reversed here, and the artifacts it produced are deleted: `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`, `scripts/sync-plugin-version.mjs`, the changeset directory and its release workflow, and the npm manifests that existed to run them.
+
+The reasoning that made a plugin right upstream does not transfer. A plugin is a **managed, read-only bundle you subscribe to**, which is what a set of skills with many downstream consumers wants. This fork exists so its owner can edit the skills, and it has no downstream consumers, so the plugin shape is inverted: it would deliver a copy that cannot be edited, and charge a manifest entry, a changeset, and a version bump for every new skill. `scripts/link-skills.sh` symlinks the working tree instead, which delivers the editable copy and the update path (`git pull`) in one step and needs no release process at all.
+
+The consequences of the original decision no longer bind: promoted skills need no `skills`-array entry, `plugin.json` and `package.json` versions have nothing to track, and `claude plugin validate` has no manifest to check. The bucket layout itself is unchanged, and **promotion still means what it meant**: a `README.md` reference and a docs page, now the only things that mark a skill promoted.
+
+The Codex half of the original decision is moot for the same reason: with no plugin on either side, there is nothing to defer.
+
+Install wording lives in [.agents/install-block.md](../install-block.md).
