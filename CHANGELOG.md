@@ -52,6 +52,29 @@ User-invoked, since it writes directories outside the working tree and appends t
 operator's shell rc file. `which-skill`'s Precondition section becomes **Preconditions** and
 now routes both run-once setups, distinguishing once-per-repo from once-per-repo-set.
 
+**A palette can be unioned; a judgment cannot.** Adding the ambiguous outcome left every
+call site saying a workspace "claims this repo", singular, with no branch for the case
+the new exit code exists to report. Restating the three-outcome contract four times would
+have drifted, so each site now carries only its own consequence, and the rule that decides
+which consequence applies is stated once.
+
+The distinction is what a skill does with what it read, not whether it reads or writes.
+*Palettes* widen safely: vocabulary, prior art and research context can be read from every
+claimant, because more of a palette only helps. *Judgments* select one authority: coding
+standards, acceptance criteria and tracker config cannot be merged, because applying two
+workspaces' standards to one diff judges a change against rules its programme does not
+follow. Writing is always a judgment.
+
+So `setup-skills` and `domain-modeling` ask before writing, `two-axis-review` asks before
+choosing standards or a tracker, and `wait-what` reads every claimant's glossary without
+asking anything. The flat "read wider than you write" this replaces was true only for
+vocabulary.
+
+**`implement` drops out of the routed set, from five skills to four.** Its guard, name the
+repo and refuse to guess, is right and stays, but it needs no workspace resolution to do
+it: a ticket names its repo whether one workspace claims it or three. The probe there was
+load for nothing.
+
 **Workspace resolution gains a third outcome, and stops failing where it mattered
 most.** Two defects, both found by running the probe against real workspaces rather
 than against its own green tests.

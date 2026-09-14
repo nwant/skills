@@ -45,15 +45,22 @@ Finding nothing is a normal answer, not an error. The script exits 1 silently an
 caller carries on as a single-repo run, which is what keeps every workspace-aware
 skill correct outside a workspace.
 
-## Read wider than you write
+## A palette can be unioned; a judgment cannot
 
-When resolving vocabulary, read the workspace glossary *and* the repo's, with the
-repo's winning on a genuine conflict since it sits closer to the code. When writing,
-pick exactly one home. A term written to both drifts apart; a cross-repo term written
-into one member repo is invisible to the others.
+This is the rule that decides what happens when more than one workspace claims a repo,
+which is normal rather than exceptional: membership is many-to-many.
 
-The same asymmetry applies to decisions and to config: read whatever is in scope,
-write to the single place the rule names.
+*Palettes* widen safely. Vocabulary, prior art, research context: read every claimant's,
+because more of a palette only helps, and let the repo's own copy win a genuine conflict
+since it sits closer to the code.
+
+*Judgments* select one authority. Coding standards, acceptance criteria, tracker config:
+applying two workspaces' standards to one diff judges a change against rules its
+programme does not follow. Ambiguity there is a question to ask, not a set to merge.
+
+Writing is always a judgment, so it always picks exactly one home. A term written to
+both drifts apart; a cross-repo term written into one member repo is invisible to the
+others.
 
 ## Common questions
 
@@ -99,7 +106,8 @@ depends on, and
 [improve-workspace-architecture](./improve-workspace-architecture.md), which surveys a
 workspace for friction between repos. The skills that route through it are the ones
 with a real decision to make, currently
-[setup-skills](./setup-skills.md), [implement](./implement.md),
-[two-axis-review](./two-axis-review.md), [domain-modeling](./domain-modeling.md) and
-`wait-what`. For which skill to reach for next, [which-skill](./which-skill.md) routes
+[setup-skills](./setup-skills.md), [two-axis-review](./two-axis-review.md),
+[domain-modeling](./domain-modeling.md) and `wait-what`.
+[implement](./implement.md) deliberately does not: its guard is about reading the
+ticket, which names its repo regardless of how many workspaces claim it. For which skill to reach for next, [which-skill](./which-skill.md) routes
 the whole set.

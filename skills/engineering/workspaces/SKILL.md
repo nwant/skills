@@ -127,11 +127,22 @@ what skills actually need:
 | Tracker, triage and label config | the workspace `docs/agents/`, once, when the values do not vary by repo |
 | Research spanning repos | the workspace |
 
-**Read wider than you write.** When resolving vocabulary, read the workspace glossary
-*and* the member repo's, with the repo's winning on a genuine conflict, since it is
-closer to the code. When writing, pick exactly one home by the rule above: a term
-written to both drifts, and a term written to one member repo is invisible to the
-others.
+**A palette can be unioned; a judgment cannot.** This is the rule that decides what to
+do when more than one workspace claims the repo, and it is not the same for everything
+a skill reads.
+
+*Palettes* widen safely. Vocabulary, prior art, research context: read the workspace
+glossary **and** the member repo's, and every claimant's when several claim it, because
+more of a palette only helps. On a genuine conflict the repo's wins, being closer to the
+code.
+
+*Judgments* select one authority and must be chosen, never merged. Coding standards,
+acceptance criteria, tracker and label config: applying two workspaces' standards to one
+diff is how a change gets judged against rules its programme does not follow. When the
+resolution is ambiguous, **ask which workspace** rather than unioning them.
+
+Writing is always a judgment: pick exactly one home by the rule above. A term written
+to both drifts, and a term written to one member repo is invisible to the others.
 
 Create these lazily. A workspace with no `CONTEXT.md` or `docs/adr/` is the normal
 starting state, not a misconfiguration.

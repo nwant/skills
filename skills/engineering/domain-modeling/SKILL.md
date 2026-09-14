@@ -14,7 +14,8 @@ with "workspaces" for the resolution rules; the short version is to **read both 
 write one**. Read the workspace glossary as well as this repo's, with the repo's
 winning on a genuine conflict since it sits closer to the code. Write a term to
 exactly one home: the workspace when it is used in more than one repo, this repo when
-it is meaningful only here. A term written to both drifts, and a cross-repo term
+it is meaningful only here. If more than one workspace claims the repo, read all of
+their glossaries (vocabulary only widens) but **ask which one before writing a term**. A term written to both drifts, and a cross-repo term
 written into one member repo is invisible to the others.
 
 Most repos have a single context:

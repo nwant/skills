@@ -10,7 +10,7 @@ Two-axis review of the diff between `HEAD` and a fixed point the user supplies:
 
 Both axes run as **parallel sub-agents** so they don't pollute each other's context, then this skill aggregates their findings.
 
-The issue tracker should have been provided to you. If `docs/agents/issue-tracker.md` is missing, tell the user to run `/setup-skills`. **First check one level up**: call the Skill tool with "workspaces" and run its probe, because in a workspace the config is written once into the workspace rather than into each member repo, and a missing file here usually means it is there.
+The issue tracker should have been provided to you. If `docs/agents/issue-tracker.md` is missing, tell the user to run `/setup-skills`. **First check one level up**: call the Skill tool with "workspaces" and run its probe, because in a workspace the config is written once into the workspace rather than into each member repo, and a missing file here usually means it is there. If more than one workspace claims the repo, **ask which one**: a tracker config is an authority, not a palette, and guessing points the Spec axis at the wrong set of stories.
 
 ## Process
 
@@ -33,7 +33,7 @@ Look for the originating spec, in this order:
 
 ### 3. Identify the standards sources
 
-Anything in the repo that documents how code should be written, such as `CODING_STANDARDS.md` or `CONTRIBUTING.md`. **In a workspace, add the workspace's own standards**: cross-cutting rules (alerting, config, shared contracts) are recorded once above the repos, so a Standards axis that reads only this repo misses the half that spans them. Where the two conflict, the repo wins, since it is closer to the code.
+Anything in the repo that documents how code should be written, such as `CODING_STANDARDS.md` or `CONTRIBUTING.md`. **In a workspace, add the workspace's own standards**: cross-cutting rules (alerting, config, shared contracts) are recorded once above the repos, so a Standards axis that reads only this repo misses the half that spans them. Where the two conflict, the repo wins, since it is closer to the code. **Never union two workspaces' standards**: if more than one claims the repo, ask which programme this diff belongs to, because judging a change against rules its programme does not follow is worse than judging it against none.
 
 On top of whatever the repo documents, the Standards axis always carries the **smell baseline** below: a fixed set of Fowler code smells (_Refactoring_, ch.3) that applies even when a repo documents nothing. Two rules bind it:
 
