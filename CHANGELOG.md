@@ -34,6 +34,24 @@ H1, since that site was what generated titles from the slug. `.agents/writing-do
 **Attribution kept.** ADR 0002 is preserved as upstream's record with a fork-status note, and
 docs citing upstream issues still link upstream.
 
+**`code-review` is now `two-axis-review`.** Claude Code ships a built-in skill named
+`code-review`, so installing this collection put two skills of that name in front of the
+agent, and `/code-review` became ambiguous. The rename moves the skill folder and its docs
+page, and every live call site moves with it: both README layers, `implement`, `tdd`,
+`which-skill`, `implement-spec`, six docs pages, and `.agents/writing-docs.md`. The four
+`code-review` references in the release history below are upstream's record and stay as
+written.
+
+The frontmatter description changed with it, since a rename alone does not stop the agent
+picking either skill for "review this PR". It now leads with what is distinctive, a diff
+checked against the issue or spec it came from, and collapses "a branch, a PR,
+work-in-progress changes" into the one branch they always were.
+
+**`link-skills.sh` says when it replaces a real path.** The installer deletes anything at a
+destination that is not one of its own symlinks, which is how an older copy gets upgraded, but
+it did so silently: a hand-written skill sharing a name was removed with no trace. It now
+warns before replacing.
+
 ## 1.2.3
 
 ### Patch Changes
