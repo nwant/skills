@@ -2,7 +2,7 @@
 
 ## What it does
 
-`to-spec` turns the conversation you have just had into a **[spec](https://www.aihero.dev/ai-coding-dictionary/spec)**, and publishes it to your issue tracker as a single issue.
+`to-spec` turns the conversation you have just had into a **[spec](https://www.aihero.dev/ai-coding-dictionary/spec)** file in the repo, plus a short tracker item at a higher altitude that points at it.
 
 It does not interview you. By the time you reach for it the deciding is already done, so it synthesises what is known (from the thread, from the codebase, from your `CONTEXT.md` and ADRs) rather than opening a fresh round of questions. The spec is a record of decisions already made, not a place where new ones get made.
 
@@ -21,7 +21,7 @@ Reach for it when the build is too big for one agent [session](https://www.aiher
 
 ## Prerequisites
 
-`to-spec` publishes the spec as an issue, so [setup-skills](./setup-skills.md) must have configured a tracker and the triage-label vocabulary for this repo first. Either kind works: a real tracker like GitHub, or local markdown files under `.scratch/`, which is supported out of the box.
+`to-spec` writes the spec to `docs/specs/` and creates the tracker item that points at it, so [setup-skills](./setup-skills.md) must have configured a tracker and the triage-label vocabulary for this repo first. Either kind works: a real tracker like GitHub, or local markdown files under `.scratch/`, which is supported out of the box.
 
 ## The spec is a decision record
 
@@ -62,7 +62,7 @@ Less well, and this is a known limitation. The template leans hard on user stori
 No to both. It reads and respects the ADRs covering the area it touches, but it doesn't link them, and it doesn't search the tracker for overlapping issues before drafting, so a spec can quietly duplicate work someone already filed. Search the tracker yourself first if the area is busy.
 
 **`/to-tickets` couldn't read my spec: it kept truncating.**
-Very large specs can outgrow what a tracker issue will serve back cleanly, and there is no local copy to fall back on. The fix is context hygiene: don't [clear](https://www.aihero.dev/ai-coding-dictionary/clearing) or [compact](https://www.aihero.dev/ai-coding-dictionary/compaction) between `/to-spec` and `/to-tickets`. Run them in the same window and the spec never has to be re-fetched at all.
+This was the symptom that moved the spec out of the tracker. A dense spec outgrows what a tracker will hold at all: Shortcut caps a story description at 10,000 characters, and nothing warns you at the boundary. The old advice was context hygiene, not clearing or compacting between `/to-spec` and `/to-tickets` so the spec never had to be re-fetched. That is no longer necessary: the spec is a file, so it can be re-read at any point, by any session, and reviewed in a PR like anything else. Context hygiene is still worth keeping for the thinking, but it is no longer load-bearing for the artifact.
 
 ## It's working if
 

@@ -52,6 +52,29 @@ User-invoked, since it writes directories outside the working tree and appends t
 operator's shell rc file. `which-skill`'s Precondition section becomes **Preconditions** and
 now routes both run-once setups, distinguishing once-per-repo from once-per-repo-set.
 
+**A spec is a file, not a tracker item.** `to-spec` wrote a long spec and published it as
+one tracker issue, which does not fit: Shortcut caps a story description at 10,000
+characters with no warning at the boundary, tracker editors are not diffable, and nothing
+reviews a description the way a PR reviews a file. The symptom was already documented as a
+known question on the docs page, answered with context hygiene, never clearing or
+compacting between `to-spec` and `to-tickets` so the spec never had to be re-fetched. That
+was avoiding the re-fetch rather than fixing where the spec lives.
+
+Four artifacts now, with four jobs. The **spec** is a repo file at `docs/specs/`, in the
+repo the work happens in or in the workspace when it spans several, the same rule a
+glossary or an ADR follows. The **epic** is the tracker item, and it is deliberately *not*
+a summary of the spec: it is a broad statement of what is being built and why with the
+weeds left out, and the test is that it stays true as tickets land. The **ticket** carries
+one unit of work and its acceptance criteria, links the spec once rather than restating
+it, and stays under roughly 3,000 characters, because a ticket needing more is usually
+two. The **PR body** is the fourth and was never the same artifact as a ticket: it is
+written after the work, for a reviewer, where the other three are written before.
+
+Also a warning worth carrying: **avoid a tracker's own document feature** unless you have
+checked what lives there. The one that prompted this is a flat org-wide space of 2,026
+documents with no team scoping and title-substring search as the only filter, 72% of them
+one person's notes. A dense spec there is findable only by guessing its title.
+
 **The Spec axis stops calling a sibling's requirement missing.** `two-axis-review` judged
 one diff against a whole spec, so a spec satisfied across several repos had the other
 repos' requirements reported as **missing** when they were merely **elsewhere**. That is

@@ -66,6 +66,17 @@ Work the **frontier**: any ticket whose blockers are all done. For a purely line
 
 Do NOT close or modify any parent issue.
 
+**Hang the tickets under the epic, and do not restate the spec in them.** Where
+`/to-spec` produced a spec file and an epic, every ticket goes under that epic and links
+the spec once. A ticket carries what to build and how you will know it is done; the
+reasoning stays in the spec, which is one link away and stays current because it is
+versioned. A ticket that restates the spec has two problems: it is long enough to hit a
+tracker's description cap, and it is a second copy that drifts the moment a decision
+changes.
+
+Keep a ticket under roughly 3,000 characters. If one needs more than that to say what to
+build, it is usually two tickets.
+
 <local-ticket-template>
 
 # <NN>: <Ticket title>
@@ -85,7 +96,8 @@ Do NOT close or modify any parent issue.
 
 ## Parent
 
-A reference to the parent issue on the tracker (if the source was an existing issue, otherwise omit this section).
+The epic this ticket belongs to, and a link to the spec it was split from. Omit only
+when neither exists.
 
 ## What to build
 

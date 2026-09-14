@@ -1,12 +1,73 @@
 ---
 name: to-spec
-description: "Turn the current conversation into a spec and publish it to the project issue tracker: no interview, just synthesis of what you've already discussed."
+description: "Turn the current conversation into a spec file in the repo, plus the short tracker item that points at it: no interview, just synthesis of what you've already discussed."
 disable-model-invocation: true
 ---
 
 This skill takes the current conversation context and codebase understanding and produces a spec. Do NOT interview the user; just synthesize what you already know.
 
 The issue tracker and triage label vocabulary should have been provided to you. If not, tell the user to run `/setup-skills`.
+
+## A spec is a file, not a tracker item
+
+The spec below is long on purpose: the alternatives, the load-bearing decisions and the
+reasoning are what make it worth writing. That does not fit in a tracker, and trying is
+how it gets damaged. Trackers cap descriptions (Shortcut stories at 10,000 characters),
+their editors are not diffable, and nothing reviews a description the way a PR reviews a
+file.
+
+So the spec is **a file in the repo**, and the tracker gets a short item that points at
+it. Four artifacts, four jobs:
+
+| Artifact | Where | Written | Holds |
+| --- | --- | --- | --- |
+| **Spec** | a repo file | before the work | problem, alternatives, decisions with rationale, mechanism, testing seams, out of scope |
+| **Epic** | the tracker | before, and stays true | why, what changes, what was agreed and when, what is excluded |
+| **Ticket** | the tracker | before | one unit of work, its acceptance criteria, a link to the spec |
+| **PR body** | the code host | after | what changed, why, how to verify |
+
+**Where the file goes.** `docs/specs/<slug>.md` in the repo the work happens in, or in
+the **workspace** when the work spans several repos: same rule as a glossary or an ADR,
+so one convention covers all of them. If a tracker id exists already, lead the filename
+with it. Call the Skill tool with "workspaces" when a workspace is in effect.
+
+**Avoid a tracker's own document feature** unless you have checked what lives there. It
+tends to be one flat org-wide space with weak scoping and no versioning, so a dense spec
+lands among thousands of unrelated notes and is findable only by guessing its title.
+
+## The epic is at a different altitude
+
+The tracker item that accompanies a spec is **not a summary of it**. It is a broad,
+high-level statement of what is being built and why, with the weeds left out, and it
+holds whether a stakeholder or the delivery team owns it. The test: it stays true as the
+tickets land. If a sentence goes stale when a decision changes, it belonged in the spec.
+
+<epic-template>
+
+## Why
+
+The problem, from the user's or the business's side. Quantify it where you can: a
+proportion, a count, a duration. This is the paragraph someone repeats in a meeting.
+
+## What changes
+
+What becomes possible, or stops being painful, described from the outside. Name the
+mechanism only where a reader could not otherwise picture the change. Transport,
+schemas and interfaces belong in the spec.
+
+## Agreed
+
+Who agreed to this, when, and on what conditions. Dated, because a reader a quarter
+later cannot tell a live constraint from a stale one.
+
+## Out of scope
+
+What this deliberately does not cover, so nobody re-opens it as a gap.
+
+</epic-template>
+
+Keep it to something a person reads in one sitting, roughly 1,500 to 2,500 characters.
+End it with a link to the spec file.
 
 ## Process
 
@@ -16,7 +77,14 @@ The issue tracker and triage label vocabulary should have been provided to you. 
 
 Check with the user that these seams match their expectations.
 
-3. Write the spec using the template below, then publish it to the project issue tracker. Apply the `ready-for-agent` triage label - no need for additional triage.
+3. Write the spec to its file using the template below, and **commit it**. It is a repo
+   artifact, so it goes through whatever review the repo requires; a spec nobody could
+   comment on is a decision nobody agreed to.
+
+4. Create the **epic** from the epic template above, at altitude, linking to the spec
+   file. Apply the `ready-for-agent` triage label - no need for additional triage. Then
+   hand off to `/to-tickets`, which splits the **spec**, not the epic, and hangs its
+   tickets under it.
 
 <spec-template>
 
