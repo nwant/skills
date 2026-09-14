@@ -116,9 +116,19 @@ real parent/child stories, but `stories-search` cannot filter on a parent, so a 
 built that way has no native frontier query and degrades to fetching each child by id.
 An epic is the only container the search tool can scope to.
 
-## Server note
+## How far this is verified
 
-Two Shortcut MCP servers exist: a self-hosted one, and the official hosted server at
-`https://mcp.shortcut.com/mcp`. The self-hosted server returns a deprecation notice
-recommending migration. Tool names and parameters here are verified against the
-self-hosted server, so re-verify them against whichever one is connected.
+Every tool name and parameter below was read off a live server's schemas rather than
+recalled, but two limits are worth knowing before trusting it:
+
+- **The flow has not been exercised end to end.** No `/setup-skills` run, no real
+  wayfinder epic, no `/to-tickets` publish. The operations are schema-correct, not
+  proven in sequence.
+- **The server was the self-hosted one**, which returns a deprecation notice
+  recommending the official hosted server at `https://mcp.shortcut.com/mcp`. The
+  hosted server may name or shape things differently. Re-verify against whichever one
+  is connected, and treat the epic-versus-subtask decision below as the claim most
+  worth rechecking, since it turns on `stories-search` having no `parent` filter.
+
+Corrections welcome: this template is a starting point built from one workspace's
+server, not a vendor-blessed contract.
