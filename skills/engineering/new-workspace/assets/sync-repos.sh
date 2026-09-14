@@ -10,6 +10,11 @@
 #   --print     show the resolved manifest and exit (no writes, no gh auth)
 #
 # Env: WS_PARENT   parent directory clones land in (default: this workspace's parent)
+#
+# Two properties of this file are deliberate and easy to "fix" by mistake:
+# every string is project-neutral (it is a template, copied into workspaces it
+# knows nothing about), and there are no em-dashes anywhere, which this repo's
+# prose rule forbids. Both survive any behavior change made here.
 set -euo pipefail
 
 # A user CDPATH makes `cd <bare-relative-name>` print the resolved directory
