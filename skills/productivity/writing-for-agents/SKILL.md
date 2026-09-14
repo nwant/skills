@@ -73,6 +73,22 @@ You win twice: fewer tokens, and a sharper hook for the agent to hang its thinki
 
 **Negation** is the failure mode beside this lever: steering by prohibition drags the forbidden behaviour into context and makes it _more_ available, not less. _Don't think of an elephant_, and the elephant is all there is; the negation is a weak modifier the strongly-activated concept overruns, so the ban half-reads as an instruction to do the thing. Prompt the **positive**: state the target behaviour ("write one-line comments") so the banned one is never spoken. A prohibition earns its place only as a hard guardrail you cannot phrase positively; even then, pair it with the positive target so attention lands on what to do.
 
+## Evidence before assertions
+
+A document that has the agent *check* something owes a rule about what counts as
+having checked. Without one, the failure is not a missing check but a check whose
+empty or error output gets read as a result: a mistyped path, a shell quoting bug, a
+query against the wrong ref all return nothing, and nothing looks exactly like "the
+thing is absent". Reporting that as a finding is worse than missing it, because it is
+confidently wrong.
+
+So when a step's output will be used as evidence, say how to prove the step ran:
+resolve the ref, confirm the path exists, show stderr rather than discarding it. Write
+the rule as the positive ("an empty result is a claim, prove the command worked"),
+never as a list of the shells and flags that bite, which goes stale. The general
+discipline has its own skill, `verification-before-completion`; point at it rather
+than restating it.
+
 ## Multi-repo workspaces
 
 A skill that reads a repo-local doc, writes an artifact that could span repos, or
