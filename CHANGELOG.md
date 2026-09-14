@@ -52,6 +52,31 @@ User-invoked, since it writes directories outside the working tree and appends t
 operator's shell rc file. `which-skill`'s Precondition section becomes **Preconditions** and
 now routes both run-once setups, distinguishing once-per-repo from once-per-repo-set.
 
+**The Spec axis stops calling a sibling's requirement missing.** `two-axis-review` judged
+one diff against a whole spec, so a spec satisfied across several repos had the other
+repos' requirements reported as **missing** when they were merely **elsewhere**. That is
+the normal case in a multi-repo workspace rather than a rare one, which made the axis
+wrong on most non-trivial work instead of occasionally.
+
+An unmet requirement now takes one of three dispositions: **not delivered** (a real
+finding), **sibling-owned** (named with the repo it belongs to), or **out of scope**.
+Classifying is required and searching is optional: the spec's own wording and the surfaces
+it names usually settle it, confirming by looking for the sibling change is worth it only
+when cheap, and an unfound sibling never promotes a requirement back to missing, because
+absence of a search result is not evidence. The aggregation step reports sibling-owned
+separately rather than folded in with the missing, since the reader's next action differs
+completely: chase another repo versus write code here.
+
+Outside a workspace the section collapses to the two dispositions the axis always had.
+
+**`which-skill` admits what it does not cover.** The router mapped this collection and
+silently omitted several daily situations that are agent mechanics rather than engineering
+flow: taking review feedback on your own work, worktrees, subagent dispatch, verification
+before claiming done, finishing a branch. A router that omits a daily situation sends you
+looking through the wrong list, so it now names those concerns, points at where they live
+if you have that plugin, and calls them gaps to fill otherwise. It also notes the
+asymmetry that *giving* a review is in this map while *receiving* one is not.
+
 **A palette can be unioned; a judgment cannot.** Adding the ambiguous outcome left every
 call site saying a workspace "claims this repo", singular, with no branch for the case
 the new exit code exists to report. Restating the three-outcome contract four times would

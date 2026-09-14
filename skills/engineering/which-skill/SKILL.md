@@ -88,6 +88,26 @@ Off the main flow entirely.
 - **`/teach`**: learn a concept over multiple sessions, using the current directory as a stateful workspace.
 - **`/writing-for-agents`** is the reference for writing documents agents consume: skills, AGENTS.md, pointed-at docs.
 
+## Outside this map
+
+This map covers **this collection**, and some of what you reach for daily is not in it.
+Deliberately: the concerns below are agent mechanics rather than engineering flow, so
+they are somebody else's to maintain and this router only has to admit they exist.
+
+- **Taking review feedback** on your own work, before implementing any of it.
+- **Worktrees and isolation**, setting up somewhere safe to work.
+- **Subagent dispatch and parallel agents**, fanning work out and getting reports back.
+- **Verification before claiming done**, evidence before assertions.
+- **Finishing a branch**, deciding how work integrates.
+
+If you have the [superpowers](https://github.com/anthropics/claude-plugins-official)
+plugin installed, those live there. If you do not, they are gaps to fill however you
+like: the point of naming them is that a router which silently omits a daily situation
+sends you looking through the wrong list.
+
+Note the asymmetry with `two-axis-review`, which is in this map: **giving** a review is
+engineering flow, **receiving** one is agent mechanics.
+
 ## Preconditions
 
 Both are run-once scaffolding, off the flows entirely: they build the place the flows run, rather than being a step in one.
