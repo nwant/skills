@@ -95,7 +95,7 @@ The skill stops at the artifact, and there is no auto-dispatch mode. Dispatch is
 `to-tickets` is a step in the main build chain:
 
 ```txt
-grill-with-docs → to-spec → to-tickets → implement → code-review
+grill-with-docs → to-spec → to-tickets → implement → two-axis-review
 ```
 
-Upstream is [to-spec](./to-spec.md), which hands it a settled spec to slice against; keep both in one unbroken context window. Downstream is [implement](./implement.md), which builds one ticket per fresh session, driving [tdd](./tdd.md) for the tests and closing with [code-review](./code-review.md). When you're unsure which skill or flow fits, [which-skill](./which-skill.md) routes you.
+Upstream is [to-spec](./to-spec.md), which hands it a settled spec to slice against; keep both in one unbroken context window. Downstream is [implement](./implement.md), which builds one ticket per fresh session, driving [tdd](./tdd.md) for the tests and closing with [two-axis-review](./two-axis-review.md). When you're unsure which skill or flow fits, [which-skill](./which-skill.md) routes you.
