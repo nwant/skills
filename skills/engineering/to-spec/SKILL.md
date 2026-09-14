@@ -31,6 +31,29 @@ the **workspace** when the work spans several repos: same rule as a glossary or 
 so one convention covers all of them. If a tracker id exists already, lead the filename
 with it. Call the Skill tool with "workspaces" when a workspace is in effect.
 
+**The spec carries its tracker identity in frontmatter**, because the next reader of it
+is a program. `/to-tickets` groups its output under the epic named here rather than
+guessing, and a fixed key is reliable where a prose line is a regex waiting to break:
+
+```md
+---
+epic: 977123
+objective: 377141
+status: draft
+---
+```
+
+Three fields, and resist adding more: every mirrored field is one that can go stale with
+nothing checking it. `epic` is what `/to-tickets` reads. `objective` is the stable
+fallback a search can use, and it is usually set by convention anyway. `status` is
+`draft` | `accepted` | `superseded`, the same vocabulary an ADR uses rather than a second
+one. **Not the story id**: a spec outlives any single story, so pinning one encodes
+something transient.
+
+Write `epic:` as soon as the epic exists. If you are writing the spec first, leave the
+key out rather than inventing a placeholder, and add it when you create the epic in the
+next step.
+
 **Avoid a tracker's own document feature** unless you have checked what lives there. It
 tends to be one flat org-wide space with weak scoping and no versioning, so a dense spec
 lands among thousands of unrelated notes and is findable only by guessing its title.
@@ -67,7 +90,14 @@ What this deliberately does not cover, so nobody re-opens it as a gap.
 </epic-template>
 
 Keep it to something a person reads in one sitting, roughly 1,500 to 2,500 characters.
-End it with a link to the spec file.
+**End it with the spec file's URL.**
+
+The link runs both ways on purpose, one line each: the spec's frontmatter names the epic,
+the epic's description names the spec. Each side answers the question its own reader is
+holding, an engineer in the repo asking what this is for and a stakeholder in the tracker
+asking where the detail is. Tickets link the spec too, but never the epic separately:
+they are already its children, so restating the parent in prose is a second copy that
+drifts.
 
 ## Process
 

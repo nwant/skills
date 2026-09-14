@@ -52,6 +52,31 @@ User-invoked, since it writes directories outside the working tree and appends t
 operator's shell rc file. `which-skill`'s Precondition section becomes **Preconditions** and
 now routes both run-once setups, distinguishing once-per-repo from once-per-repo-set.
 
+**A spec carries its tracker identity, so `to-tickets` reads a parent instead of guessing
+one.** Moving the spec into the repo left a gap: the previous change only covered the case
+where `to-spec` had just produced both the spec and the epic in one window. Run
+`to-tickets` later, in a fresh session, against an existing spec and an epic created
+separately, and it had nothing to group against.
+
+The spec now leads with three frontmatter keys, the same mechanism an ADR already uses:
+`epic` (what `to-tickets` reads), `objective` (a stable fallback for a search), and
+`status` (`draft` | `accepted` | `superseded`, reusing the ADR vocabulary rather than
+inventing a second one). Deliberately **not** the story id, since a spec outlives any one
+story. Frontmatter rather than a prose line because the reader here is a program, and a
+fixed key is reliable where a regex over prose is not.
+
+`to-tickets` resolves in order: frontmatter, then an explicit argument, then a search **as
+a suggestion only**. Searching prefers **objective** over name, because an objective is a
+stable number while a name match is fuzzy and a mention-name team filter can return zero
+silently when the name has drifted. It never adopts a match on its own. Two cases stop
+rather than proceed: an epic that is archived, done or absent, and nothing resolving at
+all, because publishing fifty parentless tickets costs far more to unpick than asking one
+question. A resolved epic is written back into the frontmatter so the next run reads it.
+
+Linking runs both ways, one line each: the spec's frontmatter names the epic, the epic's
+description names the spec. Tickets link the spec and **not** the epic, being its children
+already.
+
 **A spec is a file, not a tracker item.** `to-spec` wrote a long spec and published it as
 one tracker issue, which does not fit: Shortcut caps a story description at 10,000
 characters with no warning at the boundary, tracker editors are not diffable, and nothing

@@ -66,9 +66,30 @@ Work the **frontier**: any ticket whose blockers are all done. For a purely line
 
 Do NOT close or modify any parent issue.
 
-**Hang the tickets under the epic, and do not restate the spec in them.** Where
-`/to-spec` produced a spec file and an epic, every ticket goes under that epic and links
-the spec once. A ticket carries what to build and how you will know it is done; the
+### Resolve the epic before publishing anything
+
+Tickets hang under an epic, and you must **read** which one rather than infer it. In
+order:
+
+1. **The spec's frontmatter.** `epic: <id>`. This is the normal case and the reason the
+   key exists: it survives a fresh session a month later, where a conversation does not.
+2. **An explicit argument**, if the user named one.
+3. **A search, as a suggestion only.** Prefer searching by **objective** over by name:
+   an objective is a stable number, whereas a name match is fuzzy and a team filter that
+   takes a mention name can return zero silently when the name has drifted. **Never adopt
+   a match on your own** — name the candidates and ask.
+
+Two failure cases, both of which stop rather than proceed:
+
+- **The frontmatter names an epic that is archived, done, or absent.** Say so and stop.
+  Publishing fifty tickets parentless is far more expensive to unpick than one question.
+- **Nothing resolves at all.** Ask whether to create the epic first. Do not publish
+  tickets with no parent and fix it later; nothing will make you go back.
+
+Write the resolved epic into the spec's frontmatter if it was not already there, so the
+next run reads it instead of resolving again.
+
+**Do not restate the spec in the tickets.** Every ticket links the spec once. A ticket carries what to build and how you will know it is done; the
 reasoning stays in the spec, which is one link away and stays current because it is
 versioned. A ticket that restates the spec has two problems: it is long enough to hit a
 tracker's description cap, and it is a second copy that drifts the moment a decision
@@ -94,10 +115,12 @@ build, it is usually two tickets.
 
 <issue-template>
 
-## Parent
+## Spec
 
-The epic this ticket belongs to, and a link to the spec it was split from. Omit only
-when neither exists.
+A link to the spec this ticket was split from. Omit only if there is no spec.
+
+The epic is **not** restated here: the ticket is already its child on the tracker, so a
+prose copy of the parent is a second source that drifts.
 
 ## What to build
 
