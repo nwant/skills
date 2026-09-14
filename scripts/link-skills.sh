@@ -56,7 +56,11 @@ for DEST in "${DESTS[@]}"; do
     src="${srcs[$i]}"
     target="$DEST/$name"
 
+    # A real directory here is someone's own skill of the same name, not a stale
+    # link from this repo. Replacing it is the intended behaviour (that is how an
+    # older copy gets upgraded), but doing it silently loses work without a trace.
     if [ -e "$target" ] && [ ! -L "$target" ]; then
+      echo "warning: $target is a real path, not a link from this repo. Replacing it." >&2
       rm -rf "$target"
     fi
 
