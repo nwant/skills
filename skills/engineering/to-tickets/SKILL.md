@@ -77,7 +77,7 @@ order:
 3. **A search, as a suggestion only.** Prefer searching by **objective** over by name:
    an objective is a stable number, whereas a name match is fuzzy and a team filter that
    takes a mention name can return zero silently when the name has drifted. **Never adopt
-   a match on your own** — name the candidates and ask.
+   a match on your own**: name the candidates and ask.
 
 Two failure cases, both of which stop rather than proceed:
 
