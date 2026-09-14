@@ -30,32 +30,20 @@ you have seen elsewhere is not one the operator can necessarily read.
 ## Finding the workspace from inside a member repo
 
 This layout is what lets any skill discover it is in a workspace, which matters
-because a skill running inside a member repo otherwise cannot see the
-cross-repo material above it: shared standards, a tracker config, a domain
-glossary that spans repos. The canonical probe, which belongs in any skill that
-needs it:
+because a skill running inside a member repo otherwise cannot see the cross-repo
+material above it: shared standards, a tracker config, a glossary that spans repos.
 
-```bash
-# From a member repo, find the workspace that claims it.
-slug="$(git remote get-url origin | sed 's|.*[:/]\([^/]*/[^/]*\)\.git$|\1|')"
-for d in ../*/; do
-  [ -f "$d/repos.json" ] || continue
-  jq -e --arg s "$slug" '.repos[] | select(.slug == $s)' "$d/repos.json" >/dev/null 2>&1 \
-    && { (cd "$d" && pwd -P); break; }
-done
-```
+**The mechanism lives in the `workspaces` skill**, as a tested script rather than a
+snippet to retype. Call the Skill tool with "workspaces" for the probe, the
+vocabulary, and the rules for which copy of `CONTEXT.md`, `docs/adr/` or
+`docs/agents/` a given artifact belongs to.
 
-The `cd` is inside a subshell on purpose: resolving the path must not relocate
-the caller's working directory.
-
-Two properties make it safe. It keys on the **manifest claiming this repo**, not
-on directory adjacency, so an unrelated workspace sitting beside the clones is
-never mistaken for this repo's. And it **degrades silently**: no match means no
-workspace, and the skill continues as a single-repo run rather than erroring.
-
-A skill that finds a workspace this way can then read `CLAUDE.md`, `CONTEXT.md`,
-`docs/agents/` and `docs/adr/` from it, and should say in its output that it did,
-so the reader knows which inputs were in scope.
+What this skill owes that mechanism is the **layout it depends on**: member repos as
+siblings, and a `repos.json` in the workspace whose `repos[].slug` lists them. The
+probe keys on the manifest claiming the repo rather than on directory adjacency,
+because an unrelated repo sitting beside the clones is not a member, and with several
+workspaces as siblings of many repos adjacency cannot disambiguate. That is why the
+manifest is in both tiers.
 
 ## Non-negotiable rules
 
@@ -140,10 +128,17 @@ Not every workspace earns the full scaffold:
 
 | Tier | Contents | When |
 |---|---|---|
-| **Light** | `CLAUDE.md` + `.claude/` (skills/agents). No git repo, no manifest, no scripts. | Solo exploration; repos already cloned; nobody else will use it. |
-| **Full** | Light, plus `README.md`, `repos.json`, `scripts/sync-repos.sh` + its test, `.gitignore`, and its own git repo (optionally pushed). | Teammates will clone it; repo set is large or churning; you want one-command clone/refresh. |
+| **Light** | `CLAUDE.md`, `repos.json`, and `.claude/` (skills/agents). No git repo, no scripts. | Solo exploration; repos already cloned; nobody else will use it. |
+| **Full** | Light, plus `README.md`, `scripts/sync-repos.sh` + its test, `.gitignore`, and its own git repo (optionally pushed). | Teammates will clone it; repo set is large or churning; you want one-command clone/refresh. |
 
-Default to **Light** unless the operator wants the manifest/sync machinery or
+**`repos.json` is in both tiers on purpose.** It is data, not machinery, and it is
+the only thing that makes a workspace *discoverable*: every workspace-aware skill
+finds its workspace by looking for a manifest that claims the current repo, so a
+workspace without one is invisible to all of them. The machinery that makes full tier
+heavy is the sync script, the test suite, the git repo and the README, none of which
+light tier gains.
+
+Default to **Light** unless the operator wants the sync machinery or
 plans to share it. Say which tier you're building and why, then build it. Light
 workspaces upgrade later; the phases below are additive.
 

@@ -20,6 +20,7 @@ This is a prompt-driven skill, not a deterministic script. Explore, present what
 
 Look at the current repo to understand its starting state. Read whatever exists; don't assume:
 
+- **Is this repo a member of a workspace?** Call the Skill tool with "workspaces" and run its probe. If a workspace claims this repo, **that is where the config goes**, not here: the tracker, its labels and the doc layout are identical for every member, so a copy per repo is N places to update and N chances to drift. Write `docs/agents/` into the workspace, put the `## Agent skills` block in the *workspace's* `CLAUDE.md`, and say in your closing summary which workspace you wrote to and that the member repos need nothing. Run once per **workspace** in that case, not once per repo. Everything below applies unchanged when no workspace claims the repo.
 - `git remote -v` and `.git/config`: is this a GitHub repo? Which one?
 - `AGENTS.md` and `CLAUDE.md` at the repo root: does either exist? Is there already an `## Agent skills` section in either?
 - `CONTEXT.md` and `CONTEXT-MAP.md` at the repo root

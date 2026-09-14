@@ -9,6 +9,14 @@ Actively build and sharpen the project's domain model as you design. This is the
 
 ## File structure
 
+**In a multi-repo workspace there is a copy above this repo too.** Call the Skill tool
+with "workspaces" for the resolution rules; the short version is to **read both and
+write one**. Read the workspace glossary as well as this repo's, with the repo's
+winning on a genuine conflict since it sits closer to the code. Write a term to
+exactly one home: the workspace when it is used in more than one repo, this repo when
+it is meaningful only here. A term written to both drifts, and a cross-repo term
+written into one member repo is invisible to the others.
+
 Most repos have a single context:
 
 ```

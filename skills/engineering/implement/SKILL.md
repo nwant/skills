@@ -13,3 +13,11 @@ Run typechecking regularly, single test files regularly, and the full test suite
 Once done, use /two-axis-review to review the work.
 
 Commit your work to the current branch.
+
+**Name the repo before you commit, and refuse to guess.** A ticket in a multi-repo
+workspace may land in a repo other than the one you are standing in, and committing
+it to whichever repo the working directory happened to be is silent and hard to
+unpick. Call the Skill tool with "workspaces" when a workspace claims this repo:
+state which repo you are about to commit to, and if the ticket names a different
+member, stop and say so rather than orchestrating a multi-repo change. One ticket,
+one repo, per run.

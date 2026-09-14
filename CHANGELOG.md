@@ -52,6 +52,42 @@ User-invoked, since it writes directories outside the working tree and appends t
 operator's shell rc file. `which-skill`'s Precondition section becomes **Preconditions** and
 now routes both run-once setups, distinguishing once-per-repo from once-per-repo-set.
 
+**`workspaces`, the vocabulary layer the multi-repo skills sit on.** Five skills needed
+the same three things: the terms, a way to find the workspace claiming the current repo,
+and a rule for which copy of a doc an artifact belongs to. Answering that per skill was
+producing a different answer each time, so it is answered once here, in the shape
+`codebase-design` already established: model-invoked, reached by a pointer, no flow of
+its own.
+
+The probe ships as a **tested script** (`assets/find-workspace.sh`, 15 hermetic cases)
+rather than a snippet to retype. Shell inlined as prose into several skills cannot be
+tested, and the cases that matter are the ones easy to get wrong: an adjacent workspace
+that does not claim the repo is rejected, the claiming workspace wins over an
+alphabetically earlier non-claimant, a linked worktree resolves beside its primary
+checkout, a malformed manifest is skipped rather than fatal, and a user `CDPATH` cannot
+corrupt the output.
+
+One rule covers the resolution policy: **material that spans repos belongs to the
+workspace, material intrinsic to one repo belongs to that repo.** Plus an asymmetry
+worth stating, **read wider than you write**: read both glossaries with the repo's
+winning a genuine conflict, but write a term to exactly one home.
+
+**`repos.json` moves into both workspace tiers.** It was full-tier only, which
+accidentally gated *discoverability* on a split drawn to answer "is this shared, and
+worth sync machinery?". Four of six real workspaces were light tier and therefore
+invisible to every workspace-aware skill. The manifest is data, not machinery; the
+weight of full tier is the sync script, its suite, the git repo and the README.
+
+**Five skills gained routing, and the other eighteen deliberately did not.** A skill
+needs it only when it reads a repo-local doc, writes an artifact that could span repos,
+or judges a unit of work that could. `setup-skills` now writes `docs/agents/` into the
+workspace when one claims the repo, since the values do not vary by member and a copy
+per repo is N places to drift. `implement` names the repo it is about to commit to and
+refuses to guess. `two-axis-review` looks one level up for its tracker config and adds
+the workspace's cross-cutting standards to its Standards axis. `domain-modeling` and
+`wait-what` read the workspace glossary. Everything else has no such decision, and for
+those the check would be a no-op paying load on every single-repo run.
+
 **`improve-workspace-architecture`, and a way for any skill to find its workspace.**
 The collection could survey one tree but had no notion of friction *between* repos, which
 is where a multi-repo workspace actually hurts: one concept implemented twice, a seam in

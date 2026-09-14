@@ -1,0 +1,3 @@
+interface:
+  display_name: "Workspaces"
+  short_description: "Multi-repo workspace vocabulary and resolution rules"
