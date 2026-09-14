@@ -1,0 +1,5 @@
+interface:
+  display_name: "New Workspace"
+  short_description: "Scaffold a multi-repo workspace"
+policy:
+  allow_implicit_invocation: false

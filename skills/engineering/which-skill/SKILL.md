@@ -85,6 +85,9 @@ Off the main flow entirely.
 - **`/teach`**: learn a concept over multiple sessions, using the current directory as a stateful workspace.
 - **`/writing-for-agents`** is the reference for writing documents agents consume: skills, AGENTS.md, pointed-at docs.
 
-## Precondition
+## Preconditions
 
-**`/setup-skills`**: run before your first engineering flow to configure the issue tracker, triage labels, and doc layout the other skills assume. Custom issue trackers also work.
+Both are run-once scaffolding, off the flows entirely: they build the place the flows run, rather than being a step in one.
+
+- **`/setup-skills`**: run before your first engineering flow to configure the issue tracker, triage labels, and doc layout the other skills assume. Custom issue trackers also work. Once **per repo**.
+- **`/new-workspace`**: run when the work spans **several repos** and there is no workspace holding them yet. It scaffolds the coordination directory (a `CLAUDE.md` synthesis plus repo index, a `repos.json` manifest, a sync script, shell shortcuts) so the cross-repo facts have a home that is not any one repo's `CLAUDE.md`. Once **per set of repos**, and it upgrades an ad-hoc workspace in place. Skip it for single-repo work, which is most work.

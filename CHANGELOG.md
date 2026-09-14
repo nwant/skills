@@ -34,6 +34,24 @@ H1, since that site was what generated titles from the slug. `.agents/writing-do
 **Attribution kept.** ADR 0002 is preserved as upstream's record with a fork-status note, and
 docs citing upstream issues still link upstream.
 
+**`new-workspace`, a first multi-repo skill.** The collection had no notion of work that
+spans separate repos: `setup-skills` is explicitly per-repo, and its only concession to
+scale is a monorepo branch keyed on `pnpm-workspace.yaml` and `packages/*`. A set of
+sibling repos with separate histories that you nonetheless change together had nowhere to
+put the facts that belong to none of them.
+
+The skill scaffolds that place: a `CLAUDE.md` synthesis plus repo index, and on the full
+tier a `repos.json` manifest, `scripts/sync-repos.sh` with a hermetic 76-case test suite,
+and shell launcher, cd and search shortcuts. Two rules carry the design. Member repos stay
+**siblings and are never vendored**, and the workspace file **points at** their
+`CLAUDE.md`s rather than `@`-importing them, since an eager import pulls every repo's full
+context into every session. Light tier is the default; the phases are additive, so an
+ad-hoc workspace upgrades in place.
+
+User-invoked, since it writes directories outside the working tree and appends to the
+operator's shell rc file. `which-skill`'s Precondition section becomes **Preconditions** and
+now routes both run-once setups, distinguishing once-per-repo from once-per-repo-set.
+
 **`code-review` is now `two-axis-review`.** Claude Code ships a built-in skill named
 `code-review`, so installing this collection put two skills of that name in front of the
 agent, and `/code-review` became ambiguous. The rename moves the skill folder and its docs
