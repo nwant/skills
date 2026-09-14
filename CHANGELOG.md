@@ -52,6 +52,39 @@ User-invoked, since it writes directories outside the working tree and appends t
 operator's shell rc file. `which-skill`'s Precondition section becomes **Preconditions** and
 now routes both run-once setups, distinguishing once-per-repo from once-per-repo-set.
 
+**`improve-workspace-architecture`, and a way for any skill to find its workspace.**
+The collection could survey one tree but had no notion of friction *between* repos, which
+is where a multi-repo workspace actually hurts: one concept implemented twice, a seam in
+the wrong repo, a contract straddling two, a shared package whose consumers churn with it.
+
+It is a sibling of `improve-codebase-architecture` rather than a mode of it, because
+almost nothing is shared: a different unit, a different attention signal, different domain
+inputs, and an output with two axes instead of one ranked list. It deliberately ignores
+single-repo shallowness, so the rare cross-repo finding is not buried under thirty ordinary
+ones.
+
+Three things in it are worth naming:
+
+- **Co-change replaces hot spots.** One repo has one history; a workspace has one per repo
+  and none for the set. Commits are grouped across repos by the ticket id their subjects
+  and branches carry, and pairs of repos are ranked by how often they appear together. Two
+  repos that keep changing together have a seam in the wrong place, which is a better
+  signal than the `git log` reading it replaces.
+- **Two axes, never merged: Locality and Choreography.** How much of a fix lands in one
+  repo, versus how much coordination it needs. A candidate routinely scores well on one
+  and badly on the other, and a single blended badge hides the coordination half, which is
+  where cross-repo work goes wrong. Same no-reranking rule as `two-axis-review`.
+- **It distrusts the cross-repo docs it reads.** A document describing how several repos
+  relate is the least-verified artifact in a workspace, since no one repo's tests or
+  reviews cover it. Contradictions between doc and code are reported separately from the
+  refactor candidates, because a doc fix is worth landing even if the refactor never
+  happens.
+
+`new-workspace` gained the shared groundwork: a canonical probe for finding the workspace
+that claims the current repo, keyed on a `repos.json` listing this repo's `origin` slug
+rather than on directory adjacency, degrading silently to single-repo behavior when nothing
+matches. Adjacency would have been wrong: an unrelated sibling repo is not a member.
+
 **`sync-repos.sh` stops counting untracked files against a fast-forward.** The gate used
 `status --porcelain`, which counts untracked files, so a repo could sit indefinitely on
 stale commits because of an editor directory, a local notes file, or a stray worktree,

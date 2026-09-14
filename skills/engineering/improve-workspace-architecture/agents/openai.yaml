@@ -1,0 +1,5 @@
+interface:
+  display_name: "Improve Workspace Architecture"
+  short_description: "Survey a workspace for friction between repos"
+policy:
+  allow_implicit_invocation: false

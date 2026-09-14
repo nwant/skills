@@ -27,6 +27,36 @@ If it prints `MISSING`, say so rather than improvising a substitute for
 `sync-repos.sh`. The `assets/` copies are the only portable source: a workspace
 you have seen elsewhere is not one the operator can necessarily read.
 
+## Finding the workspace from inside a member repo
+
+This layout is what lets any skill discover it is in a workspace, which matters
+because a skill running inside a member repo otherwise cannot see the
+cross-repo material above it: shared standards, a tracker config, a domain
+glossary that spans repos. The canonical probe, which belongs in any skill that
+needs it:
+
+```bash
+# From a member repo, find the workspace that claims it.
+slug="$(git remote get-url origin | sed 's|.*[:/]\([^/]*/[^/]*\)\.git$|\1|')"
+for d in ../*/; do
+  [ -f "$d/repos.json" ] || continue
+  jq -e --arg s "$slug" '.repos[] | select(.slug == $s)' "$d/repos.json" >/dev/null 2>&1 \
+    && { (cd "$d" && pwd -P); break; }
+done
+```
+
+The `cd` is inside a subshell on purpose: resolving the path must not relocate
+the caller's working directory.
+
+Two properties make it safe. It keys on the **manifest claiming this repo**, not
+on directory adjacency, so an unrelated workspace sitting beside the clones is
+never mistaken for this repo's. And it **degrades silently**: no match means no
+workspace, and the skill continues as a single-repo run rather than erroring.
+
+A skill that finds a workspace this way can then read `CLAUDE.md`, `CONTEXT.md`,
+`docs/agents/` and `docs/adr/` from it, and should say in its output that it did,
+so the reader knows which inputs were in scope.
+
 ## Non-negotiable rules
 
 1. **Never eager-`@`-import a member repo's `CLAUDE.md`** into the workspace

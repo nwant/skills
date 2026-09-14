@@ -51,6 +51,8 @@ Not feature work, just upkeep.
 
 - **`/improve-codebase-architecture`** runs whenever you have a spare moment to keep the codebase good for agents to operate in. It surfaces **deepening opportunities**; picking one _generates an idea_ you can take into the main flow at `/grill-with-docs`. It's the survey that finds the candidates; **`/codebase-design`** (below) is the bench you design the chosen one on.
 
+- **`/improve-workspace-architecture`** is its sibling one level up, for friction **between** repos in a workspace: one concept implemented twice, a seam in the wrong repo, a contract straddling two, a shared package whose consumers churn with it. The split is scope, not depth: run the one above *inside* a repo, this one *across* a set of them, and note that this one deliberately ignores single-repo shallowness so the rare cross-repo finding isn't buried under thirty ordinary ones. It reports on two axes, **Locality** (fixable inside one repo) and **Choreography** (needs coordinated change), never merged, because a candidate that looks cheap usually hides the coordination half. Picking one lands in `/grill-with-docs` the same way.
+
 ## Vocabulary underneath
 
 Two model-invoked references that run *beneath* the other skills, each the single source of truth for its vocabulary. Reach for them directly when the **words**, not the process, are the problem; or let the skills above pull them in.
