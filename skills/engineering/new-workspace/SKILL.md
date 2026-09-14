@@ -245,7 +245,7 @@ encodes non-obvious hard-won behavior; preserve all of it:
 - unborn HEAD and "checked out in another worktree" are warnings, not fatals
 
 Then prove it works on this machine; the suite is hermetic (no network, no real
-`gh`, no real clones) and should print `76 passed, 0 failed`:
+`gh`, no real clones) and should print `86 passed, 0 failed`:
 
 ```bash
 <root>/<name>-workspace/scripts/test-sync-repos.sh 2>&1 | tail -3

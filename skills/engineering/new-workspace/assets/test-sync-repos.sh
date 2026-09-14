@@ -73,6 +73,18 @@ advance_remote() {
   git -C "$w" push -q origin main
 }
 
+# add_remote_file <name> <path> <contents>: commit and push one new tracked
+# file to the remote's main. Distinct from advance_remote, which only ever
+# appends to "file": tests that need a second tracked path, or an incoming
+# commit that adds a path rather than editing one, use this.
+add_remote_file() {
+  local name="$1" path="$2" body="$3" w="$ROOT/seed/$1"
+  printf '%s\n' "$body" > "$w/$path"
+  git -C "$w" add "$path"
+  git -C "$w" commit -qm "add $path"
+  git -C "$w" push -q origin main
+}
+
 # write_manifest <json>: install a throwaway repos.json.
 write_manifest() { printf '%s\n' "$1" > "$ROOT/ws/repos.json"; }
 
@@ -363,29 +375,31 @@ test_fast_forward_on_default_branch() {
 }
 
 test_dirty_on_default_branch_is_not_merged() {
-  echo "test: dirty checkout on default branch is fetched only (case 3)"
+  echo "test: tracked local modification on default branch is fetched only (case 3)"
   setup
   write_manifest '{"repos":[{"name":"repo-a","slug":"testorg/repo-a","tier":"core"}]}'
   mk_remote repo-a
-  run_sync
-  # Dirty via an UNTRACKED file that the incoming commit does not touch. This
-  # is the case with discriminating power: `git status --porcelain` reports
-  # it (dirty=1), but nothing about it would make `merge --ff-only` fail on
-  # its own: the incoming commit only touches "file". So if the explicit
-  # dirty guard were ever removed, the merge would succeed cleanly here and
-  # the run would misreport a fast-forward instead of dirty. (A same-file
-  # conflicting edit does NOT have this power: git's own conflict detection
-  # would still refuse that merge and produce a message that happens to also
-  # say "not merged", so the assertions would pass whether or not the guard
-  # exists; that was the bug in the previous version of this test.)
-  echo scratch > "$WS_PARENT/repo-a/untracked-local-file"
+  # Dirty via a TRACKED edit to a file the incoming commit does not touch.
+  # That combination is what carries discriminating power: advance_remote only
+  # ever appends to "file", so `merge --ff-only` would carry a local edit to
+  # "other" across without complaint. Drop the dirty guard and this run
+  # fast-forwards cleanly and emits ↓ instead of !. (Two shapes lack that
+  # power and must not be used here. A same-file conflicting edit: git's own
+  # checkout protection refuses the merge anyway, with a message that also
+  # says "not merged", so the assertions pass whether or not the guard
+  # exists; the bug in an earlier version of this test. And an untracked
+  # file: no longer gated at all, by design; see
+  # test_untracked_only_does_not_block_fast_forward.)
+  add_remote_file repo-a other keep
+  run_sync                      # initial clone brings down both files
+  echo local-edit > "$WS_PARENT/repo-a/other"
   advance_remote repo-a 1
 
   run_sync
-  assert_contains "reports dirty" "! repo-a"
-  assert_contains "names it dirty" "dirty"
+  assert_contains "reports it" "! repo-a"
+  assert_contains "names the reason" "uncommitted changes"
   # The assertion that actually catches a missing dirty guard: a regression
-  # would fast-forward cleanly and emit the ↓ mark instead of ! dirty.
+  # would fast-forward cleanly and emit the ↓ mark instead of !.
   assert_not_contains "does not report a fast-forward" "↓ repo-a"
   # (No "refusing to fetch" assertion here: case 3 never attempts the
   # refspec at all, so that fatal can never be reachable from this code
@@ -393,12 +407,66 @@ test_dirty_on_default_branch_is_not_merged() {
   # would have zero discriminating power. The equivalent, meaningful check
   # (that the raw fatal never leaks past case 4's own classification) is
   # covered by test_default_branch_checked_out_in_worktree_is_reported_distinctly.)
-  if [ -f "$WS_PARENT/repo-a/untracked-local-file" ] && \
-     [ "$(cat "$WS_PARENT/repo-a/untracked-local-file")" = "scratch" ] && \
+  if [ "$(cat "$WS_PARENT/repo-a/other")" = "local-edit" ] && \
      [ "$(cat "$WS_PARENT/repo-a/file")" = "one" ]; then
-    pass=$((pass + 1)); printf '  ok   working tree undisturbed (untracked file kept, no merge applied)\n'
+    pass=$((pass + 1)); printf '  ok   working tree undisturbed (local edit kept, no merge applied)\n'
   else
-    fail=$((fail + 1)); printf '  FAIL working tree undisturbed (untracked file kept, no merge applied)\n'
+    fail=$((fail + 1)); printf '  FAIL working tree undisturbed (local edit kept, no merge applied)\n'
+  fi
+  teardown
+}
+
+test_untracked_only_does_not_block_fast_forward() {
+  echo "test: untracked-only files do not hold back the fast-forward (case 2)"
+  setup
+  write_manifest '{"repos":[{"name":"repo-a","slug":"testorg/repo-a","tier":"core"}]}'
+  mk_remote repo-a
+  run_sync
+  # The inverse of the case-3 test above, and the reason the gate passes
+  # --untracked-files=no: editor dirs, local CLAUDE.md notes and stray docs
+  # must not pin a repo to a stale commit. The incoming commit touches only
+  # "file", so nothing here is at risk.
+  echo scratch > "$WS_PARENT/repo-a/untracked-local-file"
+  advance_remote repo-a 2
+
+  run_sync
+  assert_rc "exits 0" 0
+  assert_contains "fast-forwards anyway" "↓ repo-a"
+  assert_contains "reports the commit count" "2 commits"
+  assert_not_contains "does not withhold the merge" "uncommitted changes"
+  if [ -f "$WS_PARENT/repo-a/untracked-local-file" ] && \
+     [ "$(cat "$WS_PARENT/repo-a/untracked-local-file")" = "scratch" ]; then
+    pass=$((pass + 1)); printf '  ok   untracked file survives the merge\n'
+  else
+    fail=$((fail + 1)); printf '  FAIL untracked file survives the merge\n'
+  fi
+  teardown
+}
+
+test_incoming_file_colliding_with_untracked_is_classified() {
+  echo "test: an incoming file colliding with an untracked one is not called divergence"
+  setup
+  write_manifest '{"repos":[{"name":"repo-a","slug":"testorg/repo-a","tier":"core"}]}'
+  mk_remote repo-a
+  run_sync
+  # The one way an untracked file still interacts with the merge, reachable
+  # only because the gate no longer pre-empts it: the incoming commit adds
+  # "newdoc", which already exists locally as untracked. git refuses on its
+  # own (correctly, it would be overwritten), and the point of this test is
+  # that the refusal is reported as such instead of being swept into the
+  # "diverged" arm, which is what the pre-classification else-branch did.
+  echo mine > "$WS_PARENT/repo-a/newdoc"
+  add_remote_file repo-a newdoc theirs
+
+  run_sync
+  assert_contains "reports it" "! repo-a"
+  assert_contains "names the untracked collision" "untracked"
+  assert_not_contains "does not misreport divergence" "diverged"
+  assert_not_contains "does not leak the raw git fatal" "error:"
+  if [ "$(cat "$WS_PARENT/repo-a/newdoc")" = "mine" ]; then
+    pass=$((pass + 1)); printf '  ok   local untracked file not clobbered\n'
+  else
+    fail=$((fail + 1)); printf '  FAIL local untracked file not clobbered\n'
   fi
   teardown
 }
@@ -575,6 +643,8 @@ test_clone_failure_continues
 test_empty_repo_does_not_abort_the_run
 test_fast_forward_on_default_branch
 test_dirty_on_default_branch_is_not_merged
+test_untracked_only_does_not_block_fast_forward
+test_incoming_file_colliding_with_untracked_is_classified
 test_feature_branch_advances_default_branch
 test_diverged_default_branch_both_shapes
 test_no_local_default_branch_is_not_created

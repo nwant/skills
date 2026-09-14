@@ -41,7 +41,7 @@ sibling repos with separate histories that you nonetheless change together had n
 put the facts that belong to none of them.
 
 The skill scaffolds that place: a `CLAUDE.md` synthesis plus repo index, and on the full
-tier a `repos.json` manifest, `scripts/sync-repos.sh` with a hermetic 76-case test suite,
+tier a `repos.json` manifest, `scripts/sync-repos.sh` with a hermetic 86-case test suite,
 and shell launcher, cd and search shortcuts. Two rules carry the design. Member repos stay
 **siblings and are never vendored**, and the workspace file **points at** their
 `CLAUDE.md`s rather than `@`-importing them, since an eager import pulls every repo's full
@@ -51,6 +51,21 @@ ad-hoc workspace upgrades in place.
 User-invoked, since it writes directories outside the working tree and appends to the
 operator's shell rc file. `which-skill`'s Precondition section becomes **Preconditions** and
 now routes both run-once setups, distinguishing once-per-repo from once-per-repo-set.
+
+**`sync-repos.sh` stops counting untracked files against a fast-forward.** The gate used
+`status --porcelain`, which counts untracked files, so a repo could sit indefinitely on
+stale commits because of an editor directory, a local notes file, or a stray worktree,
+none of which a fast-forward would have touched. The script's own header already promised
+it never modifies uncommitted or diverged work, and an untracked file is neither.
+
+The gate now passes `--untracked-files=no`, and the warning reads `uncommitted changes`
+rather than `dirty`, which was ambiguous once untracked stopped counting. Relaxing the gate
+makes one refusal newly reachable, an incoming commit adding a path that exists locally as
+untracked, so the single-arm `else` that reported every refused merge as divergence is now
+a four-arm classification over git's stderr: untracked-would-be-overwritten (which must
+precede the generic arm, since git's untracked message also contains "would be overwritten
+by merge"), tracked-would-be-overwritten, genuine divergence, and anything else passed
+through verbatim. The suite grew from 76 cases to 86.
 
 **`code-review` is now `two-axis-review`.** Claude Code ships a built-in skill named
 `code-review`, so installing this collection put two skills of that name in front of the

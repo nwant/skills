@@ -175,11 +175,18 @@ sync_one() {
 # fitting comfortably in one function.
 refresh_one() {
   local name="$1" dest="$2" mbranch="$3"
-  local db cur dirty before after count ferr
+  local db cur dirty before after count ferr merr
   db="$(default_branch "$dest" "$mbranch")"
   cur="$(git -C "$dest" branch --show-current 2>/dev/null || true)"
+  # --untracked-files=no on purpose: an untracked file is not uncommitted
+  # *work*, and on its own it cannot block a fast-forward. The one case where
+  # it interacts with the merge at all, an incoming commit adding a path that
+  # exists locally as untracked, git refuses by itself, and case 2 classifies
+  # that refusal rather than clobbering anything. Counting untracked files
+  # here instead left repos stale for editor dirs, local CLAUDE.md notes and
+  # stray docs that no merge would ever have touched.
   dirty=0
-  if [ -n "$(git -C "$dest" status --porcelain 2>/dev/null)" ]; then
+  if [ -n "$(git -C "$dest" status --porcelain --untracked-files=no 2>/dev/null)" ]; then
     dirty=1
   fi
 
@@ -191,7 +198,7 @@ refresh_one() {
   if [ "$cur" = "$db" ]; then
     # Case 2/3: the default branch is checked out.
     if [ "$dirty" -eq 1 ]; then
-      warn "$name" "dirty; fetched only, not merged"
+      warn "$name" "uncommitted changes; fetched only, not merged"
       return
     fi
     before="$(git -C "$dest" rev-parse --short HEAD 2>/dev/null || true)"
@@ -202,7 +209,10 @@ refresh_one() {
       warn "$name" "no commits yet (empty repo), nothing to compare"
       return
     fi
-    if git -C "$dest" merge --ff-only "origin/$db" >/dev/null 2>&1; then
+    # stderr is captured rather than discarded: now that untracked files are
+    # no longer gated out above, a refused fast-forward is not necessarily
+    # divergence, and the message is the only thing that tells them apart.
+    if merr="$(git -C "$dest" merge --ff-only "origin/$db" 2>&1 >/dev/null)"; then
       after="$(git -C "$dest" rev-parse --short HEAD)"
       if [ "$before" = "$after" ]; then
         ok "$name" "up to date ($db)"
@@ -211,7 +221,18 @@ refresh_one() {
         updated "$name" "$db  $before..$after ($count commits)"
       fi
     else
-      warn "$name" "$db diverged from origin/$db; fetched only, not merged"
+      case "$merr" in
+        # Must precede the generic overwrite arm: git's untracked message also
+        # contains "would be overwritten by merge".
+        *"untracked working tree files would be overwritten"*)
+          warn "$name" "$db adds a file you have untracked; fetched only, not merged" ;;
+        *"would be overwritten by merge"*)
+          warn "$name" "$db would overwrite local changes; fetched only, not merged" ;;
+        *"ot possible to fast-forward"*|*"Need to specify how"*|*"refusing to merge unrelated"*)
+          warn "$name" "$db diverged from origin/$db; fetched only, not merged" ;;
+        *)
+          warn "$name" "$db not advanced: $(oneline "${merr:-unknown merge error}")" ;;
+      esac
     fi
   else
     # Case 4: the default branch is NOT checked out, so the refspec is legal
