@@ -43,14 +43,19 @@ Default posture: these skills were designed for GitHub. If a `git remote` points
 
 - **GitHub**: issues live in the repo's GitHub Issues (uses the `gh` CLI)
 - **GitLab**: issues live in the repo's GitLab Issues (uses the [`glab`](https://gitlab.com/gitlab-org/cli) CLI)
+- **Shortcut**: issues live as Shortcut stories (uses the `mcp__shortcut__*` MCP tools)
 - **Local markdown**: issues live as files under `.scratch/<feature>/` in this repo (good for solo projects or repos without a remote)
 - **Other** (Jira, Linear, etc.): ask the user to describe the workflow in one paragraph; the skill will record it as freeform prose
 
-Record the choice in `docs/agents/issue-tracker.md`. The GitHub and GitLab templates carry a "PRs as a request surface" flag, defaulted **off**. Leave it off and don't raise it: a user who wants external PRs in the triage queue can flip the flag in the file later.
+**The remote host settles where the code lives, not where the work is tracked.** A GitHub Enterprise remote is the common case: the repo is on GitHub while stories live in Shortcut or Jira, and Issues is switched off. Read the remote as a proposal to confirm, and when a Shortcut MCP server is connected treat that as the stronger signal. Ask rather than assume whenever both are present.
+
+Record the choice in `docs/agents/issue-tracker.md`. The GitHub and GitLab templates carry a "PRs as a request surface" flag, defaulted **off**. Leave it off and don't raise it: a user who wants external PRs in the triage queue can flip the flag in the file later. The Shortcut template pins the flag off permanently, since Shortcut holds no PRs.
 
 **Section B: Triage label vocabulary.** Skip this section entirely if the `triage` skill isn't installed (exploration told you), since an uninstalled skill needs no labels.
 
-If it is installed, ask exactly one question:
+Skip it for **Shortcut** too, and say so in a line: that tracker carries triage state as workflow state, and its template's "Triage roles" table is already the mapping. Write `triage-labels.md` from that table. A tracker whose labels are workspace-wide makes minting five new ones a change to every team's vocabulary, which is why the mapping reuses states the team already runs.
+
+Otherwise, ask exactly one question:
 
 > Do you want to keep the default triage labels? (recommended: **yes**)
 
@@ -105,6 +110,7 @@ Then write the docs files using the seed templates in this skill folder as a sta
 
 - [issue-tracker-github.md](./issue-tracker-github.md): GitHub issue tracker
 - [issue-tracker-gitlab.md](./issue-tracker-gitlab.md): GitLab issue tracker
+- [issue-tracker-shortcut.md](./issue-tracker-shortcut.md): Shortcut issue tracker
 - [issue-tracker-local.md](./issue-tracker-local.md): local-markdown issue tracker
 - [triage-labels.md](./triage-labels.md): label mapping (only if `triage` is installed)
 - [domain.md](./domain.md): domain doc consumer rules + layout

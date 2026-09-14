@@ -43,10 +43,13 @@ The tracker options:
 | --- | --- | --- |
 | **GitHub** | the repo's GitHub Issues | the `gh` CLI |
 | **GitLab** | the repo's GitLab Issues | the `glab` CLI |
+| **Shortcut** | Shortcut stories | a connected Shortcut MCP server |
 | **Local markdown** | files under `.scratch/<feature>/` in this repo | nothing: no remote at all |
 | **Other** | wherever you say | one paragraph from you describing the workflow |
 
-The first three ship as templates in the skill and work out of the box. Local markdown is a first-class option, not a fallback: a solo project with no remote is fully supported. One caveat is worth repeating: don't use local markdown if you're using GitHub. They are alternatives, not layers.
+The first four ship as templates in the skill and work out of the box. Local markdown is a first-class option, not a fallback: a solo project with no remote is fully supported. One caveat is worth repeating: don't use local markdown if you're using GitHub. They are alternatives, not layers.
+
+Shortcut is the one template driven by MCP tools rather than a CLI, and the one where the remote is a red herring: the repo lives on GitHub (often GitHub Enterprise, with Issues switched off) while the work is tracked in Shortcut. Setup reads the remote as a proposal and asks rather than assuming whenever a Shortcut server is also connected.
 
 "Other" is not a stub either. It is the reason Jira, Linear, Azure DevOps and Beads all work: you describe the workflow, the skill records your prose in `docs/agents/issue-tracker.md`, and the downstream skills follow the prose. The community has already done this: a Jira-over-[MCP](https://www.aihero.dev/ai-coding-dictionary/mcp) variant, a Gitea CLI shaped like `gh`, a hand-built local dashboard.
 
@@ -54,7 +57,7 @@ The first three ship as templates in the skill and work out of the box. Local ma
 
 **Do I have to use GitHub?**
 
-No. GitHub, GitLab and local markdown under `.scratch/` all ship as ready-made templates, and anything else works through the "other" path. This is the most-repeated question in the record, in roughly these words: *"hard locked to github"*, *"can I use GitLab / Jira"*, *"what about Azure DevOps"*. The answer every time is that the tracker is a setup answer, not a skill property.
+No. GitHub, GitLab, Shortcut and local markdown under `.scratch/` all ship as ready-made templates, and anything else works through the "other" path. This is the most-repeated question in the record, in roughly these words: *"hard locked to github"*, *"can I use GitLab / Jira"*, *"what about Azure DevOps"*. The answer every time is that the tracker is a setup answer, not a skill property.
 
 **Do I need to re-run it after updating the skills?**
 
@@ -70,6 +73,7 @@ It doesn't. `docs/agents/triage-labels.md` is a *mapping*: it tells `/triage` wh
 
 - If your tracker already uses the canonical names, the mapping is an identity table and there is nothing to configure. That is the intended common case, not a missing step.
 - [wayfinder](./wayfinder.md)'s `wayfinder:map` and `wayfinder:<type>` labels are not created here either, and `gh issue create --label <missing>` fails outright rather than creating the label. Create them by hand before the first wayfinder run on a GitHub repo.
+- On **Shortcut** there is nothing to create and nothing to ask: triage state is workflow state, so the mapping points the five roles at states the team already runs, and the section is skipped. The same reasoning keeps wayfinder off labels there, recording a ticket's type in its description instead. Shortcut labels are workspace-wide, so minting one is a change to every team's vocabulary rather than a local setup step.
 
 **Can I configure the other skills' behaviour here ([grilling](https://www.aihero.dev/ai-coding-dictionary/grilling) cadence, question format, tone)?**
 
@@ -87,7 +91,7 @@ One long-standing complaint says yes, in these words: *"having a skill to set up
 
 - `docs/agents/issue-tracker.md` and `docs/agents/domain.md` exist, plus `triage-labels.md` if `triage` is installed.
 - An `## Agent skills` section appears in the instruction file your harness actually reads, with a one-line summary pointing at each of those files.
-- The tracker it proposed matches the remote you really use, and the label strings match labels that really exist in your tracker.
+- The tracker it recorded is the one you really track work in, which is not always the one your remote implies, and the role mapping names labels or states that really exist there.
 - Afterwards, `/to-tickets` publishes without asking you where issues live, and `/triage` applies labels rather than inventing them.
 - Nothing in the skill files themselves changed. If setup edited a `SKILL.md`, something went wrong.
 

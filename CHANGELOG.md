@@ -52,6 +52,29 @@ destination that is not one of its own symlinks, which is how an older copy gets
 it did so silently: a hand-written skill sharing a name was removed with no trace. It now
 warns before replacing.
 
+**Shortcut is a fourth tracker template.** `setup-skills` gained
+`issue-tracker-shortcut.md`, so `to-spec`, `to-tickets`, `triage` and `wayfinder` work on
+Shortcut without the freeform "other" path. Three things made it more than a transcription of
+the GitHub template:
+
+- **The map is an epic.** `stories-search` filters on `epic` but has no `parent` filter, so a
+  wayfinder map built from a parent story and its subtasks has no native frontier query.
+  Blocking and the frontier are otherwise fully native (`stories-add-relation` with
+  `blocked by`; `isDone` / `isBlocked` / `hasOwner`).
+- **Triage roles map to workflow states, not labels.** Shortcut labels are workspace-wide, so
+  creating the five canonical ones is a change to every team's vocabulary. Section B is skipped
+  for this tracker and `triage-labels.md` is written from the template's mapping. `needs-info`
+  has no state equivalent and becomes a comment.
+- **The remote stops implying the tracker.** A GitHub Enterprise remote with Issues switched
+  off, and the work tracked elsewhere, is the common case this collection previously read as
+  "propose GitHub". Setup now treats the remote as a proposal and asks when a Shortcut server
+  is also connected.
+
+The template carries a table for the team id, workflow id, and state ids to be recorded once
+at setup, because rediscovering them costs a full listing of every team and workflow in the
+workspace. The roles map by state **type** (`backlog` / `unstarted` / `started` / `done`) so
+the mapping survives workspaces whose state names differ.
+
 ## 1.2.3
 
 ### Patch Changes
