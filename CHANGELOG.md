@@ -52,6 +52,30 @@ User-invoked, since it writes directories outside the working tree and appends t
 operator's shell rc file. `which-skill`'s Precondition section becomes **Preconditions** and
 now routes both run-once setups, distinguishing once-per-repo from once-per-repo-set.
 
+**Workspace resolution gains a third outcome, and stops failing where it mattered
+most.** Two defects, both found by running the probe against real workspaces rather
+than against its own green tests.
+
+It only ever asked "which manifest claims this repo?", never "am I already *in* a
+workspace?". Standing in a light-tier workspace therefore resolved to nothing, because
+a light workspace is not a git repo and has no origin to key on, and four of six real
+workspaces are light. That is the normal way a workspace session starts, so the common
+path was the broken one. Resolution now runs in two steps: walk up looking for a
+`repos.json` first, scan the siblings second. Step 1 needs no git and is unambiguous by
+construction.
+
+And **membership is many-to-many**, which the old contract could not express. Seven of
+23 claimed repos had more than one claimant and the probe returned the first by glob
+order, so every one resolved to the alphabetically-earliest workspace. A Notables
+change in a repo shared with AXIS would have been reviewed against AXIS standards,
+which that workspace's own notes explicitly say do not apply to it. `find-workspace.sh`
+now exits **2** and prints every claimant, and the contract says callers must ask
+rather than pick. A `primary` flag was considered and rejected: co-ownership is real,
+so ambiguity is the accurate answer rather than a truth to declare.
+
+Suite grew 15 cases to 24, covering the light-tier workspace root and a subdirectory of
+it, step 1 beating step 2, and two and three claimants reported in full.
+
 **`workspaces`, the vocabulary layer the multi-repo skills sit on.** Five skills needed
 the same three things: the terms, a way to find the workspace claiming the current repo,
 and a rule for which copy of a doc an artifact belongs to. Answering that per skill was

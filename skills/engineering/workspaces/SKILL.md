@@ -37,7 +37,10 @@ _Avoid_: monorepo (one git root, the opposite shape), project, umbrella repo
 
 **Member repo**:
 A repo a workspace claims, living as its **sibling** on disk with its own git history
-and its own `CLAUDE.md`.
+and its own `CLAUDE.md`. Membership is **many-to-many**: one repo belonging to several
+workspaces is normal rather than a misconfiguration, because a repo can host work for
+more than one programme. Which workspace is in effect is resolved by working
+directory first, and is genuinely ambiguous otherwise.
 _Avoid_: subrepo, submodule, package (all imply containment)
 
 **Core repo** / **Adjacent repo**:
@@ -57,31 +60,53 @@ whole unit reports the siblings' requirements as *missing* when they are merely
 *elsewhere*.
 _Avoid_: related PR (too weak), stacked PR (a dependent branch)
 
-## Finding the workspace that claims a repo
+## Resolving the workspace in effect
 
-Run the script; it prints the workspace path, or nothing with exit 1:
+Run the script. It has **three** outcomes, and the third is the one callers forget:
 
 ```bash
-find-workspace.sh [<repo-dir>]        # default: the current directory
+find-workspace.sh [<dir>]     # default: the current directory
+# exit 0  one workspace, path on stdout
+# exit 1  none, no output
+# exit 2  ambiguous, every claimant on stdout, one per line
 ```
-
-Resolve it the way any asset in this collection is resolved, then branch on the exit
-status. **Nothing found is not an error**: it means single-repo, and the skill should
-carry on with its single-repo behaviour and say nothing about workspaces.
 
 ```bash
 for d in ~/.claude/skills/workspaces/assets .claude/skills/workspaces/assets; do
   [ -d "$d" ] && FW="$d/find-workspace.sh" && break
 done
-ws="$(bash "$FW" 2>/dev/null)" || ws=""
+out="$(bash "$FW" 2>/dev/null)"; rc=$?
+case "$rc" in
+  0) ws="$out" ;;                      # use it
+  1) ws="" ;;                          # single-repo run, say nothing about workspaces
+  2) ws="" ;;                          # ASK: name the claimants and let the user pick
+esac
 ```
 
-It keys on **the manifest claiming this repo**, never on directory adjacency: a
-`repos.json` whose `repos[].slug` includes the repo's `origin` slug. Adjacency would
-be wrong, because an unrelated repo sitting beside the clones is not a member, and
-with several workspaces as siblings of many repos adjacency cannot disambiguate at
-all. A linked worktree resolves beside its primary checkout rather than beside
-itself.
+**Exit 1 is not an error.** It means single-repo, and the skill should carry on with
+its single-repo behaviour without mentioning workspaces at all.
+
+**Exit 2 must ask, never guess.** Name the claimants and let the user choose. Picking
+one silently is how a term meant for one workspace's glossary gets written into
+another's, or a PR gets reviewed against the wrong set of standards.
+
+### The two resolution steps
+
+1. **Are we already inside a workspace?** Walk up from the directory looking for one
+   that holds a `repos.json`. Standing in a workspace is unambiguous, needs no git and
+   no remote, and is how a workspace session normally starts, so it answers first and
+   answers alone. This is why a light-tier workspace, which is not a git repo, still
+   resolves.
+2. **Which workspaces claim this repo?** Scan the repo's siblings for a `repos.json`
+   whose `repos[].slug` includes the repo's `origin` slug. Keying on the manifest
+   rather than on directory adjacency is the point: an unrelated repo beside the
+   clones is not a member, and several workspaces can sit beside many repos, so
+   adjacency cannot disambiguate at all. A linked worktree resolves beside its primary
+   checkout rather than beside itself.
+
+Step 1 beats step 2 deliberately. Once you are standing in a workspace there is
+nothing to disambiguate, which is what makes overlapping membership a non-issue on the
+normal path.
 
 Both workspace tiers carry a manifest, so light and full are equally discoverable. A
 workspace with no `repos.json` predates that rule and is invisible to every

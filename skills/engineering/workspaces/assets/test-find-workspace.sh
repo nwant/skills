@@ -101,6 +101,37 @@ check "cwd unchanged" "$before" "$(pwd -P)"
 echo "test: a user CDPATH does not corrupt the output"
 check "CDPATH-proof" "$root/k/acme-workspace" "$(CDPATH=/tmp bash "$SUT" "$root/k/svc")"
 
+echo "test: standing inside a workspace resolves to it, with no git and no manifest entry"
+mk_ws "$root/l/light-workspace" "acme/other"
+mkdir -p "$root/l/light-workspace/notes"
+check "workspace root" "$root/l/light-workspace" "$(cd "$root/l/light-workspace" && bash "$SUT")"
+check "a subdir of it walks up" "$root/l/light-workspace" "$(cd "$root/l/light-workspace/notes" && bash "$SUT")"
+check "exits 0" "0" "$(cd "$root/l/light-workspace" && bash "$SUT" >/dev/null; echo $?)"
+
+echo "test: step 1 beats step 2, so being in a workspace is never ambiguous"
+mk_repo "$root/m/svc" "git@github.com:acme/svc.git"
+mk_ws   "$root/m/one-workspace" "acme/svc"
+mk_ws   "$root/m/two-workspace" "acme/svc"
+check "inside one of them, that one wins" "$root/m/one-workspace" "$(cd "$root/m/one-workspace" && bash "$SUT")"
+
+echo "test: a repo claimed by two workspaces is ambiguous, not silently first"
+lines="$(cd "$root/m/svc" && bash "$SUT" | sort | tr '\n' ' ')"
+check "both reported" "$root/m/one-workspace $root/m/two-workspace " "$lines"
+check "exits 2" "2" "$(cd "$root/m/svc" && bash "$SUT" >/dev/null; echo $?)"
+
+echo "test: a repo claimed by exactly one is still a clean single answer"
+mk_repo "$root/n/svc" "git@github.com:acme/svc.git"
+mk_ws   "$root/n/only-workspace" "acme/svc"
+check "single claimant" "$root/n/only-workspace" "$(cd "$root/n/svc" && bash "$SUT")"
+check "exits 0" "0" "$(cd "$root/n/svc" && bash "$SUT" >/dev/null; echo $?)"
+
+echo "test: three claimants all reported"
+mk_repo "$root/o/svc" "git@github.com:acme/svc.git"
+mk_ws   "$root/o/a-workspace" "acme/svc"
+mk_ws   "$root/o/b-workspace" "acme/svc"
+mk_ws   "$root/o/c-workspace" "acme/svc"
+check "count is three" "3" "$(cd "$root/o/svc" && bash "$SUT" | wc -l | tr -d ' ')"
+
 echo
 printf '%s passed, %s failed\n' "$pass" "$fail"
 [ "$fail" -eq 0 ]
