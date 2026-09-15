@@ -16,7 +16,7 @@ The third row is in this table because it is a commons in the same sense as the 
 
 Standalone is an answer, not a gap. A block that says nothing about the commons means setup never ran here; a block that says "standalone" means the question was asked and the answer was no.
 
-**From the name to the directory.** The entry names a workspace and never a path, so it stays true in every clone on every machine. Look for it beside this repo, at `../<name>` from the repo root, which is the sibling layout `new-workspace` builds. If it is not there, say so and carry on without it. Do not scan for a replacement: a pointer that is wrong names a directory that does not exist, which is a visible failure, while a scan that finds nothing returns "no commons", which is indistinguishable from the truth and gets believed.
+**From the name to the directory.** The entry names a workspace and never a path, so it stays true in every clone on every machine. It does not say where that workspace is, because a member repo lives wherever its manifest entry says and adjacency proves nothing. Where the workspace is not already in view, ask the operator, and never scan for it.
 
 **When the commons is a workspace**, material that spans repos belongs to the workspace and material intrinsic to this repo belongs here. Read both glossaries and prefer this repo's on a conflict, being closer to the code. Write to exactly one: a term written to both drifts, and a term written into one member is invisible to the others.
 

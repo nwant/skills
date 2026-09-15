@@ -30,7 +30,7 @@ There is no Claude Code plugin for this fork, so `claude plugins install` and `/
 
 In your agent, run it once per repo. It will:
 
-- Work out whether this repo sits under a shared workspace, and record the answer either way
+- Work out which shared set of docs this repo belongs to, if any, and record the answer either way
 - Ask you which issue tracker you want to use (GitHub, Linear, or local files)
 - Ask you what labels you apply to tickets when you triage them (`/triage` uses labels)
 - Ask you where you want to save any docs we create

@@ -23,6 +23,8 @@ Look at the current repo to understand its starting state. Read whatever exists;
 
 - **Which commons does this repo belong to?** Run the verifier once, here, and hold on to what it says. This is the only run there is: no other skill probes for the commons, they read what you record in step 4.
 
+  Run the script directly rather than calling the Skill tool with `workspaces`. That is the one deliberate exception to reaching for another skill's material by invoking it: `workspaces` is the vocabulary layer and holds no resolution step of its own, and loading a whole skill to reach one asset would put back the per-run cost this design exists to remove. The script is a **verifier**, run once here, not a probe any skill runs.
+
   ```bash
   for d in ~/.claude/skills/workspaces/assets "${CODEX_HOME:-$HOME/.codex}/skills/workspaces/assets" \
            ~/.agents/skills/workspaces/assets .claude/skills/workspaces/assets; do
@@ -30,7 +32,6 @@ Look at the current repo to understand its starting state. Read whatever exists;
   done
   echo "verifier: ${FW:-MISSING}"
   command -v jq >/dev/null 2>&1 && command -v git >/dev/null 2>&1 \
-    && git remote get-url origin >/dev/null 2>&1 \
     && echo "prereqs: ok" || echo "prereqs: INCOMPLETE"
   [ -n "${FW:-}" ] && { bash "$FW"; echo "exit=$?"; }
   ```
@@ -43,7 +44,9 @@ Look at the current repo to understand its starting state. Read whatever exists;
   | 1, with `prereqs: INCOMPLETE` | nothing | **not established**: ask, see below |
   | `verifier: MISSING` | no exit line at all | **not established**: ask, see below |
 
-  **Exit 1 has two meanings, and only one of them is an answer.** The verifier also exits 1 when it could not check: no `jq`, no `git`, or no `origin` remote. Those are what the `prereqs` line separates. With `prereqs: ok`, exit 1 means *no commons above this repo*, which is the true answer for almost every repo, and step 4 records it in as many words.
+  **Exit 1 has two meanings, and only one of them is an answer.** The verifier also exits 1 when it could not check, which is what the `prereqs` line separates. With `prereqs: ok`, exit 1 means *no commons above this repo*, which is the true answer for almost every repo, and step 4 records it in as many words.
+
+A repo with **no `origin` remote** is on the answer side of that line, not the unestablished side. Membership keys on the origin slug, so a repo without one cannot appear in any manifest, and a repo standing inside a workspace resolves at the walk-up step, which needs neither git nor a remote. A local-only repo is a first-class case here; do not ask it a question its own shape already answers.
 
   **Never record "standalone" off an unestablished answer.** On `prereqs: INCOMPLETE` or `verifier: MISSING`, say which piece is missing and ask the user whether a workspace claims this repo, rather than improvising a substitute for the verifier or treating silence as a no. A wrong answer here is durable in a way the old filesystem probe never was: the probe re-guessed on every run, whereas this gets written down once and believed by every session afterwards. A machine without `jq` would otherwise leave a repo permanently denying the workspace it really belongs to.
 
@@ -146,13 +149,15 @@ Include the `### Triage labels` sub-block, and write `docs/agents/triage-labels.
 
 | Verifier | The entry reads |
 | --- | --- |
-| exit 0 | ``The `<name>` workspace above this repo. Its `CONTEXT.md`, ADRs and `docs/agents/` are the shared copies; this repo's own carry what is intrinsic to it. The rest of this block is in that workspace's `CLAUDE.md`.`` |
+| exit 0 | ``The `<name>` workspace above this repo. Its `CONTEXT.md`, ADRs and `docs/agents/` are the shared copies; this repo's own carry what is intrinsic to it. The rest of this block is in that workspace's `CLAUDE.md`. It can live anywhere on this machine, so ask the operator where it is rather than looking for it.`` |
 | exit 1 | ``Standalone: no commons above this repo. Every doc a skill reads or writes here is this repo's own. See `docs/agents/domain.md`.`` |
 | exit 2 | the exit-0 wording for the claimant the user picked, then ``Also claimed by `<the others>`; this one was chosen at setup.`` |
 
 The pointer at the end differs because the layout detail follows the config: on exit 1 it is in this repo's `docs/agents/domain.md`, and on exit 0 or 2 it is in the workspace's, reached through the workspace's own block. Never point a member repo at a `docs/agents/domain.md` it does not have. Match whatever link style the block already uses: a backticked path where the other entries are backticked, a markdown link where they are links. The wording is what has to be verbatim, not the markup around the path.
 
 **Name workspaces, never paths.** A name stays true in every clone on every machine; a path is true on one. Machine-specific paths belong in the workspace's `repos.local.json`, which is gitignored and already wins by name.
+
+The closing clause about asking is not filler. A member repo holds no `docs/agents/domain.md` of its own, since that went to the workspace, so the entry is the *only* thing a session standing there has to go on. A name with no way to reach it is a name the reader will guess a path for, and guessing is what this whole mechanism exists to end. Asking is the right instruction rather than naming a location because **a member repo lives wherever its manifest entry says**, so there is no location the entry could name that would be true everywhere: adjacency proves nothing, which is exactly why the verifier keys on the manifest and not on what sits next to what.
 
 `### Commons` and `### Domain docs` answer different questions and must not be made to overlap: `### Commons` says which repo or workspace is the authority above this one, `### Domain docs` says how the docs are laid out inside the place that authority points at. In a **member repo** the block carries `### Commons` alone, because the other three entries were written into the workspace's own block.
 

@@ -2,7 +2,7 @@
 
 ## What it does
 
-`setup-skills` answers four questions about one repo: which commons it belongs to, where issues live, what the triage labels are called, and where the domain docs sit. It records the answers as markdown files under `docs/agents/`, plus a short block in `CLAUDE.md` summarising each one.
+`setup-skills` answers four questions about one repo: which commons it belongs to, where issues live, what the triage labels are called, and where the domain docs sit. It records the answers as markdown files under `docs/agents/`, plus a short block summarising each one in whichever instruction file your repo already has.
 
 Those files are the only thing that varies between repos. The skills themselves are identical everywhere; they read `docs/agents/issue-tracker.md` at run time and do what it says. That is why the set is not tied to GitHub, and why no skill file ever needs editing to point it somewhere else. Invoking it with "link the skills to a custom issue tracker" works with anything you can connect to programmatically, with zero changes to the skills.
 
