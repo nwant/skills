@@ -4,6 +4,8 @@ A collection of agent skills (slash commands and behaviors) loaded by Claude Cod
 
 ## Language
 
+### Tracking work
+
 **Issue tracker**:
 The tool that hosts a repo's issues: GitHub Issues, Linear, a local `.scratch/` markdown convention, or similar. Skills like `to-tickets`, `to-spec`, and `triage` read from and write to it.
 _Avoid_: backlog manager, backlog backend, issue host
@@ -18,13 +20,45 @@ A `wayfinder` unit: a child **Issue** of a `wayfinder:map` holding a *question* 
 **Triage role**:
 A canonical state-machine label applied to an **Issue** during triage (e.g. `needs-triage`, `ready-for-afk`). Each role maps to a real label string in the **Issue tracker** via `docs/agents/triage-labels.md`.
 
+### Where an artifact lives
+
+**Commons**:
+The shared home an artifact routes to when it is meaningful to more than one unit of work: a **Workspace** for a set of repos, the repo root in a multi-context repo, the repo itself when there is neither. Every skill that asks "which copy of this doc?" is asking for the commons.
+_Avoid_: shared home, root context, parent (implies containment)
+
+**Workspace**:
+A coordination directory holding what belongs to a set of repos rather than to any one of them. It holds no repos itself, and its members may live anywhere on the filesystem.
+_Avoid_: monorepo (one git root, the opposite shape), umbrella repo, project, "workspace" for a plain working directory
+
+**Member repo**:
+A repo a **Workspace** claims, with its own git history and its own `CLAUDE.md`. Membership is declared in the workspace manifest and is many-to-many: one repo belonging to several workspaces is normal.
+_Avoid_: subrepo, submodule, package (all imply containment), sibling (implies a fixed location)
+
+**Core repo** / **Adjacent repo**:
+A **Member repo** the team owns and changes, versus one it reads from or is affected by but does not own. The manifest's `tier` is the authority.
+_Avoid_: "the repos" used loosely, which is how three lists end up disagreeing
+
+**Cross-repo unit of work**:
+One **Issue** whose completion spans more than one **Member repo**, and so more than one pull request.
+_Avoid_: multi-repo change (describes the diff, not the unit), epic (a tracker noun)
+
+**Sibling PR**:
+Another pull request implementing the same **Cross-repo unit of work**, in a different **Member repo**. The term earns its place by fixing a bug class: a review that judges one PR against the whole unit reports the siblings' requirements as *missing* when they are merely *elsewhere*.
+_Avoid_: related PR (too weak), stacked PR (a dependent branch)
+
 ## Relationships
 
 - An **Issue tracker** holds many **Issues**
 - An **Issue** carries one **Triage role** at a time
 - A **Decision ticket** is an **Issue** (a child of a `wayfinder:map`)
+- A **Commons** resolves to a **Workspace**, a repo root, or the repo itself
+- A **Workspace** claims many **Member repos**; a **Member repo** may belong to several **Workspaces**
+- A **Member repo** is either a **Core repo** or an **Adjacent repo**
+- A **Cross-repo unit of work** is an **Issue** satisfied by several **Sibling PRs**
 
 ## Flagged ambiguities
 
 - "backlog" was previously used to mean both the *tool* hosting issues and the *body of work* inside it. Resolved: the tool is the **Issue tracker**; "backlog" is no longer used as a domain term.
 - "backlog backend" / "backlog manager". Resolved: collapsed into **Issue tracker**.
+- "workspace" meant five different things across shipped skills: the coordination directory (`workspaces`, `new-workspace`), a teaching directory (`teach`), the current working directory (`loop-me`, `handoff`), and a student subdirectory (`scaffold-exercises`). Resolved: **Workspace** is the coordination directory alone; the other uses are to say "directory", "working directory" or "exercise directory". The umbrella for *which copy does this artifact belong to* is **Commons**.
+- **Member repo** was defined as a filesystem *sibling* of the workspace, and resolution scanned for adjacency. Resolved: membership is declared in the manifest; a member lives wherever its path says, and adjacency proves nothing.
