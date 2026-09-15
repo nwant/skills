@@ -24,19 +24,28 @@ Look at the current repo to understand its starting state. Read whatever exists;
 - **Which commons does this repo belong to?** Run the verifier once, here, and hold on to what it says. This is the only run there is: no other skill probes for the commons, they read what you record in step 4.
 
   ```bash
-  for d in ~/.claude/skills/workspaces/assets .claude/skills/workspaces/assets; do
+  for d in ~/.claude/skills/workspaces/assets "${CODEX_HOME:-$HOME/.codex}/skills/workspaces/assets" \
+           ~/.agents/skills/workspaces/assets .claude/skills/workspaces/assets; do
     [ -d "$d" ] && FW="$d/find-workspace.sh" && break
   done
-  bash "$FW"; echo "exit=$?"
+  echo "verifier: ${FW:-MISSING}"
+  command -v jq >/dev/null 2>&1 && command -v git >/dev/null 2>&1 \
+    && git remote get-url origin >/dev/null 2>&1 \
+    && echo "prereqs: ok" || echo "prereqs: INCOMPLETE"
+  [ -n "${FW:-}" ] && { bash "$FW"; echo "exit=$?"; }
   ```
 
   | Exit | What it printed | The commons |
   | --- | --- | --- |
   | 0 | one workspace path | that workspace |
-  | 1 | nothing | none: this repo is standalone |
+  | 1, with `prereqs: ok` | nothing | none: this repo is standalone |
   | 2 | every claimant, one path per line | not yet decided, ask (step 2) |
+  | 1, with `prereqs: INCOMPLETE` | nothing | **not established**: ask, see below |
+  | `verifier: MISSING` | no exit line at all | **not established**: ask, see below |
 
-  **Exit 1 is an answer, not an error and not a silence.** "No commons above this repo" is the true answer for almost every repo, and step 4 records it in as many words.
+  **Exit 1 has two meanings, and only one of them is an answer.** The verifier also exits 1 when it could not check: no `jq`, no `git`, or no `origin` remote. Those are what the `prereqs` line separates. With `prereqs: ok`, exit 1 means *no commons above this repo*, which is the true answer for almost every repo, and step 4 records it in as many words.
+
+  **Never record "standalone" off an unestablished answer.** On `prereqs: INCOMPLETE` or `verifier: MISSING`, say which piece is missing and ask the user whether a workspace claims this repo, rather than improvising a substitute for the verifier or treating silence as a no. A wrong answer here is durable in a way the old filesystem probe never was: the probe re-guessed on every run, whereas this gets written down once and believed by every session afterwards. A machine without `jq` would otherwise leave a repo permanently denying the workspace it really belongs to.
 
   A workspace's **name** is the basename of the directory the verifier printed (`~/github/payments-workspace` is `payments-workspace`); `repos.json` carries no name of its own. Carry the name forward, never the path: paths are machine-specific, and what you write has to stay true in every clone.
 
