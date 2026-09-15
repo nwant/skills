@@ -6,11 +6,13 @@ How the engineering skills should consume this repo's domain documentation when 
 
 The **commons** is the shared home an artifact routes to when it is meaningful to more than one unit of work. `CLAUDE.md`'s `### Commons` entry names it; this section is the layout that sits behind the name. It was resolved once, at `/setup-skills` time, and recorded. **No skill probes the filesystem for it.**
 
-| Commons | What it means | Where the shared copies live |
-| --- | --- | --- |
-| **Standalone** (almost every repo) | nothing above this repo | here: `CONTEXT.md`, `docs/adr/`, `docs/agents/` |
-| **A workspace** | a coordination directory holding what belongs to a set of repos rather than to any one of them | the workspace's `CONTEXT.md`, `docs/adr/`, `docs/agents/` |
-| **The repo root** (multi-context) | one repo, several contexts under `src/` | the root `CONTEXT-MAP.md` and the root `docs/adr/` |
+| Commons | What it means | Where the shared copies live | Recorded by |
+| --- | --- | --- | --- |
+| **Standalone** (almost every repo) | nothing above this repo | here: `CONTEXT.md`, `docs/adr/`, `docs/agents/` | `### Commons` |
+| **A workspace** | a coordination directory holding what belongs to a set of repos rather than to any one of them | the workspace's `CONTEXT.md`, `docs/adr/`, `docs/agents/` | `### Commons` |
+| **The repo root** (multi-context) | one repo, several contexts under `src/`, each with its own `CONTEXT.md` | the root `CONTEXT-MAP.md` and the root `docs/adr/` | `### Domain docs` |
+
+The third row is in this table because it is a commons in the same sense as the other two: a copy shared by more than one unit of work. It is not something `### Commons` records, though, because that entry answers only what sits **above** this repo, and a multi-context layout sits inside it. That is `### Domain docs`' question, and the two entries stay out of each other's way.
 
 Standalone is an answer, not a gap. A block that says nothing about the commons means setup never ran here; a block that says "standalone" means the question was asked and the answer was no.
 

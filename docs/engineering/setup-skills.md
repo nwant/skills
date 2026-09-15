@@ -66,7 +66,7 @@ No. GitHub, GitLab, Shortcut and local markdown under `.scratch/` all ship as re
 
 **Do I need to re-run it after updating the skills?**
 
-The direct answer is yes; the skill's own closing message is softer: it tells you re-running is only needed to switch trackers or start over. Both are defensible and the reason for the gap is real: the seed templates change between versions, so a `docs/agents/issue-tracker.md` written by an older release can go stale against the skills now reading it. If a downstream skill starts doing something the docs describe differently, re-running is the cheap fix.
+The direct answer is yes; the skill's own closing message is softer: it tells you re-running is only needed to switch trackers or start over. Both are defensible and the reason for the gap is real: the seed templates change between versions, so a `docs/agents/issue-tracker.md` written by an older release can go stale against the skills now reading it. If a downstream skill starts doing something the docs describe differently, re-running is the cheap fix. One other trigger is worth knowing: re-run it when the commons changes, because this repo joined a workspace or left one. That answer is recorded rather than re-derived, so nothing else will notice on its own.
 
 **It wrote to `CLAUDE.md`, but I'm on Codex.**
 

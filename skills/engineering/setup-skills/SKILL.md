@@ -49,7 +49,7 @@ Look at the current repo to understand its starting state. Read whatever exists;
 
   A workspace's **name** is the basename of the directory the verifier printed (`~/github/payments-workspace` is `payments-workspace`); `repos.json` carries no name of its own. Carry the name forward, never the path: paths are machine-specific, and what you write has to stay true in every clone.
 
-  **When a workspace is the commons, the config goes there**, not here: the tracker, its labels and the doc layout are identical for every member, so a copy per repo is N places to update and N chances to drift. Write `docs/agents/` into the workspace and put the `## Agent skills` block in the *workspace's* `CLAUDE.md`. Run once per **workspace** in that case, not once per repo. The one thing that still belongs in this repo is its own `### Commons` entry, which is what tells a session standing here where the rest lives; step 4 writes it. Say in your closing summary which workspace you wrote to, and that every other member repo needs its own `### Commons` entry before a session there can find the workspace.
+  **When a workspace is the commons, the config goes there**, not here: the tracker, its labels and the doc layout are identical for every member, so a copy per repo is N places to update and N chances to drift. Write `docs/agents/` into the workspace and put the `## Agent skills` block in the *workspace's* `CLAUDE.md`. The tracker, the labels and the doc layout are then settled once per **workspace** rather than once per repo; the `### Commons` entry is the one part that is still per repo, because it is what a session standing in a member repo reads to find the workspace at all. The one thing that still belongs in this repo is its own `### Commons` entry, which is what tells a session standing here where the rest lives; step 4 writes it. Say in your closing summary which workspace you wrote to, and that every other member repo needs its own `### Commons` entry before a session there can find the workspace.
 - `git remote -v` and `.git/config`: is this a GitHub repo? Which one?
 - `AGENTS.md` and `CLAUDE.md` at the repo root: does either exist? Is there already an `## Agent skills` section in either?
 - `CONTEXT.md` and `CONTEXT-MAP.md` at the repo root
@@ -125,7 +125,7 @@ The block:
 
 ### Commons
 
-[the workspace above this repo, by name, or "standalone, no commons above this repo"]. [pointer at wherever the layout detail landed].
+[one of the three wordings in the table below, verbatim]
 
 ### Issue tracker
 
@@ -142,7 +142,7 @@ The block:
 
 Include the `### Triage labels` sub-block, and write `docs/agents/triage-labels.md`, only when `triage` is installed and Section B ran. When it isn't, both are omitted.
 
-**Write the `### Commons` entry every time, including when there is no commons.** A block that says nothing about the commons is indistinguishable from a repo where this skill never ran, and "scanned, found nothing, therefore nothing exists" is the exact inference the recorded answer exists to prevent. Recording the negative answer is what makes it a resolution rather than an absence. One shape, three fillings:
+**Write the `### Commons` entry every time, including when there is no commons.** A block that says nothing about the commons is indistinguishable from a repo where this skill never ran, and "scanned, found nothing, therefore nothing exists" is the exact inference the recorded answer exists to prevent. Recording the negative answer is what makes it a resolution rather than an absence. One shape, three fillings. **Use the wording in the right-hand column verbatim**, so that a skill reading the entry, and `new-workspace` writing the same entry from the other end, are looking at one format rather than four paraphrases of one:
 
 | Verifier | The entry reads |
 | --- | --- |
@@ -150,7 +150,7 @@ Include the `### Triage labels` sub-block, and write `docs/agents/triage-labels.
 | exit 1 | ``Standalone: no commons above this repo. Every doc a skill reads or writes here is this repo's own. See `docs/agents/domain.md`.`` |
 | exit 2 | the exit-0 wording for the claimant the user picked, then ``Also claimed by `<the others>`; this one was chosen at setup.`` |
 
-The pointer at the end differs because the layout detail follows the config: on exit 1 it is in this repo's `docs/agents/domain.md`, and on exit 0 or 2 it is in the workspace's, reached through the workspace's own block. Never point a member repo at a `docs/agents/domain.md` it does not have.
+The pointer at the end differs because the layout detail follows the config: on exit 1 it is in this repo's `docs/agents/domain.md`, and on exit 0 or 2 it is in the workspace's, reached through the workspace's own block. Never point a member repo at a `docs/agents/domain.md` it does not have. Match whatever link style the block already uses: a backticked path where the other entries are backticked, a markdown link where they are links. The wording is what has to be verbatim, not the markup around the path.
 
 **Name workspaces, never paths.** A name stays true in every clone on every machine; a path is true on one. Machine-specific paths belong in the workspace's `repos.local.json`, which is gitignored and already wins by name.
 
