@@ -5,6 +5,8 @@ still defines members by adjacency, and nothing writes or reads a commons pointe
 Changing that means edits to `new-workspace`, `workspaces`, `find-workspace.sh`,
 `sync-repos.sh`, `setup-skills`, and the workspace paragraphs in `domain-modeling`,
 `two-axis-review`, `to-spec`, `which-skill` and `wait-what`.
+Tracked as [nwant/skills#1](https://github.com/nwant/skills/issues/1), which
+carries that work as nine tickets.
 
 Skills that read or write a domain doc have to answer one question: **which copy?**
 The repo's `CONTEXT.md` or the one above it, this repo's `docs/adr/` or the shared
