@@ -28,6 +28,10 @@ No em-dashes anywhere in this repo's prose (`SKILL.md` files, docs, `README.md`,
 
 ## Agent skills
 
+### Commons
+
+Standalone: no commons above this repo. Every doc a skill reads or writes here is this repo's own. See [docs/agents/domain.md](./docs/agents/domain.md).
+
 ### Issue tracker
 
 Issues live as GitHub issues on `nwant/skills`, the `origin` remote, driven by the `gh` CLI with `--repo` pinned because this is a fork. See [docs/agents/issue-tracker.md](./docs/agents/issue-tracker.md).

@@ -30,6 +30,7 @@ There is no Claude Code plugin for this fork, so `claude plugins install` and `/
 
 In your agent, run it once per repo. It will:
 
+- Work out whether this repo sits under a shared workspace, and record the answer either way
 - Ask you which issue tracker you want to use (GitHub, Linear, or local files)
 - Ask you what labels you apply to tickets when you triage them (`/triage` uses labels)
 - Ask you where you want to save any docs we create
@@ -152,7 +153,7 @@ Daily code work.
 - **[improve-codebase-architecture](./skills/engineering/improve-codebase-architecture/SKILL.md)**: Scan a codebase for deepening opportunities, present them as a visual HTML report, then grill through whichever one you pick.
 - **[improve-workspace-architecture](./skills/engineering/improve-workspace-architecture/SKILL.md)**: Survey a multi-repo workspace for friction *between* repos: one concept implemented twice, a seam in the wrong repo, a contract straddling two, a shared package whose consumers churn with it. Reports on two axes, Locality and Choreography, never merged into one ranked list.
 - **[new-workspace](./skills/engineering/new-workspace/SKILL.md)**: Scaffold a multi-repo workspace for a set of sibling repos: a `CLAUDE.md` synthesis plus repo index, a `repos.json` manifest, a sync script, and the matching shell launcher and cd shortcuts. Also upgrades an existing ad-hoc workspace to the full pattern.
-- **[setup-skills](./skills/engineering/setup-skills/SKILL.md)**: Configure this repo for the engineering skills (issue tracker, triage labels, domain doc layout). Run once per repo before using the other engineering skills.
+- **[setup-skills](./skills/engineering/setup-skills/SKILL.md)**: Configure this repo for the engineering skills (the commons it belongs to, issue tracker, triage labels, domain doc layout). Run once per repo before using the other engineering skills.
 - **[to-spec](./skills/engineering/to-spec/SKILL.md)**: Turn the current conversation into a spec and publish it to the issue tracker. No interview, just synthesizes what you've already discussed.
 - **[to-tickets](./skills/engineering/to-tickets/SKILL.md)**: Break any plan, spec, or conversation into a set of tracer-bullet tickets, each declaring its blocking edges, written as text in a local file, or as native blocking links on a real tracker.
 - **[implement](./skills/engineering/implement/SKILL.md)**: Build the work described by a spec or set of tickets, driving `/tdd` at pre-agreed seams and closing out with `/two-axis-review` before committing.

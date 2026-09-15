@@ -12,7 +12,7 @@ Reachable only when you type them (Claude Code: `disable-model-invocation: true`
 - **[improve-codebase-architecture](./improve-codebase-architecture/SKILL.md)**: Scan a codebase for deepening opportunities, present them as a visual HTML report, then grill through whichever one you pick.
 - **[improve-workspace-architecture](./improve-workspace-architecture/SKILL.md)**: Survey a multi-repo workspace for friction *between* repos: one concept implemented twice, a seam in the wrong repo, a contract straddling two, a shared package whose consumers churn with it. Reports on two axes, Locality and Choreography.
 - **[new-workspace](./new-workspace/SKILL.md)**: Scaffold a multi-repo workspace for a set of sibling repos: a `CLAUDE.md` synthesis plus repo index, a `repos.json` manifest, a sync script, and the matching shell launcher and cd shortcuts.
-- **[setup-skills](./setup-skills/SKILL.md)**: Configure this repo for the engineering skills (issue tracker, triage labels, domain doc layout). Run once per repo.
+- **[setup-skills](./setup-skills/SKILL.md)**: Configure this repo for the engineering skills (the commons it belongs to, issue tracker, triage labels, domain doc layout). Run once per repo.
 - **[to-spec](./to-spec/SKILL.md)**: Turn the current conversation into a spec and publish it to the issue tracker.
 - **[to-tickets](./to-tickets/SKILL.md)**: Break any plan, spec, or conversation into a set of tracer-bullet tickets, each declaring its blocking edges, whether as text in a local file or as native blocking links on a real tracker.
 - **[implement](./implement/SKILL.md)**: Build the work described by a spec or set of tickets, driving `/tdd` at pre-agreed seams and closing out with `/two-axis-review` before committing.

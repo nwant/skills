@@ -52,6 +52,28 @@ User-invoked, since it writes directories outside the working tree and appends t
 operator's shell rc file. `which-skill`'s Precondition section becomes **Preconditions** and
 now routes both run-once setups, distinguishing once-per-repo from once-per-repo-set.
 
+**The commons is resolved once, at setup, and written down.** Skills that read or write a
+doc have to answer one question: which copy? The answer, the **commons**, was reached by
+scanning the filesystem at run time, in five different skills, on every invocation. Most
+repos have no commons above them and paid for the check anyway, and a scan that finds
+nothing returns "no commons", which is indistinguishable from the truth and gets believed.
+
+`setup-skills` now runs `find-workspace.sh` once, as a verifier rather than a probe, and
+records the answer as a `### Commons` entry in the `## Agent skills` block of `CLAUDE.md`,
+with the layout detail in `docs/agents/domain.md` beside it. The block is the distribution
+mechanism: every session loads it, and nothing reads `domain.md` on its own.
+
+The entry is written **when there is no commons too**, in as many words. A block silent on
+the commons is indistinguishable from a repo where setup never ran, so recording the
+negative answer is what makes it a resolution rather than an absence. Ambiguity, where
+several workspaces claim one repo, is a question for a person and gets asked here, once,
+rather than on every run of every skill; the skill never picks a claimant. Names are
+recorded, never paths, so the entry stays true in every clone on every machine.
+
+This is the first step of [ADR 0003](./.agents/adr/0003-resolve-the-commons-once-at-setup.md):
+something has to write the line before anything can read it. The readers change next, and
+the probe is demoted last.
+
 **A spec carries its tracker identity, so `to-tickets` reads a parent instead of guessing
 one.** Moving the spec into the repo left a gap: the previous change only covered the case
 where `to-spec` had just produced both the spec and the epic in one window. Run

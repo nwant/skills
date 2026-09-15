@@ -2,7 +2,7 @@
 
 ## What it does
 
-`setup-skills` answers three questions about one repo: where issues live, what the triage labels are called, and where the domain docs sit. It records the answers as markdown files under `docs/agents/`.
+`setup-skills` answers four questions about one repo: which commons it belongs to, where issues live, what the triage labels are called, and where the domain docs sit. It records the answers as markdown files under `docs/agents/`, plus a short block in `CLAUDE.md` summarising each one.
 
 Those files are the only thing that varies between repos. The skills themselves are identical everywhere; they read `docs/agents/issue-tracker.md` at run time and do what it says. That is why the set is not tied to GitHub, and why no skill file ever needs editing to point it somewhere else. Invoking it with "link the skills to a custom issue tracker" works with anything you can connect to programmatically, with zero changes to the skills.
 
@@ -27,15 +27,20 @@ It writes into the repo you run it in:
 
 All of it is committed markdown. There is no user-level or global mode: the config lives in the repo, so every repo gets its own copy.
 
-## The three decisions
+Where a [workspace](./workspaces.md) is the commons, the three `docs/agents/` files and the block go into the *workspace* instead, and the repo you ran it in keeps one thing: a `### Commons` entry naming that workspace. Run it once per workspace in that case, and once in each member repo that still needs its pointer.
+
+## The four answers
 
 It leads each section with the recommended answer, and skips whatever exploration already settled. Most runs are two confirmations and done.
 
-| Decision | What it proposes | When it actually asks |
+| Answer | What it proposes | When it actually asks |
 | --- | --- | --- |
+| **Commons** | whatever the verifier resolved, which for almost every repo is "standalone" | only when more than one workspace claims the repo, and then it never picks for you |
 | **Issue tracker** | the one matching your `git remote` | always: this is the one real choice |
 | **Triage labels** | keep the five canonical names (`needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`) | only if the `triage` skill is installed |
 | **Domain docs** | single-context: one `CONTEXT.md` plus `docs/adr/` at the root | only if it spots monorepo signals, and then it offers a multi-context `CONTEXT-MAP.md` |
+
+The **commons** is the one of the four you do not answer. It is the shared home a doc routes to when it means something to more than this repo: a [workspace](./workspaces.md) above the repo, or nothing at all. Setup runs `find-workspace.sh` once, here, and writes down what it found, so that no skill ever has to work it out again at run time. Where a workspace is the commons, the tracker, labels and doc layout are written into *that* workspace rather than into each member, since they are identical for every member and N copies are N chances to drift.
 
 The tracker options:
 
@@ -75,9 +80,13 @@ It doesn't. `docs/agents/triage-labels.md` is a *mapping*: it tells `/triage` wh
 - [wayfinder](./wayfinder.md)'s `wayfinder:map` and `wayfinder:<type>` labels are not created here either, and `gh issue create --label <missing>` fails outright rather than creating the label. Create them by hand before the first wayfinder run on a GitHub repo.
 - On **Shortcut** there is nothing to create and nothing to ask: triage state is workflow state, so the mapping points the five roles at states the team already runs, and the section is skipped. The same reasoning keeps wayfinder off labels there, recording a ticket's type in its description instead. Shortcut labels are workspace-wide, so minting one is a change to every team's vocabulary rather than a local setup step.
 
+**Why does it write down that I have no workspace?**
+
+Because a repo that says nothing about its commons is indistinguishable from one where setup never ran. "Standalone, no commons above this repo" is a recorded answer; silence is an unanswered question, and a skill meeting silence has to go looking. The old design did exactly that, scanning the filesystem on every run of five different skills, in every single-repo project, to establish something that was false and stayed false. Worse, a scan that finds nothing returns "no commons", which is indistinguishable from the truth and gets believed. Writing the negative answer down is what turns it into a resolution.
+
 **Can I configure the other skills' behaviour here ([grilling](https://www.aihero.dev/ai-coding-dictionary/grilling) cadence, question format, tone)?**
 
-No. It configures three things: tracker, labels, doc layout. There have been direct requests to make it the home for per-user preferences, and the standing answer is that skills stay opinionated: *"Config is death."* Preferences belong in your `CLAUDE.md` as plain instructions, which every skill already reads.
+No. It configures four things: the commons, the tracker, the labels, the doc layout. There have been direct requests to make it the home for per-user preferences, and the standing answer is that skills stay opinionated: *"Config is death."* Preferences belong in your `CLAUDE.md` as plain instructions, which every skill already reads.
 
 **Can I keep the config in `~/.claude` instead of committing it to every repo?**
 
@@ -91,6 +100,8 @@ One long-standing complaint says yes, in these words: *"having a skill to set up
 
 - `docs/agents/issue-tracker.md` and `docs/agents/domain.md` exist, plus `triage-labels.md` if `triage` is installed.
 - An `## Agent skills` section appears in the instruction file your harness actually reads, with a one-line summary pointing at each of those files.
+- That section has a `### Commons` entry, and it says something either way. On almost every repo it reads "standalone, no commons above this repo", and an entry that is missing rather than negative is the tell that this run did not finish.
+- No skill mentions workspaces at you afterwards, or goes looking for one. They read the entry.
 - The tracker it recorded is the one you really track work in, which is not always the one your remote implies, and the role mapping names labels or states that really exist there.
 - Afterwards, `/to-tickets` publishes without asking you where issues live, and `/triage` applies labels rather than inventing them.
 - Nothing in the skill files themselves changed. If setup edited a `SKILL.md`, something went wrong.

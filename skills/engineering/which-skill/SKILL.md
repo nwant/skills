@@ -112,5 +112,5 @@ engineering flow, **receiving** one is agent mechanics.
 
 Both are run-once scaffolding, off the flows entirely: they build the place the flows run, rather than being a step in one.
 
-- **`/setup-skills`**: run before your first engineering flow to configure the issue tracker, triage labels, and doc layout the other skills assume. Custom issue trackers also work. Once **per repo**.
+- **`/setup-skills`**: run before your first engineering flow to resolve the **commons** this repo belongs to and configure the issue tracker, triage labels, and doc layout the other skills assume. Custom issue trackers also work. Once **per repo**; where a workspace claims the repo, the tracker, labels and layout are written into the workspace instead, and the repo keeps a pointer at it.
 - **`/new-workspace`**: run when the work spans **several repos** and there is no workspace holding them yet. It scaffolds the coordination directory (a `CLAUDE.md` synthesis plus repo index, a `repos.json` manifest, a sync script, shell shortcuts) so the cross-repo facts have a home that is not any one repo's `CLAUDE.md`. Once **per set of repos**, and it upgrades an ad-hoc workspace in place. Skip it for single-repo work, which is most work.

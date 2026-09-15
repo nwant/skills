@@ -1,6 +1,6 @@
 ---
 name: setup-skills
-description: "Configure this repo for the engineering skills: set up its issue tracker, triage label vocabulary, and domain doc layout. Run once before first use of the other engineering skills."
+description: "Configure this repo for the engineering skills: resolve the commons it belongs to, and set up its issue tracker, triage label vocabulary, and domain doc layout. Run once before first use of the other engineering skills."
 disable-model-invocation: true
 ---
 
@@ -8,6 +8,7 @@ disable-model-invocation: true
 
 Scaffold the per-repo configuration that the engineering skills assume:
 
+- **Commons**: which repo or workspace holds the docs that are shared with anything above this repo, resolved here once so no other skill has to work it out at run time
 - **Issue tracker**: where issues live (GitHub by default; local markdown is also supported out of the box)
 - **Triage labels**: the strings used for the five canonical triage roles
 - **Domain docs**: where `CONTEXT.md` and ADRs live, and the consumer rules for reading them
@@ -20,7 +21,26 @@ This is a prompt-driven skill, not a deterministic script. Explore, present what
 
 Look at the current repo to understand its starting state. Read whatever exists; don't assume:
 
-- **Is this repo a member of a workspace?** Call the Skill tool with "workspaces" and run its probe. If a workspace claims this repo, **that is where the config goes**, not here: the tracker, its labels and the doc layout are identical for every member, so a copy per repo is N places to update and N chances to drift. Write `docs/agents/` into the workspace, put the `## Agent skills` block in the *workspace's* `CLAUDE.md`, and say in your closing summary which workspace you wrote to and that the member repos need nothing. Run once per **workspace** in that case, not once per repo. If *more than one* workspace claims the repo, **ask which one before writing anything**: this step creates committed files, and putting them in the wrong workspace hides them from the one that needed them. Everything below applies unchanged when no workspace claims the repo.
+- **Which commons does this repo belong to?** Run the verifier once, here, and hold on to what it says. This is the only run there is: no other skill probes for the commons, they read what you record in step 4.
+
+  ```bash
+  for d in ~/.claude/skills/workspaces/assets .claude/skills/workspaces/assets; do
+    [ -d "$d" ] && FW="$d/find-workspace.sh" && break
+  done
+  bash "$FW"; echo "exit=$?"
+  ```
+
+  | Exit | What it printed | The commons |
+  | --- | --- | --- |
+  | 0 | one workspace path | that workspace |
+  | 1 | nothing | none: this repo is standalone |
+  | 2 | every claimant, one path per line | not yet decided, ask (step 2) |
+
+  **Exit 1 is an answer, not an error and not a silence.** "No commons above this repo" is the true answer for almost every repo, and step 4 records it in as many words.
+
+  A workspace's **name** is the basename of the directory the verifier printed (`~/github/payments-workspace` is `payments-workspace`); `repos.json` carries no name of its own. Carry the name forward, never the path: paths are machine-specific, and what you write has to stay true in every clone.
+
+  **When a workspace is the commons, the config goes there**, not here: the tracker, its labels and the doc layout are identical for every member, so a copy per repo is N places to update and N chances to drift. Write `docs/agents/` into the workspace and put the `## Agent skills` block in the *workspace's* `CLAUDE.md`. Run once per **workspace** in that case, not once per repo. The one thing that still belongs in this repo is its own `### Commons` entry, which is what tells a session standing here where the rest lives; step 4 writes it. Say in your closing summary which workspace you wrote to, and that every other member repo needs its own `### Commons` entry before a session there can find the workspace.
 - `git remote -v` and `.git/config`: is this a GitHub repo? Which one?
 - `AGENTS.md` and `CLAUDE.md` at the repo root: does either exist? Is there already an `## Agent skills` section in either?
 - `CONTEXT.md` and `CONTEXT-MAP.md` at the repo root
@@ -32,7 +52,9 @@ Look at the current repo to understand its starting state. Read whatever exists;
 
 ### 2. Present findings and ask
 
-Summarise what's present and what's missing. Then take the sections in order. One section, one answer, then the next.
+Summarise what's present and what's missing, the resolved commons included. Then take the sections in order. One section, one answer, then the next.
+
+**Settle the commons before the sections.** If the verifier exited 2, name the claimants and ask which one is this repo's commons, before anything else is asked or written: this step creates committed files, and putting them in the wrong workspace hides them from the one that needed them. **Never pick a claimant.** Several workspaces claiming one repo is normal rather than a misconfiguration, and only the user knows which one this repo's work belongs to. On exit 0 or 1 there is nothing to ask: state the answer in the summary and go on to Section A.
 
 Lead each section with the recommended answer so the user can accept it in a word. Give a one-line explainer only when the choice genuinely branches; skip the section entirely when exploration already settled it (Section B when `triage` isn't installed, Section C when there's no monorepo).
 
@@ -70,7 +92,7 @@ Offer **multi-context** (a root `CONTEXT-MAP.md` pointing to per-context `CONTEX
 
 Show the user a draft of:
 
-- The `## Agent skills` block to add to whichever of `CLAUDE.md` / `AGENTS.md` is being edited (see step 4 for selection rules)
+- The `## Agent skills` block to add to whichever of `CLAUDE.md` / `AGENTS.md` is being edited (see step 4 for selection rules), the `### Commons` entry included
 - The contents of `docs/agents/issue-tracker.md`, `docs/agents/domain.md`, and `docs/agents/triage-labels.md` (the last only when `triage` is installed)
 
 Let them edit before writing.
@@ -92,6 +114,10 @@ The block:
 ```markdown
 ## Agent skills
 
+### Commons
+
+[the workspace above this repo, by name, or "standalone, no commons above this repo"]. [pointer at wherever the layout detail landed].
+
 ### Issue tracker
 
 [one-line summary of where issues are tracked]. See `docs/agents/issue-tracker.md`.
@@ -107,6 +133,20 @@ The block:
 
 Include the `### Triage labels` sub-block, and write `docs/agents/triage-labels.md`, only when `triage` is installed and Section B ran. When it isn't, both are omitted.
 
+**Write the `### Commons` entry every time, including when there is no commons.** A block that says nothing about the commons is indistinguishable from a repo where this skill never ran, and "scanned, found nothing, therefore nothing exists" is the exact inference the recorded answer exists to prevent. Recording the negative answer is what makes it a resolution rather than an absence. One shape, three fillings:
+
+| Verifier | The entry reads |
+| --- | --- |
+| exit 0 | ``The `<name>` workspace above this repo. Its `CONTEXT.md`, ADRs and `docs/agents/` are the shared copies; this repo's own carry what is intrinsic to it. The rest of this block is in that workspace's `CLAUDE.md`.`` |
+| exit 1 | ``Standalone: no commons above this repo. Every doc a skill reads or writes here is this repo's own. See `docs/agents/domain.md`.`` |
+| exit 2 | the exit-0 wording for the claimant the user picked, then ``Also claimed by `<the others>`; this one was chosen at setup.`` |
+
+The pointer at the end differs because the layout detail follows the config: on exit 1 it is in this repo's `docs/agents/domain.md`, and on exit 0 or 2 it is in the workspace's, reached through the workspace's own block. Never point a member repo at a `docs/agents/domain.md` it does not have.
+
+**Name workspaces, never paths.** A name stays true in every clone on every machine; a path is true on one. Machine-specific paths belong in the workspace's `repos.local.json`, which is gitignored and already wins by name.
+
+`### Commons` and `### Domain docs` answer different questions and must not be made to overlap: `### Commons` says which repo or workspace is the authority above this one, `### Domain docs` says how the docs are laid out inside the place that authority points at. In a **member repo** the block carries `### Commons` alone, because the other three entries were written into the workspace's own block.
+
 Then write the docs files using the seed templates in this skill folder as a starting point:
 
 - [issue-tracker-github.md](./issue-tracker-github.md): GitHub issue tracker
@@ -120,4 +160,4 @@ For "other" issue trackers, write `docs/agents/issue-tracker.md` from scratch us
 
 ### 5. Done
 
-Tell the user the setup is complete and which engineering skills will now read from these files. Mention they can edit `docs/agents/*.md` directly later; re-running this skill is only necessary if they want to switch issue trackers or restart from scratch.
+Tell the user the setup is complete and which engineering skills will now read from these files, and name the commons you recorded. Mention they can edit `docs/agents/*.md` directly later; re-running this skill is only necessary if they want to switch issue trackers, restart from scratch, or the commons has changed (this repo joined a workspace, or left one).
