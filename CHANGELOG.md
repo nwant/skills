@@ -11,6 +11,22 @@ This repo diverged from [mattpocock/skills](https://github.com/mattpocock/skills
 maintained independently, under the MIT license it was released with. `LICENSE` retains the
 original copyright notice as MIT requires, with the fork's added alongside it.
 
+**`link-skills.sh` removes what it should no longer install, and stops deleting what it
+never created.** The script linked and refreshed, and never removed, so a renamed, deleted
+or demoted skill kept whatever symlink an earlier run had made. The `code-review` to
+`two-axis-review` rename left a dead `code-review` link in all three destinations, which
+autocompletes and then fails, reading as a broken harness rather than a stale install. A
+sweep now clears any symlink into this repo's `skills/` tree whose target is gone, or whose
+target now sits under `misc/` or `deprecated/`, and reports each removal.
+
+Two things it deliberately leaves alone, both of them changes in behaviour. A symlink
+pointing outside this repo is never touched, since it is not ours to manage. And a **real**
+file or directory standing where a skill's link belongs is no longer replaced: it used to be
+`rm -rf`'d with a warning, on the grounds that this was how a hand-installed copy got
+upgraded, which meant the installer could destroy work that was never a link at all. It now
+warns and skips. The cost is that such a name stays unlinked until the real path is removed
+by hand, and `README.md` says so, because it is the one case where re-running is not enough.
+
 **Two skills renamed.**
 
 - `ask-matt` is now `which-skill` (`/which-skill`)
