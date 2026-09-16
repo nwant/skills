@@ -45,7 +45,7 @@ The tracker options:
 | **GitLab** | the repo's GitLab Issues | the `glab` CLI |
 | **Shortcut** | Shortcut stories | a connected Shortcut MCP server |
 | **Local markdown** | files under `.scratch/<feature>/` in this repo | nothing: no remote at all |
-| **Other** | wherever you say | one paragraph from you describing the workflow |
+| **Other** | wherever you say | one paragraph describing the workflow, plus a parent-item answer if the paragraph does not name one |
 
 The first four ship as templates in the skill and work out of the box. Local markdown is a first-class option, not a fallback: a solo project with no remote is fully supported. One caveat is worth repeating: don't use local markdown if you're using GitHub. They are alternatives, not layers.
 
@@ -62,7 +62,7 @@ Each ready-made tracker template also answers the same parent-item question:
 
 Shared skills use only the phrase "parent item". Tracker-specific nouns, identifiers, relationships, and description limits stay in this generated configuration.
 
-"Other" is not a stub either. It is the reason Jira, Linear, Azure DevOps and Beads all work: you describe the workflow, the skill records your prose in `docs/agents/issue-tracker.md`, and the downstream skills follow the prose. The community has already done this: a Jira-over-[MCP](https://www.aihero.dev/ai-coding-dictionary/mcp) variant, a Gitea CLI shaped like `gh`, a hand-built local dashboard.
+"Other" is not a stub either. It is the reason Jira, Linear, Azure DevOps and Beads all work: you describe the workflow, the skill records it in `docs/agents/issue-tracker.md`, and the downstream skills follow that file. Every custom tracker must also define its parent item: the type and identifier, how to validate it, and how children attach. If the workflow paragraph does not answer that, setup asks one follow-up question. A tracker with no native relationship records the textual or structural fallback instead. The community has already done this: a Jira-over-[MCP](https://www.aihero.dev/ai-coding-dictionary/mcp) variant, a Gitea CLI shaped like `gh`, a hand-built local dashboard.
 
 ## Common questions
 
