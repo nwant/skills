@@ -4,7 +4,7 @@
 
 `setup-skills` answers three questions about one repo: where issues live, what the triage labels are called, and where the domain docs sit. It records the answers as markdown files under `docs/agents/`, plus a short block summarising each one in whichever instruction file your repo already has.
 
-Those files are the only thing that varies between repos. The skills themselves are identical everywhere; they read `docs/agents/issue-tracker.md` at run time and do what it says. That is why the set is not tied to GitHub, and why no skill file ever needs editing to point it somewhere else. Invoking it with "link the skills to a custom issue tracker" works with anything you can connect to programmatically, with zero changes to the skills.
+Those files are the only thing that varies between repos. The skills themselves are identical everywhere; they read `docs/agents/issue-tracker.md` at run time and do what it says. The tracker file also defines what shared concepts such as "the parent item" mean on that platform. That is why the set is not tied to GitHub, and why no skill file ever needs editing to point it somewhere else. Invoking it with "link the skills to a custom issue tracker" works with anything you can connect to programmatically, with zero changes to the skills.
 
 It is a prompt-driven skill, not a deterministic script. It reads your `git remote`, your existing `CLAUDE.md`, your existing `CONTEXT.md`, proposes what it found, and waits for you to confirm before writing anything.
 
@@ -51,6 +51,17 @@ The first four ship as templates in the skill and work out of the box. Local mar
 
 Shortcut is the one template driven by MCP tools rather than a CLI, and the one where the remote is a red herring: the repo lives on GitHub (often GitHub Enterprise, with Issues switched off) while the work is tracked in Shortcut. Setup reads the remote as a proposal and asks rather than assuming whenever a Shortcut server is also connected.
 
+Each ready-made tracker template also answers the same parent-item question:
+
+| Tracker | What the parent item means |
+| --- | --- |
+| **GitHub** | a tracking issue with native sub-issues |
+| **GitLab** | an epic, or a parent issue |
+| **Shortcut** | an epic under an objective |
+| **Local markdown** | the `.scratch/<feature>/` directory itself |
+
+Shared skills use only the phrase "parent item". Tracker-specific nouns, identifiers, relationships, and description limits stay in this generated configuration.
+
 "Other" is not a stub either. It is the reason Jira, Linear, Azure DevOps and Beads all work: you describe the workflow, the skill records your prose in `docs/agents/issue-tracker.md`, and the downstream skills follow the prose. The community has already done this: a Jira-over-[MCP](https://www.aihero.dev/ai-coding-dictionary/mcp) variant, a Gitea CLI shaped like `gh`, a hand-built local dashboard.
 
 ## Common questions
@@ -92,6 +103,7 @@ One long-standing complaint says yes, in these words: *"having a skill to set up
 - `docs/agents/issue-tracker.md` and `docs/agents/domain.md` exist, plus `triage-labels.md` if `triage` is installed.
 - An `## Agent skills` section appears in the instruction file your harness actually reads, with a one-line summary pointing at each of those files.
 - The tracker it recorded is the one you really track work in, which is not always the one your remote implies, and the role mapping names labels or states that really exist there.
+- The tracker file has a `When a skill says "the parent item"` section using that tracker's real hierarchy.
 - Afterwards, `/to-tickets` publishes without asking you where issues live, and `/triage` applies labels rather than inventing them.
 - Nothing in the skill files themselves changed. If setup edited a `SKILL.md`, something went wrong.
 

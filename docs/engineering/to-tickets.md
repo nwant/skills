@@ -2,7 +2,7 @@
 
 ## What it does
 
-`to-tickets` takes a plan, a [spec](https://www.aihero.dev/ai-coding-dictionary/spec), or the conversation you are in, and breaks it into a set of **[tickets](https://www.aihero.dev/ai-coding-dictionary/ticket)** on your issue tracker. Each ticket declares its **blocking edges**: the other tickets that have to finish before it can start.
+`to-tickets` takes a plan, a [spec](https://www.aihero.dev/ai-coding-dictionary/spec), or the conversation you are in, and breaks it into a set of **[tickets](https://www.aihero.dev/ai-coding-dictionary/ticket)** beneath the configured parent item. Each ticket declares its **blocking edges**: the other tickets that have to finish before it can start.
 
 Every ticket is a **tracer bullet**: a narrow but complete path through every layer of the change (schema, API, UI, tests) that can be demoed on its own the moment it lands. That is the constraint that makes it behave differently from the obvious way to split work, which is to cut one layer at a time and integrate at the end. It also sizes each ticket to fit in a single fresh [context window](https://www.aihero.dev/ai-coding-dictionary/context-window), because the thing that will pick the ticket up is a [session](https://www.aihero.dev/ai-coding-dictionary/session) that has never seen your spec.
 
@@ -24,7 +24,7 @@ Tickets that `to-tickets` produced are agent-ready by construction. Don't run [t
 
 `to-tickets` publishes into a tracker, so [setup-skills](./setup-skills.md) must have configured one for this repo, along with the triage-label vocabulary. Either kind works: a real tracker like GitHub or Linear, or local markdown files under `.scratch/`, which is supported out of the box.
 
-The skill reads that configuration from two named files, `docs/agents/issue-tracker.md` and `docs/agents/triage-labels.md`. If either is absent you get a message saying which one and telling you to run `/setup-skills`, never a guessed tracker or a guessed label string.
+The skill reads that configuration from two named files, `docs/agents/issue-tracker.md` and `docs/agents/triage-labels.md`. The tracker file defines what "the parent item" means and how children attach to it. If either file is absent you get a message saying which one and telling you to run `/setup-skills`, never a guessed tracker or a guessed label string.
 
 ## Tracer bullets, not layers
 
@@ -44,6 +44,12 @@ The edges are the point of the artifact. They read two ways depending on the tra
 | A real tracker (GitHub, Linear) | Native blocking links, or sub-issues where the tracker has them | Any ticket whose blockers are done is on the **frontier** and can be grabbed |
 
 The edges live in the ticket either way. The medium only decides whether anything can act on them in parallel. `to-tickets` produces the artifact; running it (one session at a time, or a fleet) is your job, not the skill's.
+
+## Resolve the parent before publishing
+
+The spec's `parent:` frontmatter is the first source of truth. If it is absent, an explicit argument is next; only then does the skill follow the configured tracker's resolution procedure. A fuzzy search can suggest candidates, but the skill never chooses one for you.
+
+"Parent item" stays stable while its implementation changes by tracker. GitHub uses a tracking issue with native sub-issues; GitLab uses an epic or parent issue; Shortcut uses an epic under an objective; local markdown uses the feature directory itself. A missing, closed, or otherwise invalid parent stops publication before orphaned tickets are created.
 
 ## The wide-refactor exception
 
@@ -65,8 +71,8 @@ Over-decomposition is the most reported friction on this skill, and it is consis
 **The tickets came out one per layer: all the schema in one, all the API in another.**
 This is the failure the vertical-slice rule is written against, and the skill still produces it sometimes. Catch it at the quiz step by asking one question per ticket: what can I demo when this is done? A ticket with no answer is a horizontal slice. Some people add a "demo path" line to each ticket for this reason, and report it nudges the model toward vertical decomposition.
 
-**On GitHub the tickets weren't created as sub-issues of the spec issue.**
-Known and unfixed. It has been reported across a dozen runs and several models, [most fully in issue #554](https://github.com/mattpocock/skills/issues/554), and it is worse on Codex than on Claude. `gh` has supported this natively since v2.94: `gh issue create --parent <n>`, and `gh issue edit <parent> --add-sub-issue <n>` after the fact. Until the tracker template prefers those, wiring the parent links yourself after a run is the reliable move.
+**On GitHub, are the tickets native sub-issues of the parent item?**
+Yes. The GitHub tracker template resolves the tracking issue and tells the skill to create each ticket with `gh issue create --parent <n>`. It can attach an existing issue with `gh issue edit <parent> --add-sub-issue <child>`. If a run creates flat issues instead, its generated `docs/agents/issue-tracker.md` is stale; re-run [setup-skills](./setup-skills.md) or copy the current parent-item section into it.
 
 **"Blocked by" was written into the issue body instead of a real blocking link.**
 Same class of problem, [reported in issue #513](https://github.com/mattpocock/skills/issues/513), where the agent went as far as asserting GitHub has no native blocking relationship at all. It does: `gh issue create --blocked-by 12,15`. Because blockers are published first, their numbers are always available at creation time. The body text is meant to be the fallback for trackers with no native edge, not the default.
@@ -75,7 +81,7 @@ Same class of problem, [reported in issue #513](https://github.com/mattpocock/sk
 They did, and that was a bug: a single shared file also raced when parallel agents wrote to it. Local mode now writes one file per ticket under `.scratch/<feature-slug>/issues/<NN>-<slug>.md`, in dependency order, matching the layout the local tracker template already described. The `NN` prefix is a real ticket ID, so `/implement 03` works instead of retyping a long title.
 
 **It kept truncating when it tried to read my spec.**
-A very large spec can outgrow what a tracker issue serves back cleanly, and there is no local copy to fall back on, so the agent then burns [tool calls](https://www.aihero.dev/ai-coding-dictionary/tool-call) re-fetching chunks and never reaches the end. Don't [clear](https://www.aihero.dev/ai-coding-dictionary/clearing) or [compact](https://www.aihero.dev/ai-coding-dictionary/compaction) between `/to-spec` and `/to-tickets`. Run them in the same context window and the spec never has to be fetched back at all.
+That was the failure mode when the spec lived in a tracker description. The spec is now a repo file, so a fresh session reads the file directly instead of spending [tool calls](https://www.aihero.dev/ai-coding-dictionary/tool-call) re-fetching chunks. Clearing or [compacting](https://www.aihero.dev/ai-coding-dictionary/compaction) between `/to-spec` and `/to-tickets` no longer puts the artifact at risk.
 
 **The acceptance criteria graded nothing: some passed before any work was done.**
 The template asks for criteria and says nothing about whether they can fail, so this happens. Three shapes recur: a criterion already true at the base commit, a criterion that can only be satisfied by work another ticket owns, and one that restates the request rather than deriving from the artifact. Vertical slicing prevents most of it (a slice that delivers behaviour which didn't exist before is red at the base commit by construction), but the check is worth doing by hand. For each criterion, name the observation that would show it false, and confirm it fails at the commit the implementer starts from.
@@ -88,6 +94,7 @@ The skill stops at the artifact, and there is no auto-dispatch mode. Dispatch is
 - Every ticket has an answer to "what can I demo when this is done?", and the answer is behaviour, not a layer.
 - The list comes back to you numbered, with a "Blocked by" line on each, before anything is published.
 - The ticket at the top has no blockers and can be started immediately.
+- Every published ticket is attached beneath the resolved parent item.
 - Nothing in a ticket body is a file path or a line number, except a snippet a prototype produced.
 - Each ticket reads like something a fresh session could finish without you in the room.
 - Prefactoring, where it found any, is at the front of the order rather than mixed into feature tickets.
@@ -100,4 +107,4 @@ The skill stops at the artifact, and there is no auto-dispatch mode. Dispatch is
 grill-with-docs → to-spec → to-tickets → implement → two-axis-review
 ```
 
-Upstream is [to-spec](./to-spec.md), which hands it a settled spec to slice against; keep both in one unbroken context window. Downstream is [implement](./implement.md), which builds one ticket per fresh session, driving [tdd](./tdd.md) for the tests and closing with [two-axis-review](./two-axis-review.md). When you're unsure which skill or flow fits, [which-skill](./which-skill.md) routes you.
+Upstream is [to-spec](./to-spec.md), which hands it a settled spec file to slice against. Downstream is [implement](./implement.md), which builds one ticket per fresh session, driving [tdd](./tdd.md) for the tests and closing with [two-axis-review](./two-axis-review.md). When you're unsure which skill or flow fits, [which-skill](./which-skill.md) routes you.

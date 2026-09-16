@@ -14,6 +14,13 @@ Issues and specs for this repo live as markdown files in `.scratch/`.
 
 Create a new file under `.scratch/<feature-slug>/` (creating the directory if needed).
 
+## When a skill says "the parent item"
+
+Use the `.scratch/<feature-slug>/` directory itself. Record that directory in the spec's
+`parent:` frontmatter. When the spec is `.scratch/<feature-slug>/spec.md`, its containing
+directory resolves the parent without a search. Child issues live in its `issues/`
+subdirectory, so no separate parent object or relationship is required.
+
 ## When a skill says "fetch the relevant ticket"
 
 Read the file at the referenced path. The user will normally pass the path or the issue number directly.
