@@ -2,6 +2,8 @@
 
 ADRs live in `docs/adr/` and use sequential numbering: `0001-slug.md`, `0002-slug.md`, etc.
 
+`docs/adr/` is the default. Where a repo publishes its `docs/` tree to readers, as a docs site or a mirrored index of its own contents, put ADRs somewhere internal instead so decisions do not land among reader-facing pages. Look at what `docs/` already holds before writing the first one, and follow the repo's `CLAUDE.md` where it names a location.
+
 Create the `docs/adr/` directory lazily: only when the first ADR is needed.
 
 ## Template

@@ -52,6 +52,41 @@ User-invoked, since it writes directories outside the working tree and appends t
 operator's shell rc file. `which-skill`'s Precondition section becomes **Preconditions** and
 now routes both run-once setups, distinguishing once-per-repo from once-per-repo-set.
 
+**The multi-repo workspace skills are shelved before shipping.** `workspaces`,
+`new-workspace` and `improve-workspace-architecture` move to `skills/misc/`, which
+`link-skills.sh` skips, so they are kept and uninstalled rather than deleted. Their docs pages
+go with them, since `misc/` carries none.
+
+They were built to answer "which copy of this doc?" for a set of repos, and the machinery grew
+to roughly two thousand lines of skill and script, a probe paragraph injected into five skills,
+and a `### Commons` entry written into every repo's `CLAUDE.md`. No workspace was ever created.
+That is Speculative Generality, which `two-axis-review`'s own smell baseline prescribes deleting
+until a real need shows, and the standing cost was a conditional in every setup run and a
+routing question on every future skill.
+
+What the design got right outlived it. A probe that scans and finds nothing returns "not
+present", which is indistinguishable from the truth and gets believed; ambiguity is a question
+for a person and should be asked once; and a file nothing is told to read is invisible whatever
+it holds. Those arguments are general, and they are what the rewritten ADR 0003 keeps.
+
+**Config-reading skills name the file they read.** `/setup-skills` wrote
+`docs/agents/issue-tracker.md`, `docs/agents/triage-labels.md` and `docs/agents/domain.md`,
+and almost nothing was told to open them. The skills that depend on that config said it
+"should have been provided to you" and named no path, so whether it arrived came down to the
+model choosing to follow a pointer. Found in the wild in a repo that ran setup, hand extended two of
+those files with rules that mattered there, and got a customisation surface with no consumer.
+
+`to-tickets`, `to-spec`, `triage`, `wayfinder`, `domain-modeling`, `tdd` and `diagnosing-bugs`
+now name the file each one reads, the shape `two-axis-review` already used. A missing file is
+reported by name, with an instruction to run `/setup-skills`. Two silent defaults went with it:
+`wayfinder` no longer falls back to the local-markdown tracker when no tracker was configured,
+and `domain-modeling` no longer settles single-context against multi-context by looking for a
+`CONTEXT-MAP.md` and concluding from its absence.
+
+[ADR 0003](./.agents/adr/0003-config-is-named-and-loaded.md) is rewritten around that general
+rule and replaces the commons-specific one above, keeping its two central arguments and
+recording what became of the workspace feature they were written for.
+
 **A spec carries its tracker identity, so `to-tickets` reads a parent instead of guessing
 one.** Moving the spec into the repo left a gap: the previous change only covered the case
 where `to-spec` had just produced both the spec and the epic in one window. Run

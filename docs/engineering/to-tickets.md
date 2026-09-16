@@ -24,6 +24,8 @@ Tickets that `to-tickets` produced are agent-ready by construction. Don't run [t
 
 `to-tickets` publishes into a tracker, so [setup-skills](./setup-skills.md) must have configured one for this repo, along with the triage-label vocabulary. Either kind works: a real tracker like GitHub or Linear, or local markdown files under `.scratch/`, which is supported out of the box.
 
+The skill reads that configuration from two named files, `docs/agents/issue-tracker.md` and `docs/agents/triage-labels.md`. If either is absent you get a message saying which one and telling you to run `/setup-skills`, never a guessed tracker or a guessed label string.
+
 ## Tracer bullets, not layers
 
 A **horizontal** slice ships one layer of the change. Nothing works until every layer has landed, and each ticket's acceptance criteria have to reach into work that another ticket owns. A **vertical** slice (the tracer bullet) ships one thin path through all the layers at once, so it is verifiable alone and owns everything it grades.

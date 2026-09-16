@@ -23,6 +23,8 @@ Reach for it when the build is too big for one agent [session](https://www.aiher
 
 `to-spec` writes the spec to `docs/specs/` and creates the tracker item that points at it, so [setup-skills](./setup-skills.md) must have configured a tracker and the triage-label vocabulary for this repo first. Either kind works: a real tracker like GitHub, or local markdown files under `.scratch/`, which is supported out of the box.
 
+The skill reads that configuration from two named files, `docs/agents/issue-tracker.md` and `docs/agents/triage-labels.md`. If either is absent you get a message saying which one and telling you to run `/setup-skills`, never a guessed tracker or a guessed label string.
+
 ## The spec is a decision record
 
 The spec exists because context windows end. Everything you settled while [grilling](https://www.aihero.dev/ai-coding-dictionary/grilling) (the shape of the solution, the choices you argued through, what you deliberately refused) is in one conversation that is about to be cleared. The spec is what survives that.

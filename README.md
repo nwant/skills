@@ -30,6 +30,7 @@ There is no Claude Code plugin for this fork, so `claude plugins install` and `/
 
 In your agent, run it once per repo. It will:
 
+- Work out which shared set of docs this repo belongs to, if any, and record the answer either way
 - Ask you which issue tracker you want to use (GitHub, Linear, or local files)
 - Ask you what labels you apply to tickets when you triage them (`/triage` uses labels)
 - Ask you where you want to save any docs we create
@@ -150,8 +151,6 @@ Daily code work.
 - **[grill-with-docs](./skills/engineering/grill-with-docs/SKILL.md)**: Grilling session that also builds your project's domain model, sharpening terminology and updating `CONTEXT.md` and ADRs inline.
 - **[triage](./skills/engineering/triage/SKILL.md)**: Move issues through a state machine of triage roles.
 - **[improve-codebase-architecture](./skills/engineering/improve-codebase-architecture/SKILL.md)**: Scan a codebase for deepening opportunities, present them as a visual HTML report, then grill through whichever one you pick.
-- **[improve-workspace-architecture](./skills/engineering/improve-workspace-architecture/SKILL.md)**: Survey a multi-repo workspace for friction *between* repos: one concept implemented twice, a seam in the wrong repo, a contract straddling two, a shared package whose consumers churn with it. Reports on two axes, Locality and Choreography, never merged into one ranked list.
-- **[new-workspace](./skills/engineering/new-workspace/SKILL.md)**: Scaffold a multi-repo workspace for a set of sibling repos: a `CLAUDE.md` synthesis plus repo index, a `repos.json` manifest, a sync script, and the matching shell launcher and cd shortcuts. Also upgrades an existing ad-hoc workspace to the full pattern.
 - **[setup-skills](./skills/engineering/setup-skills/SKILL.md)**: Configure this repo for the engineering skills (issue tracker, triage labels, domain doc layout). Run once per repo before using the other engineering skills.
 - **[to-spec](./skills/engineering/to-spec/SKILL.md)**: Turn the current conversation into a spec and publish it to the issue tracker. No interview, just synthesizes what you've already discussed.
 - **[to-tickets](./skills/engineering/to-tickets/SKILL.md)**: Break any plan, spec, or conversation into a set of tracer-bullet tickets, each declaring its blocking edges, written as text in a local file, or as native blocking links on a real tracker.
@@ -166,7 +165,6 @@ Daily code work.
 - **[tdd](./skills/engineering/tdd/SKILL.md)**: Test-driven development with a red-green-refactor loop. Builds features or fixes bugs one vertical slice at a time.
 - **[domain-modeling](./skills/engineering/domain-modeling/SKILL.md)**: Actively build and sharpen a project's domain model: challenge terms against the glossary, stress-test with edge-case scenarios, and update `CONTEXT.md` and ADRs inline.
 - **[codebase-design](./skills/engineering/codebase-design/SKILL.md)**: Shared discipline and vocabulary for designing deep modules: a lot of behaviour behind a small interface, placed at a clean seam, testable through that interface.
-- **[workspaces](./skills/engineering/workspaces/SKILL.md)**: Vocabulary and resolution rules for multi-repo workspaces: what a workspace and a member repo are, how to find the workspace that claims the repo you are in, and which copy of `CONTEXT.md`, `docs/adr/` or `docs/agents/` an artifact belongs to. The vocabulary layer the workspace-aware skills sit on.
 - **[two-axis-review](./skills/engineering/two-axis-review/SKILL.md)**: Two-axis review of the diff since a fixed point: **Standards** (does it follow the repo's coding standards, plus a Fowler smell baseline?) and **Spec** (does it faithfully implement the originating issue/spec?), run as parallel sub-agents so neither pollutes the other.
 - **[resolving-merge-conflicts](./skills/engineering/resolving-merge-conflicts/SKILL.md)**: Work through an in-progress git merge or rebase conflict hunk by hunk, resolving by intent traced to each side's primary source, then finish the operation (never `--abort`).
 - **[wizard](./skills/engineering/wizard/SKILL.md)**: Generate an interactive bash wizard that walks a human through steps only they can perform: provisioning infrastructure, setting up credentials or CI secrets, walking an unfamiliar third-party dashboard, or running a one-off migration or cutover.

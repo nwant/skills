@@ -20,7 +20,6 @@ This is a prompt-driven skill, not a deterministic script. Explore, present what
 
 Look at the current repo to understand its starting state. Read whatever exists; don't assume:
 
-- **Is this repo a member of a workspace?** Call the Skill tool with "workspaces" and run its probe. If a workspace claims this repo, **that is where the config goes**, not here: the tracker, its labels and the doc layout are identical for every member, so a copy per repo is N places to update and N chances to drift. Write `docs/agents/` into the workspace, put the `## Agent skills` block in the *workspace's* `CLAUDE.md`, and say in your closing summary which workspace you wrote to and that the member repos need nothing. Run once per **workspace** in that case, not once per repo. If *more than one* workspace claims the repo, **ask which one before writing anything**: this step creates committed files, and putting them in the wrong workspace hides them from the one that needed them. Everything below applies unchanged when no workspace claims the repo.
 - `git remote -v` and `.git/config`: is this a GitHub repo? Which one?
 - `AGENTS.md` and `CLAUDE.md` at the repo root: does either exist? Is there already an `## Agent skills` section in either?
 - `CONTEXT.md` and `CONTEXT-MAP.md` at the repo root
@@ -120,4 +119,4 @@ For "other" issue trackers, write `docs/agents/issue-tracker.md` from scratch us
 
 ### 5. Done
 
-Tell the user the setup is complete and which engineering skills will now read from these files. Mention they can edit `docs/agents/*.md` directly later; re-running this skill is only necessary if they want to switch issue trackers or restart from scratch.
+Tell the user the setup is complete, and name each file you wrote and the skills that read it. Mention they can edit `docs/agents/*.md` directly later; re-running this skill is only necessary if they want to switch issue trackers or restart from scratch.

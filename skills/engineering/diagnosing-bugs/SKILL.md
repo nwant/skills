@@ -7,7 +7,7 @@ description: Diagnosis loop for hard bugs and performance regressions. Use when 
 
 A discipline for hard bugs. Skip phases only when explicitly justified.
 
-When exploring the codebase, read `CONTEXT.md` (if it exists) to get a clear mental model of the relevant modules, and check ADRs in the area you're touching.
+When exploring the codebase, read `CONTEXT.md` (if it exists) to get a clear mental model of the relevant modules, and check ADRs in the area you're touching. `docs/agents/domain.md` records where this repo keeps them, since a multi-context repo holds neither at the root. Read it first. If it is missing, say so, say that you are falling back to a root `CONTEXT.md` and `docs/adr/`, and tell the user to run `/setup-skills`.
 
 ## Redact
 

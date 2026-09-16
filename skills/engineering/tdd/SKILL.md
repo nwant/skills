@@ -7,7 +7,7 @@ description: Test-driven development. Use when the user wants to build features 
 
 TDD is the red → green loop. This skill is the reference that makes that loop produce tests worth keeping: what a good test is, where tests go, the anti-patterns, and the rules of the loop. Every section applies on every cycle: consult them before and during the loop, not after.
 
-When exploring the codebase, read `CONTEXT.md` (if it exists) so test names and interface vocabulary match the project's domain language, and respect ADRs in the area you're touching.
+When exploring the codebase, read `CONTEXT.md` (if it exists) so test names and interface vocabulary match the project's domain language, and respect ADRs in the area you're touching. `docs/agents/domain.md` records where this repo keeps them, since a multi-context repo holds neither at the root. Read it first. If it is missing, say so, say that you are falling back to a root `CONTEXT.md` and `docs/adr/`, and tell the user to run `/setup-skills`.
 
 ## What a good test is
 

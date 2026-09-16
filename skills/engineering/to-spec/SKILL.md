@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 This skill takes the current conversation context and codebase understanding and produces a spec. Do NOT interview the user; just synthesize what you already know.
 
-The issue tracker and triage label vocabulary should have been provided to you. If not, tell the user to run `/setup-skills`.
+The issue tracker and triage label vocabulary should have been provided to you, in `docs/agents/issue-tracker.md` and `docs/agents/triage-labels.md`. Read both. If either file is missing, say which one and tell the user to run `/setup-skills`; never fall back to a guessed tracker or a guessed label string.
 
 ## A spec is a file, not a tracker item
 

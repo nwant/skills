@@ -51,14 +51,12 @@ Not feature work, just upkeep.
 
 - **`/improve-codebase-architecture`** runs whenever you have a spare moment to keep the codebase good for agents to operate in. It surfaces **deepening opportunities**; picking one _generates an idea_ you can take into the main flow at `/grill-with-docs`. It's the survey that finds the candidates; **`/codebase-design`** (below) is the bench you design the chosen one on.
 
-- **`/improve-workspace-architecture`** is its sibling one level up, for friction **between** repos in a workspace: one concept implemented twice, a seam in the wrong repo, a contract straddling two, a shared package whose consumers churn with it. The split is scope, not depth: run the one above *inside* a repo, this one *across* a set of them, and note that this one deliberately ignores single-repo shallowness so the rare cross-repo finding isn't buried under thirty ordinary ones. It reports on two axes, **Locality** (fixable inside one repo) and **Choreography** (needs coordinated change), never merged, because a candidate that looks cheap usually hides the coordination half. Picking one lands in `/grill-with-docs` the same way.
 
 ## Vocabulary underneath
 
 Two model-invoked references that run *beneath* the other skills, each the single source of truth for its vocabulary. Reach for them directly when the **words**, not the process, are the problem; or let the skills above pull them in.
 
 - **`/domain-modeling`**: sharpen the project's *domain* language: challenge a fuzzy term, resolve an overloaded word ("account" doing three jobs), record a hard-to-reverse decision as an ADR. It's the active discipline `/grill-with-docs` drives to keep `CONTEXT.md` a clean glossary.
-- **`/workspaces`** is the multi-repo vocabulary (workspace, member repo, core versus adjacent, cross-repo unit of work, sibling PR) plus the rules for *which* copy of a doc an artifact belongs to when a repo sits inside a workspace. The skills above reach for it when they read a repo-local doc, write something that could span repos, or judge a unit of work that could. Half the skills here have no such decision and correctly never call it.
 - **`/codebase-design`** is the deep-module vocabulary (module, interface, depth, seam, adapter, leverage, locality) for designing a module's *shape*: a lot of behaviour behind a small interface at a clean seam. `/tdd` and `/improve-codebase-architecture` both speak it.
 
 ## Phase boundaries
@@ -112,5 +110,4 @@ engineering flow, **receiving** one is agent mechanics.
 
 Both are run-once scaffolding, off the flows entirely: they build the place the flows run, rather than being a step in one.
 
-- **`/setup-skills`**: run before your first engineering flow to configure the issue tracker, triage labels, and doc layout the other skills assume. Custom issue trackers also work. Once **per repo**.
-- **`/new-workspace`**: run when the work spans **several repos** and there is no workspace holding them yet. It scaffolds the coordination directory (a `CLAUDE.md` synthesis plus repo index, a `repos.json` manifest, a sync script, shell shortcuts) so the cross-repo facts have a home that is not any one repo's `CLAUDE.md`. Once **per set of repos**, and it upgrades an ad-hoc workspace in place. Skip it for single-repo work, which is most work.
+- **`/setup-skills`**: run before your first engineering flow to configure the issue tracker, triage labels, and doc layout the other skills read. Each of those lands in a named file under `docs/agents/`, and the skills that depend on one name it: skip setup and you get an explicit "run `/setup-skills`", not a quiet guess. Custom issue trackers also work. Once **per repo**.
