@@ -51,7 +51,7 @@ symptom before it is an answer.
 - **Branch name**: `stories-get-branch-name` gives the convention the workspace
   expects.
 
-Descriptions cap at 10000 characters. Write them why-first, with testing steps a
+Descriptions have a 10,000-character cap. Write them why-first, with testing steps a
 reader can run: a spec that needs the authoring conversation to make sense has not
 been published.
 
@@ -85,6 +85,14 @@ no PRs. A bare `#42` is a PR number on the code host, never a story id.
 ## When a skill says "publish to the issue tracker"
 
 `stories-create` in the recorded workflow, in the ready-to-pick-up state.
+
+## When a skill says "the parent item"
+
+Use an epic under an objective. Record the epic's numeric id in the spec's `parent:`
+frontmatter. `/to-spec` creates the epic with `epics-create` under the named objective;
+`/to-tickets` validates an existing id before publishing stories into it. If the spec has
+no `parent:`, search within the objective when one was supplied, present any matches as
+candidates, and never adopt a match without the user's confirmation.
 
 ## When a skill says "fetch the relevant ticket"
 

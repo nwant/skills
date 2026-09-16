@@ -30,6 +30,17 @@ Unlike GitHub, GitLab numbers issues and MRs separately, so `#42` is unambiguous
 
 Create a GitLab issue.
 
+## When a skill says "the parent item"
+
+Use an epic where the GitLab tier and group workflow support one; otherwise use a parent
+issue. Record the full GitLab reference in the spec's `parent:` frontmatter: `group&123`
+for an epic or `group/project#123` for an issue. The full reference keeps group-level and
+project-level identifiers unambiguous.
+
+Resolve the reference and confirm the item is open before publishing. Attach each child
+with GitLab's parent relationship, using the `/set_parent <reference>` quick action or the
+equivalent Work Items API call. A search only produces candidates for the user to choose.
+
 ## When a skill says "fetch the relevant ticket"
 
 Run `glab issue view <number> --comments`.

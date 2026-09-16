@@ -33,6 +33,19 @@ GitHub shares one number space across issues and PRs, so a bare `#42` may be eit
 
 Create a GitHub issue on `nwant/skills`.
 
+## When a skill says "the parent item"
+
+Use a tracking issue with native sub-issues. Record its issue number in the spec's
+`parent:` frontmatter. Resolve it with
+`gh issue view <number> --repo nwant/skills --json state,url`; an explicit number wins,
+and a title search only produces candidates for the user to choose.
+
+Create each child with
+`gh issue create --repo nwant/skills --parent <number>`. To attach an issue that already
+exists, run
+`gh issue edit <parent> --repo nwant/skills --add-sub-issue <child>`. A parent item is
+invalid when it is absent or closed; stop before publishing children in that case.
+
 ## When a skill says "fetch the relevant ticket"
 
 Run `gh issue view <number> --repo nwant/skills --comments`.

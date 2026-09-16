@@ -87,42 +87,31 @@ and `domain-modeling` no longer settles single-context against multi-context by 
 rule and replaces the commons-specific one above, keeping its two central arguments and
 recording what became of the workspace feature they were written for.
 
-**A spec carries its tracker identity, so `to-tickets` reads a parent instead of guessing
-one.** Moving the spec into the repo left a gap: the previous change only covered the case
-where `to-spec` had just produced both the spec and the epic in one window. Run
-`to-tickets` later, in a fresh session, against an existing spec and an epic created
-separately, and it had nothing to group against.
+**Tracker capabilities live in tracker config.** Shared skills now say **parent item** and
+record it as `parent:` in spec frontmatter. The generated tracker file translates that
+concept into a GitHub tracking issue with native sub-issues, a GitLab epic or parent
+issue, a Shortcut epic under an objective, or the local markdown feature directory.
+Tracker-specific identifiers, resolution procedures, relationships, and limits stay in
+the tracker templates instead of branching inside `to-spec` and `to-tickets`.
 
-The spec now leads with three frontmatter keys, the same mechanism an ADR already uses:
-`epic` (what `to-tickets` reads), `objective` (a stable fallback for a search), and
-`status` (`draft` | `accepted` | `superseded`, reusing the ADR vocabulary rather than
-inventing a second one). Deliberately **not** the story id, since a spec outlives any one
-story. Frontmatter rather than a prose line because the reader here is a program, and a
-fixed key is reliable where a regex over prose is not.
-
-`to-tickets` resolves in order: frontmatter, then an explicit argument, then a search **as
-a suggestion only**. Searching prefers **objective** over name, because an objective is a
-stable number while a name match is fuzzy and a mention-name team filter can return zero
-silently when the name has drifted. It never adopts a match on its own. Two cases stop
-rather than proceed: an epic that is archived, done or absent, and nothing resolving at
-all, because publishing fifty parentless tickets costs far more to unpick than asking one
-question. A resolved epic is written back into the frontmatter so the next run reads it.
-
-Linking runs both ways, one line each: the spec's frontmatter names the epic, the epic's
-description names the spec. Tickets link the spec and **not** the epic, being its children
-already.
+`to-tickets` resolves in order: frontmatter, then an explicit argument, then the
+configured tracker's procedure. A fuzzy search only suggests candidates and never chooses
+one. A missing or inactive parent still stops publication, because publishing fifty
+issues without a parent costs far more to unpick than asking one question. Linking runs both
+ways: the spec names the parent item, the parent item links the spec, and tickets do not
+repeat either relationship in prose. [ADR 0004](./.agents/adr/0004-tracker-capabilities-live-in-tracker-config.md)
+records the boundary.
 
 **A spec is a file, not a tracker item.** `to-spec` wrote a long spec and published it as
-one tracker issue, which does not fit: Shortcut caps a story description at 10,000
-characters with no warning at the boundary, tracker editors are not diffable, and nothing
-reviews a description the way a PR reviews a file. The symptom was already documented as a
+one tracker issue, which does not fit: tracker descriptions have limits, their editors are
+not diffable, and nothing reviews a description the way a PR reviews a file. The symptom was already documented as a
 known question on the docs page, answered with context hygiene, never clearing or
 compacting between `to-spec` and `to-tickets` so the spec never had to be re-fetched. That
 was avoiding the re-fetch rather than fixing where the spec lives.
 
 Four artifacts now, with four jobs. The **spec** is a repo file at `docs/specs/`, in the
 repo the work happens in or in the workspace when it spans several, the same rule a
-glossary or an ADR follows. The **epic** is the tracker item, and it is deliberately *not*
+glossary or an ADR follows. The **parent item** is the tracker item, and it is deliberately *not*
 a summary of the spec: it is a broad statement of what is being built and why with the
 weeds left out, and the test is that it stays true as tickets land. The **ticket** carries
 one unit of work and its acceptance criteria, links the spec once rather than restating

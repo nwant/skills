@@ -12,9 +12,8 @@ The issue tracker and triage label vocabulary should have been provided to you, 
 
 The spec below is long on purpose: the alternatives, the load-bearing decisions and the
 reasoning are what make it worth writing. That does not fit in a tracker, and trying is
-how it gets damaged. Trackers cap descriptions (Shortcut stories at 10,000 characters),
-their editors are not diffable, and nothing reviews a description the way a PR reviews a
-file.
+how it gets damaged. Tracker descriptions are kept short, their editors are not diffable,
+and nothing reviews a description the way a PR reviews a file.
 
 So the spec is **a file in the repo**, and the tracker gets a short item that points at
 it. Four artifacts, four jobs:
@@ -22,7 +21,7 @@ it. Four artifacts, four jobs:
 | Artifact | Where | Written | Holds |
 | --- | --- | --- | --- |
 | **Spec** | a repo file | before the work | problem, alternatives, decisions with rationale, mechanism, testing seams, out of scope |
-| **Epic** | the tracker | before, and stays true | why, what changes, what was agreed and when, what is excluded |
+| **Parent item** | the tracker | before, and stays true | why, what changes, what was agreed and when, what is excluded |
 | **Ticket** | the tracker | before | one unit of work, its acceptance criteria, a link to the spec |
 | **PR body** | the code host | after | what changed, why, how to verify |
 
@@ -30,40 +29,40 @@ it. Four artifacts, four jobs:
 tracker id exists already, lead the filename with it.
 
 **The spec carries its tracker identity in frontmatter**, because the next reader of it
-is a program. `/to-tickets` groups its output under the epic named here rather than
+is a program. `/to-tickets` groups its output under the parent item named here rather than
 guessing, and a fixed key is reliable where a prose line is a regex waiting to break:
 
 ```md
 ---
-epic: 977123
-objective: 377141
+parent: 977123
 status: draft
 ---
 ```
 
-Three fields, and resist adding more: every mirrored field is one that can go stale with
-nothing checking it. `epic` is what `/to-tickets` reads. `objective` is the stable
-fallback a search can use, and it is usually set by convention anyway. `status` is
+Two fields, and resist adding more: every mirrored field is one that can go stale with
+nothing checking it. `parent` is what `/to-tickets` reads. `status` is
 `draft` | `accepted` | `superseded`, the same vocabulary an ADR uses rather than a second
-one. **Not the story id**: a spec outlives any single story, so pinning one encodes
+one. **Not a child issue id**: a spec outlives any single issue, so pinning one encodes
 something transient.
 
-Write `epic:` as soon as the epic exists. If you are writing the spec first, leave the
-key out rather than inventing a placeholder, and add it when you create the epic in the
-next step.
+Write `parent:` as soon as the parent item exists. If you are writing the spec first,
+leave the key out rather than inventing a placeholder, and add it when you create the
+parent item in the next step. Read `## When a skill says "the parent item"` in
+`docs/agents/issue-tracker.md` for what the configured tracker uses and which identifier
+belongs here.
 
 **Avoid a tracker's own document feature** unless you have checked what lives there. It
 tends to be one flat org-wide space with weak scoping and no versioning, so a dense spec
 lands among thousands of unrelated notes and is findable only by guessing its title.
 
-## The epic is at a different altitude
+## The parent item is at a different altitude
 
 The tracker item that accompanies a spec is **not a summary of it**. It is a broad,
 high-level statement of what is being built and why, with the weeds left out, and it
 holds whether a stakeholder or the delivery team owns it. The test: it stays true as the
 tickets land. If a sentence goes stale when a decision changes, it belonged in the spec.
 
-<epic-template>
+<parent-item-template>
 
 ## Why
 
@@ -85,15 +84,15 @@ later cannot tell a live constraint from a stale one.
 
 What this deliberately does not cover, so nobody re-opens it as a gap.
 
-</epic-template>
+</parent-item-template>
 
 Keep it to something a person reads in one sitting, roughly 1,500 to 2,500 characters.
 **End it with the spec file's URL.**
 
-The link runs both ways on purpose, one line each: the spec's frontmatter names the epic,
-the epic's description names the spec. Each side answers the question its own reader is
+The link runs both ways on purpose, one line each: the spec's frontmatter names the parent
+item, and the parent item's description names the spec. Each side answers the question its own reader is
 holding, an engineer in the repo asking what this is for and a stakeholder in the tracker
-asking where the detail is. Tickets link the spec too, but never the epic separately:
+asking where the detail is. Tickets link the spec too, but never the parent item separately:
 they are already its children, so restating the parent in prose is a second copy that
 drifts.
 
@@ -109,10 +108,10 @@ Check with the user that these seams match their expectations.
    artifact, so it goes through whatever review the repo requires; a spec nobody could
    comment on is a decision nobody agreed to.
 
-4. Create the **epic** from the epic template above, at altitude, linking to the spec
+4. Create the **parent item** from the parent item template above, at altitude, linking to the spec
    file. Apply the `ready-for-agent` triage label - no need for additional triage. Then
-   hand off to `/to-tickets`, which splits the **spec**, not the epic, and hangs its
-   tickets under it.
+   hand off to `/to-tickets`, which splits the **spec**, not the parent item, and hangs
+   its tickets under it.
 
 <spec-template>
 

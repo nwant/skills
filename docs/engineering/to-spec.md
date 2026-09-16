@@ -2,7 +2,7 @@
 
 ## What it does
 
-`to-spec` turns the conversation you have just had into a **[spec](https://www.aihero.dev/ai-coding-dictionary/spec)** file in the repo, plus a short tracker item at a higher altitude that points at it.
+`to-spec` turns the conversation you have just had into a **[spec](https://www.aihero.dev/ai-coding-dictionary/spec)** file in the repo, plus a short parent item at a higher altitude that points at it.
 
 It does not interview you. By the time you reach for it the deciding is already done, so it synthesises what is known (from the thread, from the codebase, from your `CONTEXT.md` and ADRs) rather than opening a fresh round of questions. The spec is a record of decisions already made, not a place where new ones get made.
 
@@ -23,13 +23,19 @@ Reach for it when the build is too big for one agent [session](https://www.aiher
 
 `to-spec` writes the spec to `docs/specs/` and creates the tracker item that points at it, so [setup-skills](./setup-skills.md) must have configured a tracker and the triage-label vocabulary for this repo first. Either kind works: a real tracker like GitHub, or local markdown files under `.scratch/`, which is supported out of the box.
 
-The skill reads that configuration from two named files, `docs/agents/issue-tracker.md` and `docs/agents/triage-labels.md`. If either is absent you get a message saying which one and telling you to run `/setup-skills`, never a guessed tracker or a guessed label string.
+The skill reads that configuration from two named files, `docs/agents/issue-tracker.md` and `docs/agents/triage-labels.md`. The tracker file defines what "the parent item" means on that tracker. If either file is absent you get a message saying which one and telling you to run `/setup-skills`, never a guessed tracker or a guessed label string.
 
 ## The spec is a decision record
 
 The spec exists because context windows end. Everything you settled while [grilling](https://www.aihero.dev/ai-coding-dictionary/grilling) (the shape of the solution, the choices you argued through, what you deliberately refused) is in one conversation that is about to be cleared. The spec is what survives that.
 
 So it does not validate anything, and it does not decide anything. It captures what was decided, in your project's own vocabulary, so that a fresh session can pick the work up without you re-explaining it. Anything the spec asserts that you never actually said is a defect.
+
+## One parent concept, tracker-native structure
+
+The spec records `parent: <identifier>` in frontmatter. That is deliberately the only shared noun. The configured tracker file decides what the identifier denotes and how child issues attach to it.
+
+This preserves each tracker's useful hierarchy without making every repo speak one vendor's vocabulary. The parent item links to the spec; later, `to-tickets` reads the same `parent:` value and publishes children beneath it.
 
 ## Seams before prose
 
@@ -42,8 +48,8 @@ Those agreed seams then travel. [tdd](./tdd.md) works only at pre-agreed seams, 
 **Where did `/to-prd` go?**
 It is this skill, renamed in v1.1. "Spec" is now the single through-line term, and the old `to-prd` slug is dead; reinstall under the new name. The pair that replaced the old vocabulary is *spec* and *tickets*: the spec is the destination and the decisions that fix it, the [tickets](https://www.aihero.dev/ai-coding-dictionary/ticket) are the execution steps that get there. If you pivot, delete the unfinished tickets and keep the spec.
 
-**Why does the spec get the `ready-for-agent` label? I don't want an agent implementing off it.**
-The label means "no further triage needed": the document is complete enough for an agent to work from. It is an input designation, not a work order. But if you run [AFK](https://www.aihero.dev/ai-coding-dictionary/afk) agents that poll for `ready-for-agent`, that distinction isn't visible to them, and they will happily try to build the whole spec in one run instead of picking up the ticket slices. This is the most-reported rough edge on the skill. Until it changes, exclude the parent spec explicitly in your AFK agent's prompt, or strip the label once `/to-tickets` has run.
+**Why does the parent item get the `ready-for-agent` label? I don't want an agent implementing off it.**
+The label means "no further triage needed": the document is complete enough for an agent to work from. It is an input designation, not a work order. But if you run [AFK](https://www.aihero.dev/ai-coding-dictionary/afk) agents that poll for `ready-for-agent`, that distinction isn't visible to them, and they will happily try to build the whole spec in one run instead of picking up the ticket slices. This is the most-reported rough edge on the skill. Until it changes, exclude the parent item explicitly in your AFK agent's prompt, or strip the label once `/to-tickets` has run.
 
 **Why not go straight from grilling to `/to-tickets` and skip the spec?**
 Often you should; the spec earns its step only on multi-session work. Where it pays is that the tickets are disposable and the spec isn't: each ticket is sized for one fresh context window and gets deleted or closed, while the spec stays as the one place the reasoning behind them lives. On a single-session change that buys you nothing, and you have paid an extra synthesis step where the [model](https://www.aihero.dev/ai-coding-dictionary/model) can drift. Go grilling → `/implement`.
@@ -64,13 +70,14 @@ Less well, and this is a known limitation. The template leans hard on user stori
 No to both. It reads and respects the ADRs covering the area it touches, but it doesn't link them, and it doesn't search the tracker for overlapping issues before drafting, so a spec can quietly duplicate work someone already filed. Search the tracker yourself first if the area is busy.
 
 **`/to-tickets` couldn't read my spec: it kept truncating.**
-This was the symptom that moved the spec out of the tracker. A dense spec outgrows what a tracker will hold at all: Shortcut caps a story description at 10,000 characters, and nothing warns you at the boundary. The old advice was context hygiene, not clearing or compacting between `/to-spec` and `/to-tickets` so the spec never had to be re-fetched. That is no longer necessary: the spec is a file, so it can be re-read at any point, by any session, and reviewed in a PR like anything else. Context hygiene is still worth keeping for the thinking, but it is no longer load-bearing for the artifact.
+This was the symptom that moved the spec out of the tracker. A dense spec can outgrow a tracker's description limit, and tracker editors are a poor place to review it. Exact limits belong in the configured tracker file, not in this shared skill. The spec is now a repo file, so it can be re-read at any point, by any session, and reviewed in a PR like anything else. Context hygiene is still worth keeping for the thinking, but it is no longer load-bearing for the artifact.
 
 ## It's working if
 
 - It starts writing rather than asking you a fresh round of questions.
 - It puts the seams to you before it writes, and proposes as few as it can get away with.
 - It comes back in your project's nouns, not generic product-management boilerplate.
+- Its `parent:` value names the configured tracker's real parent structure.
 - Every decision in it is one you can remember making. Nothing was invented to fill a section.
 - The out-of-scope section has real things in it: the things you refused are usually the most useful lines on the page.
 
