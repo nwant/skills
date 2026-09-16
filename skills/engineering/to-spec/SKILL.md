@@ -26,10 +26,8 @@ it. Four artifacts, four jobs:
 | **Ticket** | the tracker | before | one unit of work, its acceptance criteria, a link to the spec |
 | **PR body** | the code host | after | what changed, why, how to verify |
 
-**Where the file goes.** `docs/specs/<slug>.md` in the repo the work happens in, or in
-the **workspace** when the work spans several repos: same rule as a glossary or an ADR,
-so one convention covers all of them. If a tracker id exists already, lead the filename
-with it. Call the Skill tool with "workspaces" when a workspace is in effect.
+**Where the file goes.** `docs/specs/<slug>.md` in the repo the work happens in. If a
+tracker id exists already, lead the filename with it.
 
 **The spec carries its tracker identity in frontmatter**, because the next reader of it
 is a program. `/to-tickets` groups its output under the epic named here rather than
