@@ -24,7 +24,7 @@ Greenfield is not a requirement. Wayfinder is used routinely on legacy and half-
 
 ## Prerequisites
 
-The map and its tickets live on the repo's issue tracker, so wayfinder needs the tracker wiring that [setup-skills](./setup-skills.md) lays down. That step writes a "Wayfinding operations" section describing how the map, its child tickets, blocking edges, and frontier queries are expressed for GitHub, GitLab, or local markdown. Wayfinder resolves that doc through the pointer in your `CLAUDE.md` / `AGENTS.md` rather than a fixed path; with no tracker configured at all it falls back to local markdown files.
+The map and its tickets live on the repo's issue tracker, so wayfinder needs the tracker wiring that [setup-skills](./setup-skills.md) lays down. That step writes `docs/agents/issue-tracker.md`, including a "Wayfinding operations" section describing how the map, its child tickets, blocking edges, and frontier queries are expressed for GitHub, GitLab, or local markdown. Wayfinder reads that file by name. With no tracker configured it stops and tells you to run `/setup-skills` rather than falling back to local markdown: the map is the artifact the whole effort is kept in, and one charted on a tracker nobody chose is worse than none.
 
 The tracker is not decoration. Blocking is what renders the frontier visually in the tracker's own UI, and a tracker without native dependency links (a self-hosted Gitea, say) degrades wayfinder to inferring blockers from the map text, which works but needs closer supervision.
 

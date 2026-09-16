@@ -22,7 +22,7 @@ You invoke this by typing `/which-skill`; the agent won't reach for it on its ow
 
 The router names skills; it does not install them. Everything it points at has to be installed for the recommendation to be actionable, and it only knows the promoted skills in this repo.
 
-The tracker-dependent routes (triage, `to-spec`, `to-tickets`, `implement`) assume [setup-skills](./setup-skills.md) has already configured an issue tracker in the repo. The router will happily recommend them before that has happened.
+The tracker-dependent routes (triage, `to-spec`, `to-tickets`, `implement`) assume [setup-skills](./setup-skills.md) has already configured an issue tracker in the repo. The router will happily recommend them before that has happened, but the skills themselves no longer play along: each names the file it needs under `docs/agents/`, and a route you take too early stops and tells you to run `/setup-skills` rather than guessing a tracker.
 
 ## Flows, not skills
 

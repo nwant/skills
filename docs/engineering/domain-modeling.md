@@ -23,12 +23,14 @@ Reach for it when the *words* are the problem:
 
 ## Prerequisites
 
-None up front. The skill writes into two places and creates both lazily:
+No files have to exist before you start, but the skill reads `docs/agents/domain.md` to learn whether this repo is single-context or multi-context and where each `CONTEXT.md` lives. That file is written by [setup-skills](./setup-skills.md). Without it the skill says so and asks you which layout applies rather than deciding from what it can or cannot find on disk, because a term written into the wrong context is invisible to the one that needed it.
 
-- **`CONTEXT.md`** at the repo root, created by the first resolved term. In a repo with a `CONTEXT-MAP.md` at the root, terms go into the per-context `CONTEXT.md` the map points at instead.
+It writes into two places and creates both lazily:
+
+- **`CONTEXT.md`** at the repo root, created by the first resolved term. Where the config records a multi-context repo, terms go into the per-context `CONTEXT.md` the root `CONTEXT-MAP.md` points at instead.
 - **`docs/adr/`**, created by the first ADR that clears the bar.
 
-Nothing needs to exist before you start, and nothing is created speculatively.
+Nothing is created speculatively.
 
 ## Two artifacts, two bars
 

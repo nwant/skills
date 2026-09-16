@@ -87,6 +87,7 @@ Renamed to `/diagnosing-bugs` in v1.0.0. The old name no longer exists. Anything
 - Every debug log it adds carries a tag like `[DEBUG-a4f2]`, and a grep for that tag comes back empty when it declares done.
 - The commit or PR message names which hypothesis was right.
 - When it cannot lock the bug down with a test, it says so plainly instead of writing a shallow one.
+- Before it reads code it names `docs/agents/domain.md`, and if that file is not there it says so and tells you it is falling back to a root `CONTEXT.md` and `docs/adr/`. It never goes quiet about which map it is reading.
 
 ## Where it fits
 

@@ -19,7 +19,7 @@ If that ever changes, because this repo joins a workspace or leaves one, re-run 
 
 This is a **single-context** repo: one `CONTEXT.md` at the root, no `CONTEXT-MAP.md`, no per-context ADR directories.
 
-If any of these files don't exist, **proceed silently**. Don't flag their absence; don't suggest creating them upfront. The `/domain-modeling` skill (reached via `/grill-with-docs` and `/improve-codebase-architecture`) creates them lazily when terms or decisions actually get resolved.
+**Say which of these you read and which were absent.** A reader cannot otherwise tell whether a term was missing from the glossary or the glossary was never opened, and an empty result is a claim rather than a finding. Don't suggest creating a missing file upfront: the `/domain-modeling` skill (reached via `/grill-with-docs` and `/improve-codebase-architecture`) creates them lazily when terms or decisions actually get resolved.
 
 ## File structure
 
@@ -31,7 +31,7 @@ If any of these files don't exist, **proceed silently**. Don't flag their absenc
 │   └── adr/
 │       ├── 0001-explicit-setup-pointer-only-for-hard-dependencies.md
 │       ├── 0002-ship-as-a-claude-code-plugin.md
-│       └── 0003-resolve-the-commons-once-at-setup.md
+│       └── 0003-config-is-named-and-loaded.md
 ├── docs/
 │   ├── agents/        ← this directory: skill-facing config
 │   ├── engineering/   ← human-facing skill pages

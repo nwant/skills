@@ -70,9 +70,28 @@ several workspaces claim one repo, is a question for a person and gets asked her
 rather than on every run of every skill; the skill never picks a claimant. Names are
 recorded, never paths, so the entry stays true in every clone on every machine.
 
-This is the first step of [ADR 0003](./.agents/adr/0003-resolve-the-commons-once-at-setup.md):
+This is the first step of [the superseded ADR 0003](https://github.com/nwant/skills/blob/37d65f5108f80a2363e10d70777556a4413a6dea/.agents/adr/0003-resolve-the-commons-once-at-setup.md):
 something has to write the line before anything can read it. The readers change next, and
 the probe is demoted last.
+
+**Config-reading skills name the file they read.** `/setup-skills` wrote
+`docs/agents/issue-tracker.md`, `docs/agents/triage-labels.md` and `docs/agents/domain.md`,
+and almost nothing was told to open them. The skills that depend on that config said it
+"should have been provided to you" and named no path, so whether it arrived came down to the
+model choosing to follow a pointer. Found in the wild in `nwant/fathom`, which ran setup, hand
+extended two of those files with rules that mattered there, and got a customisation surface
+with no consumer.
+
+`to-tickets`, `to-spec`, `triage`, `wayfinder`, `domain-modeling`, `tdd` and `diagnosing-bugs`
+now name the file each one reads, the shape `two-axis-review` already used. A missing file is
+reported by name, with an instruction to run `/setup-skills`. Two silent defaults went with it:
+`wayfinder` no longer falls back to the local-markdown tracker when no tracker was configured,
+and `domain-modeling` no longer settles single-context against multi-context by looking for a
+`CONTEXT-MAP.md` and concluding from its absence.
+
+[ADR 0003](./.agents/adr/0003-config-is-named-and-loaded.md) is rewritten around that general
+rule and replaces the commons-specific one above, keeping its two central arguments and
+recording what became of the workspace feature they were written for.
 
 **A spec carries its tracker identity, so `to-tickets` reads a parent instead of guessing
 one.** Moving the spec into the repo left a gap: the previous change only covered the case

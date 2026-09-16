@@ -51,10 +51,10 @@ _Avoid_: Client, buyer, account
 - **Ordering ↔ Billing**: Shared types for `CustomerId` and `Money`
 ```
 
-The skill infers which structure applies:
+Which structure applies is recorded in `docs/agents/domain.md`, not inferred from what happens to be on disk:
 
-- If `CONTEXT-MAP.md` exists, read it to find contexts
-- If only a root `CONTEXT.md` exists, single context
-- If neither exists, create a root `CONTEXT.md` lazily when the first term is resolved
+- Where it records a multi-context repo, read the root `CONTEXT-MAP.md` to find the contexts
+- Where it records a single-context repo, the root `CONTEXT.md` is the one glossary, created lazily when the first term is resolved
+- Where `docs/agents/domain.md` is missing, say so, tell the user to run `/setup-skills`, and ask which layout applies before writing
 
 When multiple contexts exist, infer which one the current topic relates to. If unclear, ask.

@@ -24,7 +24,9 @@ That last row is a real hole, not a stylistic preference. The skill decides *whe
 
 ## Prerequisites
 
-[codebase-design](./codebase-design.md) needs to be installed. `tdd` used to carry its own deep-module and interface-design notes; in v1.0 those were deleted in favour of the shared skill, and `tdd` now leans on it for interface-design vocabulary. Nothing else; the skill is [stateless](https://www.aihero.dev/ai-coding-dictionary/stateless) and writes no files of its own.
+[codebase-design](./codebase-design.md) needs to be installed. `tdd` used to carry its own deep-module and interface-design notes; in v1.0 those were deleted in favour of the shared skill, and `tdd` now leans on it for interface-design vocabulary. The skill is [stateless](https://www.aihero.dev/ai-coding-dictionary/stateless) and writes no files of its own.
+
+`tdd` also reads `docs/agents/domain.md`, written by [setup-skills](./setup-skills.md), to find where this repo keeps its `CONTEXT.md` and its ADRs, so that test names borrow the project's own vocabulary. That one is optional rather than required: without it the skill says so and falls back to a root `CONTEXT.md` and `docs/adr/` rather than going quiet.
 
 ## The loop, and the seam it runs at
 

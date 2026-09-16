@@ -9,6 +9,13 @@ Actively build and sharpen the project's domain model as you design. This is the
 
 ## File structure
 
+**The layout is recorded, not inferred.** `docs/agents/domain.md` says whether this repo is
+single-context or multi-context, and where its `CONTEXT.md` files and ADRs live. Read it before
+writing anything. If it is missing, say so, tell the user to run `/setup-skills`, and ask them
+which layout applies before you write a term or an ADR. Do not settle the question by looking for a `CONTEXT-MAP.md` and
+concluding from its absence: a term written into the wrong context is invisible to the one that
+needed it, and a search that finds nothing establishes only that the search found nothing.
+
 **In a multi-repo workspace there is a copy above this repo too.** Call the Skill tool
 with "workspaces" for the resolution rules; the short version is to **read both and
 write one**. Read the workspace glossary as well as this repo's, with the repo's
@@ -30,7 +37,7 @@ Most repos have a single context:
 └── src/
 ```
 
-If a `CONTEXT-MAP.md` exists at the root, the repo has multiple contexts. The map points to where each one lives:
+Where `docs/agents/domain.md` records a multi-context repo, a `CONTEXT-MAP.md` at the root points to where each one lives:
 
 ```
 /

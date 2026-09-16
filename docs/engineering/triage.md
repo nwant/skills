@@ -24,6 +24,8 @@ You invoke this by typing `/triage` and then describing what you want in plain l
 
 `triage` reads and writes your issue tracker, so [setup-skills](./setup-skills.md) has to have configured that tracker and its label vocabulary first. The role names below are **canonical**; the label strings in your tracker may differ, and the mapping is what setup provides. If your tracker already uses the canonical names exactly, there is nothing to map and nothing to set up.
 
+The skill names both files it reads: `docs/agents/issue-tracker.md` for how the tracker is reached, `docs/agents/triage-labels.md` for the mapping. A missing file is reported, with an instruction to run `/setup-skills`; the skill will not assume your tracker uses the canonical names just because nothing said otherwise.
+
 The tracker config also decides whether external pull requests count as a request surface, and who counts as external. That flag defaults to off and is no longer a setup question, so flip it in `docs/agents/issue-tracker.md` if you want PRs in scope.
 
 ## The state machine
