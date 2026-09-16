@@ -22,7 +22,9 @@ cd skills
 
 Symlinks every skill into the directory each harness reads: `~/.claude/skills` (Claude Code), `$CODEX_HOME/skills`, default `~/.codex/skills` (Codex), and `~/.agents/skills` (other Agent Skills-compatible harnesses). Codex's own bundled skills sit in a `.system` subdirectory there and are left alone.
 
-Edits are live in the next session, and `git pull` updates every installed skill at once. Re-run the script after adding, removing, or renaming a skill. Restart any session that was already open, since both harnesses read the skill directory at startup.
+Edits are live in the next session, and `git pull` updates every installed skill at once. Re-run the script after adding, removing, or renaming a skill: it links what is promoted and clears what is not, so a renamed skill's old link and a skill demoted to `misc/` both go. Restart any session that was already open, since both harnesses read the skill directory at startup.
+
+It never deletes anything it did not create. A symlink pointing outside this repo is left alone, and so is a **real** file or directory sitting where a skill's link would go, which is usually a hand-installed copy of the same name. That one case is the exception to "re-run and you are current": the script warns on stderr and moves on, and it stays unlinked until you remove the real path yourself.
 
 There is no Claude Code plugin for this fork, so `claude plugins install` and `/plugin install` will not reach these skills: those forms install [upstream's](https://github.com/mattpocock/skills) set instead.
 
