@@ -10,9 +10,7 @@ Reachable only when you type them (Claude Code: `disable-model-invocation: true`
 - **[grill-with-docs](./grill-with-docs/SKILL.md)**: Grilling session that also builds your project's domain model, sharpening terminology and updating `CONTEXT.md` and ADRs inline.
 - **[triage](./triage/SKILL.md)**: Move issues through a state machine of triage roles.
 - **[improve-codebase-architecture](./improve-codebase-architecture/SKILL.md)**: Scan a codebase for deepening opportunities, present them as a visual HTML report, then grill through whichever one you pick.
-- **[improve-workspace-architecture](./improve-workspace-architecture/SKILL.md)**: Survey a multi-repo workspace for friction *between* repos: one concept implemented twice, a seam in the wrong repo, a contract straddling two, a shared package whose consumers churn with it. Reports on two axes, Locality and Choreography.
-- **[new-workspace](./new-workspace/SKILL.md)**: Scaffold a multi-repo workspace for a set of sibling repos: a `CLAUDE.md` synthesis plus repo index, a `repos.json` manifest, a sync script, and the matching shell launcher and cd shortcuts.
-- **[setup-skills](./setup-skills/SKILL.md)**: Configure this repo for the engineering skills (the commons it belongs to, issue tracker, triage labels, domain doc layout). Run once per repo.
+- **[setup-skills](./setup-skills/SKILL.md)**: Configure this repo for the engineering skills (issue tracker, triage labels, domain doc layout). Run once per repo.
 - **[to-spec](./to-spec/SKILL.md)**: Turn the current conversation into a spec and publish it to the issue tracker.
 - **[to-tickets](./to-tickets/SKILL.md)**: Break any plan, spec, or conversation into a set of tracer-bullet tickets, each declaring its blocking edges, whether as text in a local file or as native blocking links on a real tracker.
 - **[implement](./implement/SKILL.md)**: Build the work described by a spec or set of tickets, driving `/tdd` at pre-agreed seams and closing out with `/two-axis-review` before committing.
@@ -29,7 +27,6 @@ Model- or user-reachable (rich trigger phrasing so the model can reach for them)
 - **[tdd](./tdd/SKILL.md)**: Test-driven development with a red-green-refactor loop. Builds features or fixes bugs one vertical slice at a time.
 - **[domain-modeling](./domain-modeling/SKILL.md)**: Actively build and sharpen a project's domain model by challenging terms, stress-testing with scenarios, and updating `CONTEXT.md` and ADRs inline.
 - **[codebase-design](./codebase-design/SKILL.md)**: Shared discipline and vocabulary for designing deep modules: small interfaces, clean seams, testable through the interface.
-- **[workspaces](./workspaces/SKILL.md)**: Vocabulary and resolution rules for multi-repo workspaces: what a workspace and a member repo are, how to find the workspace that claims the repo you are in, and which copy of `CONTEXT.md`, `docs/adr/` or `docs/agents/` an artifact belongs to.
 - **[two-axis-review](./two-axis-review/SKILL.md)**: Two-axis review of the diff since a fixed point: **Standards** (does it follow the repo's coding standards, plus a Fowler smell baseline?) and **Spec** (does it faithfully implement the originating issue/spec?), run as parallel sub-agents.
 - **[resolving-merge-conflicts](./resolving-merge-conflicts/SKILL.md)**: Work through an in-progress git merge or rebase conflict hunk by hunk, resolving by intent traced to each side's primary source, then finish the operation, never `--abort`.
 - **[wizard](./wizard/SKILL.md)**: Generate an interactive bash wizard that walks a human through steps only they can perform: provisioning infrastructure, setting up credentials or CI secrets, walking an unfamiliar third-party dashboard, or running a one-off migration or cutover.

@@ -20,11 +20,11 @@ A `wayfinder` unit: a child **Issue** of a `wayfinder:map` holding a *question* 
 **Triage role**:
 A canonical state-machine label applied to an **Issue** during triage (e.g. `needs-triage`, `ready-for-afk`). Each role maps to a real label string in the **Issue tracker** via `docs/agents/triage-labels.md`.
 
-### Where an artifact lives
+### Multi-repo vocabulary
 
-**Commons**:
-The shared home an artifact routes to when it is meaningful to more than one unit of work: a **Workspace** for a set of repos, the repo root in a multi-context repo, the repo itself when there is neither. Every skill that asks "which copy of this doc?" is asking for the commons.
-_Avoid_: shared home, root context, parent (implies containment)
+These terms belong to the three workspace skills, which are shelved in `skills/misc/` and not
+installed. They stay here because those skills still use them and are still readable. No promoted
+skill speaks this vocabulary. See [.agents/adr/0003-config-is-named-and-loaded.md](./.agents/adr/0003-config-is-named-and-loaded.md).
 
 **Workspace**:
 A coordination directory holding what belongs to a set of repos rather than to any one of them. It holds no repos itself, and its members may live anywhere on the filesystem.
@@ -51,7 +51,6 @@ _Avoid_: related PR (too weak), stacked PR (a dependent branch)
 - An **Issue tracker** holds many **Issues**
 - An **Issue** carries one **Triage role** at a time
 - A **Decision ticket** is an **Issue** (a child of a `wayfinder:map`)
-- A **Commons** resolves to a **Workspace**, a repo root, or the repo itself
 - A **Workspace** claims many **Member repos**; a **Member repo** may belong to several **Workspaces**
 - A **Member repo** is either a **Core repo** or an **Adjacent repo**
 - A **Cross-repo unit of work** is an **Issue** satisfied by several **Sibling PRs**
@@ -60,5 +59,5 @@ _Avoid_: related PR (too weak), stacked PR (a dependent branch)
 
 - "backlog" was previously used to mean both the *tool* hosting issues and the *body of work* inside it. Resolved: the tool is the **Issue tracker**; "backlog" is no longer used as a domain term.
 - "backlog backend" / "backlog manager". Resolved: collapsed into **Issue tracker**.
-- "workspace" meant five different things across shipped skills: the coordination directory (`workspaces`, `new-workspace`), a teaching directory (`teach`), the current working directory (`loop-me`, `handoff`), and a student subdirectory (`scaffold-exercises`). Resolved: **Workspace** is the coordination directory alone; the other uses are to say "directory", "working directory" or "exercise directory". The umbrella for *which copy does this artifact belong to* is **Commons**.
+- "workspace" meant five different things across shipped skills: the coordination directory (`workspaces`, `new-workspace`), a teaching directory (`teach`), the current working directory (`loop-me`, `handoff`), and a student subdirectory (`scaffold-exercises`). Resolved: **Workspace** is the coordination directory alone; the other uses are to say "directory", "working directory" or "exercise directory".
 - **Member repo** was defined as a filesystem *sibling* of the workspace, and resolution scanned for adjacency. Resolved: membership is declared in the manifest; a member lives wherever its path says, and adjacency proves nothing.

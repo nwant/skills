@@ -2,14 +2,6 @@
 
 How the engineering skills should consume this repo's domain documentation when exploring the codebase.
 
-## The commons
-
-The **commons** is the shared home an artifact routes to when it is meaningful to more than one unit of work. This repo is **standalone**: no workspace claims it, and there is nothing above it. Every `CONTEXT.md`, ADR and `docs/agents/` file a skill reads or writes here is this repo's own.
-
-That is a resolved answer, not an unanswered question. It was settled by running `find-workspace.sh` once at `/setup-skills` time, with `jq`, `git` and an `origin` remote all present so that its exit 1 here means *no commons* rather than *could not check*, and recorded in the `### Commons` entry of `CLAUDE.md`. **No skill probes the filesystem for it**, so a skill working in this repo needs no workspace handling at all and should not mention workspaces in its output.
-
-If that ever changes, because this repo joins a workspace or leaves one, re-run `/setup-skills` rather than editing the entry to point somewhere a skill then has to guess at.
-
 ## Before exploring, read these
 
 - **`CONTEXT.md`** at the repo root.

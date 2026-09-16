@@ -52,35 +52,29 @@ User-invoked, since it writes directories outside the working tree and appends t
 operator's shell rc file. `which-skill`'s Precondition section becomes **Preconditions** and
 now routes both run-once setups, distinguishing once-per-repo from once-per-repo-set.
 
-**The commons is resolved once, at setup, and written down.** Skills that read or write a
-doc have to answer one question: which copy? The answer, the **commons**, was reached by
-scanning the filesystem at run time, in five different skills, on every invocation. Most
-repos have no commons above them and paid for the check anyway, and a scan that finds
-nothing returns "no commons", which is indistinguishable from the truth and gets believed.
+**The multi-repo workspace skills are shelved before shipping.** `workspaces`,
+`new-workspace` and `improve-workspace-architecture` move to `skills/misc/`, which
+`link-skills.sh` skips, so they are kept and uninstalled rather than deleted. Their docs pages
+go with them, since `misc/` carries none.
 
-`setup-skills` now runs `find-workspace.sh` once, as a verifier rather than a probe, and
-records the answer as a `### Commons` entry in the `## Agent skills` block of `CLAUDE.md`,
-with the layout detail in `docs/agents/domain.md` beside it. The block is the distribution
-mechanism: every session loads it, and nothing reads `domain.md` on its own.
+They were built to answer "which copy of this doc?" for a set of repos, and the machinery grew
+to roughly two thousand lines of skill and script, a probe paragraph injected into five skills,
+and a `### Commons` entry written into every repo's `CLAUDE.md`. No workspace was ever created.
+That is Speculative Generality, which `two-axis-review`'s own smell baseline prescribes deleting
+until a real need shows, and the standing cost was a conditional in every setup run and a
+routing question on every future skill.
 
-The entry is written **when there is no commons too**, in as many words. A block silent on
-the commons is indistinguishable from a repo where setup never ran, so recording the
-negative answer is what makes it a resolution rather than an absence. Ambiguity, where
-several workspaces claim one repo, is a question for a person and gets asked here, once,
-rather than on every run of every skill; the skill never picks a claimant. Names are
-recorded, never paths, so the entry stays true in every clone on every machine.
-
-This is the first step of [the superseded ADR 0003](https://github.com/nwant/skills/blob/37d65f5108f80a2363e10d70777556a4413a6dea/.agents/adr/0003-resolve-the-commons-once-at-setup.md):
-something has to write the line before anything can read it. The readers change next, and
-the probe is demoted last.
+What the design got right outlived it. A probe that scans and finds nothing returns "not
+present", which is indistinguishable from the truth and gets believed; ambiguity is a question
+for a person and should be asked once; and a file nothing is told to read is invisible whatever
+it holds. Those arguments are general, and they are what the rewritten ADR 0003 keeps.
 
 **Config-reading skills name the file they read.** `/setup-skills` wrote
 `docs/agents/issue-tracker.md`, `docs/agents/triage-labels.md` and `docs/agents/domain.md`,
 and almost nothing was told to open them. The skills that depend on that config said it
 "should have been provided to you" and named no path, so whether it arrived came down to the
-model choosing to follow a pointer. Found in the wild in `nwant/fathom`, which ran setup, hand
-extended two of those files with rules that mattered there, and got a customisation surface
-with no consumer.
+model choosing to follow a pointer. Found in the wild in a repo that ran setup, hand extended two of
+those files with rules that mattered there, and got a customisation surface with no consumer.
 
 `to-tickets`, `to-spec`, `triage`, `wayfinder`, `domain-modeling`, `tdd` and `diagnosing-bugs`
 now name the file each one reads, the shape `two-axis-review` already used. A missing file is

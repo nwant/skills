@@ -10,7 +10,7 @@ Two-axis review of the diff between `HEAD` and a fixed point the user supplies:
 
 Both axes run as **parallel sub-agents** so they don't pollute each other's context, then this skill aggregates their findings.
 
-The issue tracker should have been provided to you. If `docs/agents/issue-tracker.md` is missing, tell the user to run `/setup-skills`. **First check one level up**: call the Skill tool with "workspaces" and run its probe, because in a workspace the config is written once into the workspace rather than into each member repo, and a missing file here usually means it is there. If more than one workspace claims the repo, **ask which one**: a tracker config is an authority, not a palette, and guessing points the Spec axis at the wrong set of stories.
+The issue tracker should have been provided to you. If `docs/agents/issue-tracker.md` is missing, tell the user to run `/setup-skills`.
 
 ## Process
 
@@ -33,7 +33,7 @@ Look for the originating spec, in this order:
 
 ### 3. Identify the standards sources
 
-Anything in the repo that documents how code should be written, such as `CODING_STANDARDS.md` or `CONTRIBUTING.md`. **In a workspace, add the workspace's own standards**: cross-cutting rules (alerting, config, shared contracts) are recorded once above the repos, so a Standards axis that reads only this repo misses the half that spans them. Where the two conflict, the repo wins, since it is closer to the code. **Never union two workspaces' standards**: if more than one claims the repo, ask which programme this diff belongs to, because judging a change against rules its programme does not follow is worse than judging it against none.
+Anything in the repo that documents how code should be written, such as `CODING_STANDARDS.md` or `CONTRIBUTING.md`.
 
 On top of whatever the repo documents, the Standards axis always carries the **smell baseline** below: a fixed set of Fowler code smells (_Refactoring_, ch.3) that applies even when a repo documents nothing. Two rules bind it:
 
@@ -67,44 +67,19 @@ Each smell reads *what it is* → *how to fix*; match it against the diff:
 
 - The diff command and commit list.
 - The path or fetched contents of the spec.
-- **Whether the spec is satisfied by more than this diff**, and if so, which repo each unmet requirement plausibly belongs to (see below).
-- The brief: "Report: (a) requirements the spec asked for that this diff neither satisfies nor plausibly leaves to a sibling; (b) requirements that appear to belong to a **sibling** change elsewhere, named as such rather than as missing; (c) behaviour in the diff that wasn't asked for (scope creep); (d) requirements that look implemented but where the implementation looks wrong. Quote the spec line for each finding. Under 400 words."
+- The brief: "Report: (a) requirements the spec asked for that this diff does not satisfy; (b) behaviour in the diff that wasn't asked for (scope creep); (c) requirements that look implemented but where the implementation looks wrong. Quote the spec line for each finding. Under 400 words."
 
 If the spec is missing, skip the Spec sub-agent and note this in the final report.
 
-#### One spec, several changes
+#### Absence of a search result is not evidence
 
-A spec whose requirements are satisfied across **more than one repo** is the normal case
-in a multi-repo workspace, not an exception. Judging one diff against the whole spec then
-reports the other repos' requirements as **missing**, when they are merely **elsewhere**,
-and it does so on most of the work rather than rarely.
-
-So before the Spec axis reports anything absent, decide which of three dispositions each
-unmet requirement has:
-
-- **Not delivered.** Nothing anywhere satisfies it. A real finding.
-- **Sibling-owned.** It plausibly belongs to a change in another repo, on the evidence of
-  the spec's own wording and the surfaces it names. Report it as that, naming the repo,
-  never as missing.
-- **Out of scope.** The spec asks for something this change was never meant to cover.
-
-**Classifying is required; searching is optional.** The spec text and the repos it names
-are usually enough to say "this belongs to the API side". Where it is cheap, confirm by
-looking for the sibling change (a shared ticket id in a branch or title across the
-workspace's repos is the reliable handle) and say whether you found one. Reading three
-diffs to review one triples the context and blunts the review, so do not do it by
-default, and never let an unfound sibling promote a requirement back to *missing*: absence
-of a search result is not evidence.
-
-If a workspace is in effect, call the Skill tool with "workspaces" for how to resolve it
-and for the **sibling PR** vocabulary. Outside a workspace this whole section collapses:
-one repo, one diff, and the three dispositions reduce to the two the axis always had.
+Where the Spec axis cannot find something the spec asked for, say that it looked and did not
+find it. Never let a search that came back empty promote a requirement to **missing** on its
+own: an empty result is a claim about the search, not about the code.
 
 ### 5. Aggregate
 
 Present the two reports under `## Standards` and `## Spec` headings, verbatim or lightly cleaned. Do **not** merge or rerank findings, because the two axes are deliberately separate (see _Why two axes_).
-
-Report a **sibling-owned** requirement under the Spec axis as its own line, not folded in with the missing ones: the reader's next action differs completely, chase another repo versus write code here.
 
 End with a one-line summary: total findings per axis, and the worst issue _within each axis_ (if any). Don't pick a single winner across axes: that's the reranking the separation exists to prevent.
 
