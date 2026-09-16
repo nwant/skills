@@ -49,7 +49,7 @@ The edges live in the ticket either way. The medium only decides whether anythin
 
 The spec's `parent:` frontmatter is the first source of truth. If it is absent, an explicit argument is next; only then does the skill follow the configured tracker's resolution procedure. A fuzzy search can suggest candidates, but the skill never chooses one for you.
 
-"Parent item" stays stable while its implementation changes by tracker. GitHub uses a tracking issue with native sub-issues; GitLab uses an epic or parent issue; Shortcut uses an epic under an objective; local markdown uses the feature directory itself. A missing, closed, or otherwise invalid parent stops publication before orphaned tickets are created.
+"Parent item" stays stable while its implementation changes by tracker. The configured tracker file owns that mapping. A missing, closed, or otherwise invalid parent stops publication before children without a parent are created.
 
 ## The wide-refactor exception
 

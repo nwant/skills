@@ -14,6 +14,11 @@ _Avoid_: backlog manager, backlog backend, issue host
 A single tracked unit of work inside an **Issue tracker**: a bug, task, spec, or slice produced by `to-tickets`.
 _Avoid_: ticket (use only when quoting external systems that call them tickets, or for a **Decision ticket**, see below)
 
+**Parent item**:
+The container that groups the **Issues** produced from one spec, giving their shared
+purpose one stable home.
+_Avoid_: epic, objective, tracking issue (all tracker-specific nouns)
+
 **Decision ticket**:
 A `wayfinder` unit: a child **Issue** of a `wayfinder:map` holding a *question* whose resolution is a decision, not a slice of a build to execute. The **decision** qualifier is what keeps it distinct from an implementation ticket; `wayfinder` introduces the term, then uses "ticket".
 
@@ -49,6 +54,7 @@ _Avoid_: related PR (too weak), stacked PR (a dependent branch)
 ## Relationships
 
 - An **Issue tracker** holds many **Issues**
+- A **Parent item** groups many **Issues**
 - An **Issue** carries one **Triage role** at a time
 - A **Decision ticket** is an **Issue** (a child of a `wayfinder:map`)
 - A **Workspace** claims many **Member repos**; a **Member repo** may belong to several **Workspaces**

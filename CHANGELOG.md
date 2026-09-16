@@ -97,7 +97,7 @@ the tracker templates instead of branching inside `to-spec` and `to-tickets`.
 `to-tickets` resolves in order: frontmatter, then an explicit argument, then the
 configured tracker's procedure. A fuzzy search only suggests candidates and never chooses
 one. A missing or inactive parent still stops publication, because publishing fifty
-parentless tickets costs far more to unpick than asking one question. Linking runs both
+issues without a parent costs far more to unpick than asking one question. Linking runs both
 ways: the spec names the parent item, the parent item links the spec, and tickets do not
 repeat either relationship in prose. [ADR 0004](./.agents/adr/0004-tracker-capabilities-live-in-tracker-config.md)
 records the boundary.

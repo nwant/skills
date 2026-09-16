@@ -115,11 +115,14 @@ Then write the docs files using the seed templates in this skill folder as a sta
 - [triage-labels.md](./triage-labels.md): label mapping (only if `triage` is installed)
 - [domain.md](./domain.md): domain doc consumer rules + layout
 
-Keep each tracker template's `## When a skill says "the parent item"` section intact.
-`to-spec` and `to-tickets` use that section to translate the shared parent-item concept
-into the configured tracker's own nouns and relationships.
-
-For "other" issue trackers, write `docs/agents/issue-tracker.md` from scratch using the user's description.
+Every generated `docs/agents/issue-tracker.md`, including one for an "other" tracker,
+must contain `## When a skill says "the parent item"`. `to-spec` and `to-tickets` use
+that section to translate the shared parent-item concept into the configured tracker's
+own nouns and relationships. Keep the section intact in the four seed templates. For an
+"other" tracker, write the file from the user's description; if that description does
+not say what owns child issues, ask once and record the parent type, its identifier, how
+to validate it, and how to attach a child. Record the absence of a native relationship
+too, along with the textual or structural representation to use instead.
 
 ### 5. Done
 

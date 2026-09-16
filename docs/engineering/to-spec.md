@@ -33,7 +33,7 @@ So it does not validate anything, and it does not decide anything. It captures w
 
 ## One parent concept, tracker-native structure
 
-The spec records `parent: <identifier>` in frontmatter. That is deliberately the only shared noun. The configured tracker file decides what the identifier denotes: a tracking issue on GitHub, an epic or parent issue on GitLab, an epic on Shortcut, or a feature directory for local markdown.
+The spec records `parent: <identifier>` in frontmatter. That is deliberately the only shared noun. The configured tracker file decides what the identifier denotes and how child issues attach to it.
 
 This preserves each tracker's useful hierarchy without making every repo speak one vendor's vocabulary. The parent item links to the spec; later, `to-tickets` reads the same `parent:` value and publishes children beneath it.
 
