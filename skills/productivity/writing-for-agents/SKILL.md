@@ -89,14 +89,6 @@ never as a list of the shells and flags that bite, which goes stale. The general
 discipline has its own skill, `verification-before-completion`; point at it rather
 than restating it.
 
-## Multi-repo workspaces
-
-A skill that reads a repo-local doc, writes an artifact that could span repos, or
-judges a unit of work that could span repos has a decision to make about *which* copy
-it means. Call the Skill tool with "workspaces" for the test and the resolution rules
-rather than restating them. Roughly half of skills have no such decision, and for
-those the check is a no-op that pays load on every run.
-
 ## Pruning
 
 - Keep each meaning in a **single source of truth**: one authoritative place, so changing the behaviour is a one-place edit. **Duplication** (the same meaning in more than one place) costs maintenance and tokens, and inflates a meaning's prominence on the ladder past its real rank. (The accidental inverse of a leading word, which repeats a token on purpose, never the meaning.)
