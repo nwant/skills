@@ -44,6 +44,7 @@ Give each ticket its **blocking edges**: the other tickets that must complete be
 Present the proposed breakdown as a numbered list. For each ticket, show:
 
 - **Title**: short descriptive name
+- **Repos**: every repo the slice lands in
 - **Blocked by**: which other tickets (if any) must complete first
 - **What it delivers**: the end-to-end behaviour this ticket makes work
 
@@ -101,6 +102,8 @@ build, it is usually two tickets.
 
 # <NN>: <Ticket title>
 
+**Repos:** every repo this ticket lands in, named as the repo manifest names them. Always present, even for one.
+
 **What to build:** the end-to-end behaviour this ticket makes work, from the user's perspective, not a layer-by-layer implementation list.
 
 **Blocked by:** the numbers/titles of the tickets that gate this one, or "None (can start immediately)".
@@ -113,6 +116,16 @@ build, it is usually two tickets.
 </local-ticket-template>
 
 <issue-template>
+
+## Repos
+
+Every repo this ticket lands in, one per line. `/implement` reads this to decide where its
+commits go, so a repo left out is a repo the work silently skips, and a repo named here
+that no manifest claims is one to stop and ask about rather than guess at.
+
+Name them the way the project's repo manifest does. One repo is the common case and still
+gets the section: a ticket with one line here and a ticket with none are different things,
+and only the first says so.
 
 ## Spec
 
