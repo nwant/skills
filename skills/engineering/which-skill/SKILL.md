@@ -106,8 +106,8 @@ sends you looking through the wrong list.
 Note the asymmetry with `two-axis-review`, which is in this map: **giving** a review is
 engineering flow, **receiving** one is agent mechanics.
 
-## Preconditions
+## Precondition
 
-Both are run-once scaffolding, off the flows entirely: they build the place the flows run, rather than being a step in one.
+Run-once scaffolding, off the flows entirely: it builds the place the flows run, rather than being a step in one.
 
 - **`/setup-skills`**: run before your first engineering flow to configure the issue tracker, triage labels, and doc layout the other skills read. Each of those lands in a named file under `docs/agents/`, and the skills that depend on one name it: skip setup and you get an explicit "run `/setup-skills`", not a quiet guess. Custom issue trackers also work. Once **per repo**.
