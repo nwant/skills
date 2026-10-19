@@ -72,16 +72,23 @@ find-workspace.sh [<dir>]     # default: the current directory
 ```
 
 ```bash
-for d in ~/.claude/skills/workspaces/assets .claude/skills/workspaces/assets; do
-  [ -d "$d" ] && FW="$d/find-workspace.sh" && break
-done
-out="$(bash "$FW" 2>/dev/null)"; rc=$?
+FW="<this skill's base directory>/assets/find-workspace.sh"   # absolute, from the banner
+out="$(bash "$FW")"; rc=$?
 case "$rc" in
-  0) ws="$out" ;;                      # use it
-  1) ws="" ;;                          # single-repo run, say nothing about workspaces
-  2) ws="" ;;                          # ASK: name the claimants and let the user pick
+  0) ws="$out"; echo "workspace: $ws" ;;   # use it
+  1) ws="" ;;                              # single-repo run, say nothing about workspaces
+  2) ws=""; printf '%s\n' "$out" ;;        # ASK: name the claimants and let the user pick
+  *) echo "find-workspace.sh failed: rc=$rc" >&2; exit "$rc" ;;   # not an answer: stop
 esac
 ```
+
+The path comes from the base directory the harness prints when this skill loads, so it
+holds wherever the skill is installed (user-level, project-level, or a workspace's own
+`.claude/skills/`). Exit 0 and 2 print what they found because each Bash call is a fresh
+shell, and a variable set in one is gone by the next.
+
+**Any other exit code is a failure, not an answer.** `127` is a path that did not
+resolve; reading it as exit 1 turns a broken lookup into "no workspace" silently.
 
 **Exit 1 is not an error.** It means single-repo, and the skill should carry on with
 its single-repo behaviour without mentioning workspaces at all.

@@ -1,0 +1,24 @@
+name: Check workspace
+
+# Make this a required check on main, so no paths filter: a filtered-out run never
+# reports, and a required check that never reports blocks the merge.
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: check-workspace-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check-workspace:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - run: ./scripts/check-setup.sh --settings-only
+      - run: ./scripts/test-sync-repos.sh
+      - run: ./scripts/test-check-setup.sh

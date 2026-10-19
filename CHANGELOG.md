@@ -11,6 +11,15 @@ This repo diverged from [mattpocock/skills](https://github.com/mattpocock/skills
 maintained independently, under the MIT license it was released with. `LICENSE` retains the
 original copyright notice as MIT requires, with the fork's added alongside it.
 
+**`new-workspace` builds the layout a real workspace settled on.** Member repos and their
+`-wt/` worktrees reach a session through a committed `.claude/settings.json` rather than
+`--add-dir` flags; everything the workspace owns is committed, with personal ignores in
+`.git/info/exclude`; code changes go in worktrees; and a shared workspace can protect `main`.
+New assets: `check-setup.sh` (tools, clones, settings drift, trust) with a hermetic test, and
+a CI workflow that runs its `--settings-only` mode. `workspaces` now finds its script from the
+skill's base directory and treats any exit code outside 0 to 2 as a failure, where a missing
+path used to read as "no workspace". Both skills stay in `misc/`.
+
 **`link-skills.sh` removes what it should no longer install, and stops deleting what it
 never created.** The script linked and refreshed, and never removed, so a renamed, deleted
 or demoted skill kept whatever symlink an earlier run had made. The `code-review` to
