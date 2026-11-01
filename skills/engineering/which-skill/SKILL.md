@@ -10,7 +10,7 @@ You don't remember every skill, so ask.
 
 Before stating what a skill does or recommending a step be skipped, read that skill's SKILL.md: the summaries here are for orientation only.
 
-A **flow** is a path through the skills. Most paths run along one **main flow**, and two **on-ramps** merge onto it. Everything else is standalone, or a vocabulary layer that runs underneath.
+A **flow** is a path through the skills. Most paths run along one **main flow**, and two **on-ramps** merge onto it. Everything else is standalone, or one of two layers that run underneath: vocabulary and discipline.
 
 ## The main flow: idea → ship
 
@@ -25,7 +25,7 @@ The route most work travels. You have an idea and want it built.
    - **Yes** → **`/to-spec`**, which writes the spec as a **file in the repo** and creates the short, higher-altitude tracker item pointing at it (a tracker cannot hold a spec: descriptions are capped, uneditable in a diff, and unreviewable). Then **`/to-tickets`** splits the **spec**, hanging tracer-bullet tickets under that item, each declaring its **blocking edges**. On a local tracker that's one file per ticket under `.scratch/<feature>/issues/`, worked blockers-first by hand; on a real tracker the edges become native blocking links, so any ticket whose blockers are done can be grabbed: kick off **`/implement`** per ticket, **`/clear`ing context between each one**. Each ticket is self-contained, so the last one's context is disposable.
    - **No** → **`/implement`** right here, in the same context window.
 
-   Either way, **`/implement`** builds each issue by driving **`/tdd`** internally (one red-green slice at a time), then closes out by running **`/two-axis-review`**, a two-axis review (Standards + Spec) of the diff, before committing. Reach for **`/tdd`** on its own when you just want to build a concrete behaviour test-first without a full spec, and **`/two-axis-review`** on its own whenever you want to review a branch or PR against a fixed point.
+   Either way, **`/implement`** builds each issue by driving **`/tdd`** internally (one red-green slice at a time), then closes out by running **`/two-axis-review`**, a two-axis review (Standards + Spec) of the diff, works through its findings with **`/receiving-code-review`**, and runs **`/verification-before-completion`** before committing. Reach for **`/tdd`** on its own when you just want to build a concrete behaviour test-first without a full spec, and **`/two-axis-review`** on its own whenever you want to review a branch or PR against a fixed point.
 
 ### Context hygiene
 
@@ -61,6 +61,13 @@ Two model-invoked references that run *beneath* the other skills, each the singl
 - **`/domain-modeling`**: sharpen the project's *domain* language: challenge a fuzzy term, resolve an overloaded word ("account" doing three jobs), record a hard-to-reverse decision as an ADR. It's the active discipline `/grill-with-docs` drives to keep `CONTEXT.md` a clean glossary.
 - **`/codebase-design`** is the deep-module vocabulary (module, interface, depth, seam, adapter, leverage, locality) for designing a module's *shape*: a lot of behaviour behind a small interface at a clean seam. `/tdd` and `/improve-codebase-architecture` both speak it.
 
+## Discipline underneath
+
+Two model-invoked skills that fire at a **moment** rather than at a step: the agent reaches for them on its own wherever that moment comes up, on any flow. `/implement` calls both explicitly; reach for them directly when the moment arrives outside it.
+
+- **`/verification-before-completion`**: evidence before claims. Fires just before the agent says work is done, fixed, or passing, commits, or trusts a subagent's report: it runs the command that proves the claim and reads the output first.
+- **`/receiving-code-review`**: fires when review findings arrive, from you, a PR, or `/two-axis-review`. Each finding is checked against the codebase, then fixed, pushed back on with evidence, or asked about. `/two-axis-review` *gives* a review; this *receives* one.
+
 ## Phase boundaries
 
 A **phase** is a chunk of work inside a session: the grilling, the implementation, the QA. At the **boundary** between two of them you have five options, and picking between them is the fuzziest decision in this whole map:
@@ -91,22 +98,15 @@ Off the main flow entirely.
 ## Outside this map
 
 This map covers **this collection**, and some of what you reach for daily is not in it.
-Deliberately: the concerns below are agent mechanics rather than engineering flow, so
-they are somebody else's to maintain and this router only has to admit they exist.
+Deliberately: the concerns below are agent mechanics rather than engineering flow.
 
-- **Taking review feedback** on your own work, before implementing any of it.
 - **Worktrees and isolation**, setting up somewhere safe to work.
 - **Subagent dispatch and parallel agents**, fanning work out and getting reports back.
-- **Verification before claiming done**, evidence before assertions.
 - **Finishing a branch**, deciding how work integrates.
 
-If you have the [superpowers](https://github.com/anthropics/claude-plugins-official)
-plugin installed, those live there. If you do not, they are gaps to fill however you
-like: the point of naming them is that a router which silently omits a daily situation
-sends you looking through the wrong list.
-
-Note the asymmetry with `two-axis-review`, which is in this map: **giving** a review is
-engineering flow, **receiving** one is agent mechanics.
+The first two are built into the harness. The third is your own habit. Naming them
+anyway keeps a router that silently omits a daily situation from sending you looking
+through the wrong list.
 
 ## Precondition
 
