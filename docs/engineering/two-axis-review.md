@@ -23,7 +23,7 @@ You must supply the fixed point. If you do not, the skill asks for one rather th
 
 ## Prerequisites
 
-The Standards axis needs nothing. It reads whatever the repo documents (`CODING_STANDARDS.md`, `CONTRIBUTING.md`, and the like) and falls back on a built-in baseline when the repo documents nothing.
+The Standards axis needs nothing. It searches the repo for every file that documents how code should be written (`CODING_STANDARDS.md` and `CONTRIBUTING.md` are always on the list when they exist) and falls back on a built-in baseline when the repo documents nothing.
 
 The Spec axis needs a spec to exist and be findable. It looks in this order:
 

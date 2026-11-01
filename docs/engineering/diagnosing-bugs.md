@@ -81,6 +81,7 @@ Renamed to `/diagnosing-bugs` in v1.0.0. The old name no longer exists. Anything
 ## It's working if
 
 - It shows you a command and its red output before it offers a single theory. If theory arrives first, the skill is not running.
+- When it forced the red by mutating code or a fixture, it shows a `diff` against a pristine copy proving the mutation landed before it trusts that red.
 - The failure it reproduces is the one you reported, not a nearby one it found on the way.
 - It shrinks the repro before it starts guessing, and can tell you why each remaining piece is load-bearing.
 - You are shown a ranked list of 3–5 hypotheses, each with a prediction you could falsify, before any of them is tested.

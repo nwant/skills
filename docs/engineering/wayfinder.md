@@ -97,6 +97,8 @@ It is this skill, renamed to `wayfinder` in v1.1 and invoked as `/wayfinder`. "D
 - **Not yet specified** shrinks over time. A patch of fog that graduates into a ticket disappears from that section rather than living in both places.
 - When the opening breadth-first grill turns up no fog at all, the skill stops and tells you the effort is small enough to skip the map.
 - The session that finishes the map hands you toward a spec, not a pull request.
+- The map and its tickets carry only `wayfinder:` labels, never a triage label like `ready-for-agent`, so an agent polling for agent-ready work never picks up a decision.
+- A research ticket leaves a pushed `research/<name>` branch and a pointer from the ticket, and no pull request: the branch is never merged.
 
 ## Where it fits
 
