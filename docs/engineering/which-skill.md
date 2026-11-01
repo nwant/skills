@@ -71,7 +71,7 @@ No. Three separate proposals have asked for a router that reads your local `skil
 
 **It told me to edit a SKILL.md.**
 
-That advice is often correct and rarely durable. Someone asked it how to make [implement](./implement.md) close tickets, got told to add a line to the skill, and immediately spotted the problem: `npx skills update` overwrites the file, and the plugin install is read-only. Put standing behaviour in your own `CLAUDE.md` or `AGENTS.md`, or say it in the invocation. Prompt-level adaptations survive updates: pointing the flow at Linear instead of GitHub, or asking it which open tickets could run in parallel, are both things people do this way.
+Check the scope before you do. Installed skills are symlinks into this repo, so the edit takes effect at once and lasts once committed, but it changes the skill for every repo you use it in. Someone asked how to make [implement](./implement.md) close tickets and got told to add a line to the skill: right if every repo should close tickets that way, wrong if only one should. Behaviour that belongs to one repo goes in that repo's `CLAUDE.md` or `AGENTS.md`, or in the invocation. Prompt-level adaptations survive updates: pointing the flow at Linear instead of GitHub, or asking it which open tickets could run in parallel, are both things people do this way.
 
 **It named a skill I don't have, or missed one I do.**
 

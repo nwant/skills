@@ -18,6 +18,8 @@ Skills in `engineering/` and `productivity/` also have a human-facing docs page 
 
 Decisions about this repo live in [.agents/adr/](./.agents/adr/), not `docs/adr/`. The `docs/` tree above is reader-facing, so an ADR there lands among the skill pages; `.agents/` is already where material about authoring this repo sits. The `docs/adr/` default that `domain-modeling` ships still holds for every other repo.
 
+This repo is a fork that ports upstream ([mattpocock/skills](https://github.com/mattpocock/skills)) changes by hand and never merges them: see [.agents/adr/0005-diverge-from-upstream-port-selectively.md](./.agents/adr/0005-diverge-from-upstream-port-selectively.md). The last-reviewed upstream commit, and how to review from it, live in [.agents/upstream.md](./.agents/upstream.md).
+
 Every `SKILL.md` is either user-invoked (`disable-model-invocation: true` plus `policy.allow_implicit_invocation: false` in `agents/openai.yaml`, reachable only by the human) or model-invoked (model- or user-reachable). See [.agents/invocation.md](./.agents/invocation.md).
 
 [`which-skill`](./skills/engineering/which-skill/SKILL.md) is the router that maps every user-reachable skill and how they relate. The same trigger that re-syncs a docs page applies to it: whenever you add, rename, remove, or change how a user-reachable skill fits the flows, re-read `which-skill`'s `SKILL.md` and update it so the map stays accurate: a new skill it never mentions, or a stale one it still routes to, is a router that lies.
@@ -25,6 +27,8 @@ Every `SKILL.md` is either user-invoked (`disable-model-invocation: true` plus `
 To (re)link every skill outside `deprecated/` and `misc/` into the local harness skill directories (`~/.claude/skills` for Claude Code, `$CODEX_HOME/skills` for Codex, `~/.agents/skills` for other Agent Skills-compatible harnesses), run `scripts/link-skills.sh`. Codex reads `$CODEX_HOME/skills` and not `~/.agents/skills`, so both are linked. Each entry is a symlink into this repo, so a `git pull` keeps installed skills current; re-run the script after adding, removing, or renaming a skill.
 
 No em-dashes anywhere in this repo's prose (`SKILL.md` files, docs, `README.md`, `CHANGELOG.md`, ADRs, code comments). Where a sentence reaches for one, rewrite it instead with a comma, colon, period, parentheses, or a conjunction, whichever the sentence actually wants; never do a blind character substitution.
+
+Every skill that dispatches a subagent says to start it with a fresh context window. Some harnesses (Codex, for one) fork the parent conversation by default, and a fork inherits the parent's context, which is what the subagent was meant to escape.
 
 ## Agent skills
 

@@ -13,7 +13,7 @@ Type `/two-axis-review`, or the agent reaches for it automatically when you ask 
 | Your situation | Reach for |
 | --- | --- |
 | A diff exists and you want to know if it is built right *and* is the right thing | `two-axis-review` |
-| You want bugs hunted in the diff: null paths, races, off-by-one | Claude Code's own built-in review, not this one (see the name clash below) |
+| You want bugs hunted in the diff: null paths, races, off-by-one | Claude Code's built-in `/code-review`, not this one |
 | Nothing is written yet and you want it written test-first | [tdd](./tdd.md) |
 | A whole spec needs building, review included | [implement](./implement.md), which calls this skill itself |
 | The whole codebase has drifted, not one diff | [improve-codebase-architecture](./improve-codebase-architecture.md) |
@@ -23,7 +23,7 @@ You must supply the fixed point. If you do not, the skill asks for one rather th
 
 ## Prerequisites
 
-The Standards axis needs nothing. It reads whatever the repo documents (`CODING_STANDARDS.md`, `CONTRIBUTING.md`, and the like) and falls back on a built-in baseline when the repo documents nothing.
+The Standards axis needs nothing. It searches the repo for every file that documents how code should be written (`CODING_STANDARDS.md` and `CONTRIBUTING.md` are always on the list when they exist) and falls back on a built-in baseline when the repo documents nothing.
 
 The Spec axis needs a spec to exist and be findable. It looks in this order:
 
@@ -49,9 +49,9 @@ The **smell baseline** is the floor underneath it, twelve Fowler code smells fro
 
 ## Common questions
 
-**It collides with Claude Code's own `/two-axis-review`. What do I do?**
+**Where did `/code-review` go?**
 
-This is the most reported problem with the skill, and it is not fixed. Claude Code ships its own `/two-axis-review`, which does something different: it hunts bugs in the diff, where this one checks spec compliance and repo standards. Installing this library means one of them wins, and which one wins depends on how you installed. Via the plugin marketplace, everything is aliased under a `nwant-skills:` prefix and the built-in becomes hard to reach at the unqualified name; via a plain skills install, the local file wins and this skill shadows the built-in. One clean answer is to remove Claude Code's built-in skills entirely: a large [context](https://www.aihero.dev/ai-coding-dictionary/context) saving, and the collision stops mattering. The shadowing itself is arguably a Claude Code [harness](https://www.aihero.dev/ai-coding-dictionary/harness) bug (a skill author should be free to name a skill anything), so the other answer is to rename the local copy. Editing the frontmatter or renaming the directory gets undone by `npx skills update`; the durable workaround reported by users is to fork the skill to a new name and drop `two-axis-review` from the managed set, keeping a note of the commit you forked from so you can re-sync by hand.
+It is this skill, renamed. Claude Code ships its own built-in `/code-review`, which hunts bugs in the diff, and installing a skill of the same name put two `code-review`s in front of the agent: whichever won, the other became hard to reach. Renaming this one to `two-axis-review` ends the clash, so both now sit side by side under distinct names. Type `/two-axis-review` for spec and standards compliance, and `/code-review` for Claude Code's bug hunt. If `/code-review` still autocompletes to a broken entry, an old link survived the rename: re-run `scripts/link-skills.sh`, which now sweeps stale links.
 
 **Its sub-agents keep invoking `/two-axis-review` again and spawn more agents.**
 

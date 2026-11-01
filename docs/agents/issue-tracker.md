@@ -15,7 +15,7 @@ A one-time `gh repo set-default nwant/skills` makes that the default for interac
 - **List issues**: `gh issue list --repo nwant/skills --state open --json number,title,body,labels,comments --jq '[.[] | {number, title, body, labels: [.labels[].name], comments: [.comments[].body]}]'` with appropriate `--label` and `--state` filters.
 - **Comment on an issue**: `gh issue comment <number> --repo nwant/skills --body "..."`
 - **Apply / remove labels**: `gh issue edit <number> --repo nwant/skills --add-label "..."` / `--remove-label "..."`
-- **Close**: `gh issue close <number> --repo nwant/skills --comment "..."`
+- **Close**: post the explanation with `gh issue comment <number> --repo nwant/skills --body "..."`, then `gh issue close <number> --repo nwant/skills`. On an already-closed issue, `gh issue close --comment` drops the comment and still exits 0.
 
 ## Pull requests as a triage surface
 
@@ -24,7 +24,7 @@ A one-time `gh repo set-default nwant/skills` makes that the default for interac
 When set to `yes`, PRs run through the same labels and states as issues, using the `gh pr` equivalents:
 
 - **Read a PR**: `gh pr view <number> --repo nwant/skills --comments` and `gh pr diff <number> --repo nwant/skills` for the diff.
-- **List external PRs for triage**: `gh pr list --repo nwant/skills --state open --json number,title,body,labels,author,authorAssociation,comments` then keep only `authorAssociation` of `CONTRIBUTOR`, `FIRST_TIME_CONTRIBUTOR`, or `NONE` (drop `OWNER`/`MEMBER`/`COLLABORATOR`).
+- **List external PRs for triage**: `gh api --paginate 'repos/nwant/skills/pulls?state=open' --jq '.[] | select(.author_association | IN("OWNER","MEMBER","COLLABORATOR") | not) | {number, title, author: .user.login, author_association, labels: [.labels[].name]}'`.
 - **Comment / label / close**: `gh pr comment`, `gh pr edit --add-label`/`--remove-label`, `gh pr close`, each with `--repo nwant/skills`.
 
 GitHub shares one number space across issues and PRs, so a bare `#42` may be either: resolve with `gh pr view 42 --repo nwant/skills` and fall back to `gh issue view 42 --repo nwant/skills`.

@@ -6,11 +6,13 @@ disable-model-invocation: true
 
 Implement the work described by the user in the spec or tickets.
 
-Use /tdd where possible, at pre-agreed seams.
+If the user passes a ticket reference, fetch it from the issue tracker as `docs/agents/issue-tracker.md` describes, and state its title before starting. If that file is missing, say so and tell the user to run `/setup-skills`; never guess the tracker. If the reference is ambiguous, ask.
+
+Call the Skill tool with "tdd" where possible, at pre-agreed seams.
 
 Run typechecking regularly, single test files regularly, and the full test suite once at the end.
 
-Once done, use /two-axis-review to review the work.
+Once done, call the Skill tool with "two-axis-review" to review the work.
 
 Commit your work to the current branch.
 
