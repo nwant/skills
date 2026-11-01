@@ -64,7 +64,7 @@ All of it exists to make one artifact good: the **agent brief**, the structured 
 
 Where the tracker treats external pull requests as a request surface, they run through the same machine, with the same categories, same states, same transitions. The states just read against the diff: `ready-for-agent` means a brief is attached and an agent should take the next step on the code, `ready-for-human` means it's ready for a person to merge. A brief on a PR describes what's left to do to the existing diff, not how to build the thing from nothing.
 
-Discovery surfaces only *external* PRs, because a collaborator's in-flight branch is not triage work. That filter is discovery-only, and naming a PR explicitly gets it triaged whoever wrote it. One rough edge: the GitHub template's external-PR listing command asks `gh pr list` for an `authorAssociation` field that `gh` does not expose, so the command as written fails outright ([#468](https://github.com/mattpocock/skills/issues/468)).
+Discovery surfaces only *external* PRs, because a collaborator's in-flight branch is not triage work. That filter is discovery-only, and naming a PR explicitly gets it triaged whoever wrote it. On GitHub the listing goes through the REST pulls endpoint, because `gh pr list` does not expose the author-association field the filter needs. A tracker doc written by an older `setup-skills` still carries the broken `gh pr list` command ([#468](https://github.com/mattpocock/skills/issues/468)); re-run `/setup-skills` to refresh it.
 
 ## Common questions
 
