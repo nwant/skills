@@ -10,9 +10,11 @@ If the user passes a ticket reference, fetch it from the issue tracker as `docs/
 
 Call the Skill tool with "tdd" where possible, at pre-agreed seams.
 
-Run typechecking regularly, single test files regularly, and the full test suite once at the end.
+Run typechecking regularly, single test files regularly, and the full test suite at the end.
 
-Once done, call the Skill tool with "two-axis-review" to review the work.
+Once done, call the Skill tool with "two-axis-review" to review the work. Then call the Skill tool with "receiving-code-review" to work through its findings.
+
+Before committing, call the Skill tool with "verification-before-completion". Its evidence is a fresh full-suite run made after the review fixes, not the earlier one.
 
 Commit your work to the current branch.
 

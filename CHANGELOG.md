@@ -11,6 +11,19 @@ This repo diverged from [mattpocock/skills](https://github.com/mattpocock/skills
 maintained independently, under the MIT license it was released with. `LICENSE` retains the
 original copyright notice as MIT requires, with the fork's added alongside it.
 
+**Superpowers retired; two of its skills rewritten here.** The superpowers plugin overlapped
+most of this collection (brainstorming, TDD, debugging, review, planning) and its session-start
+hook pushed its own process skills ahead of this repo's routing, so it is switched off. The two
+it covered that nothing here did are now promoted engineering skills, rewritten in this repo's
+voice and credited under MIT: `verification-before-completion` (evidence before claims, with a
+provenance section for silent instruments, self-made output and restore-from-copy) and
+`receiving-code-review` (restate, verify, then fix, push back or ask; all three kinds of GitHub
+PR comment; an empty usage search proves nothing). `implement` now works through
+`two-axis-review`'s findings with the one and verifies before committing with the other;
+`implement-spec` does the same for its fixer and merge steps; `two-axis-review` hands its
+findings on; and `which-skill` maps both as a discipline layer, dropping the pointer to the
+plugin.
+
 **Upstream ported through `4ae2317`, by hand.** The fork now treats upstream as a source of
 ideas, not a parent: changes are ported selectively and never merged (ADR 0005), and
 `.agents/upstream.md` records the last-reviewed commit, because the merge-base never moves.

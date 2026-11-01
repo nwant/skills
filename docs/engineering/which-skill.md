@@ -26,12 +26,13 @@ The tracker-dependent routes (triage, `to-spec`, `to-tickets`, `implement`) assu
 
 ## Flows, not skills
 
-The word the skill gives you to think with is **flow**: a path *through* the skills, not a single one. Naming your situation places you on a flow at a step, which is a different answer from "here is the skill that matches your keywords". Four kinds of route exist, and the skill itself carries them in full:
+The word the skill gives you to think with is **flow**: a path *through* the skills, not a single one. Naming your situation places you on a flow at a step, which is a different answer from "here is the skill that matches your keywords". Five kinds of route exist, and the skill itself carries them in full:
 
 - **The main flow**, idea to ship. Grill, spec, tickets, implement, review, with two branches inside it: a prototype detour when a question needs runnable code to settle, and the spec-and-tickets split, which only earns its cost when the build spans more than one session.
 - **On-ramps**, for a situation that generates work and then merges onto the main flow: incoming bug reports, something broken, or an effort too foggy and too large to hold in one session.
 - **Standalones**, off every flow, reached for on their own terms: the prototype, the questionnaire, the merge conflict you are already sitting in.
 - **A vocabulary layer underneath**, the two references the other skills pull in when the words rather than the process are the problem.
+- **A discipline layer underneath**, two skills that fire at a moment rather than a step: [verification-before-completion](./verification-before-completion.md) just before a claim that work is done, and [receiving-code-review](./receiving-code-review.md) when review findings arrive.
 
 ## The phase boundary
 
