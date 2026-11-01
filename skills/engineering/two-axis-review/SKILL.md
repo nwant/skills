@@ -85,6 +85,8 @@ Present the two reports under `## Standards` and `## Spec` headings, verbatim or
 
 End with a one-line summary: total findings per axis, and the worst issue _within each axis_ (if any). Don't pick a single winner across axes: that's the reranking the separation exists to prevent.
 
+To act on the findings, call the Skill tool with "receiving-code-review". It works the two axes as separate lists and sends any finding that would overrule the spec or a user decision back to the user.
+
 ## Why two axes
 
 A change can pass one axis and fail the other:

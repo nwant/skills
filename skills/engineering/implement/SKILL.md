@@ -12,7 +12,9 @@ Call the Skill tool with "tdd" where possible, at pre-agreed seams.
 
 Run typechecking regularly, single test files regularly, and the full test suite once at the end.
 
-Once done, call the Skill tool with "two-axis-review" to review the work.
+Once done, call the Skill tool with "two-axis-review" to review the work. Then call the Skill tool with "receiving-code-review" to work through its findings.
+
+Before committing, call the Skill tool with "verification-before-completion". The full test-suite run is the evidence that the work is done.
 
 Commit your work to the current branch.
 
