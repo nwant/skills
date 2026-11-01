@@ -67,7 +67,7 @@ Both work, and the skill does not decide for you. Per-ticket keeps each diff sma
 
 **Can I trust the findings?**
 
-Not without checking. Sub-agent output is a hypothesis, not evidence: one team reported a dozen breaking changes that prose-based reviews had waved through. The skill aggregates the two reports verbatim or lightly cleaned rather than re-verifying each claim against the files, so a finding can cite the wrong location or overstate an impact. Read the citation on each finding before acting on it. That every finding is required to carry one (a standards rule, a smell plus its hunk, or a spec line) is what makes this checkable at all.
+Not without checking. Sub-agent output is a hypothesis, not evidence: one team reported a dozen breaking changes that prose-based reviews had waved through. The skill aggregates the two reports verbatim or lightly cleaned rather than re-verifying each claim against the files, so a finding can cite the wrong location or overstate an impact. Read the citation on each finding before acting on it. That every finding is required to carry one (a standards rule, a smell plus its hunk, or a spec line) is what makes this checkable at all. The checking itself is [receiving-code-review](./receiving-code-review.md)'s job: the skill ends by pointing at it, and it verifies each finding against the codebase before fixing anything, keeps the two axes as separate lists, and brings you any finding that would overrule the spec.
 
 **Why does it find new problems every single time I run it?**
 
@@ -90,6 +90,7 @@ No. It diffs `<fixed-point>...HEAD`, three-dot, which is measured from the merge
 `two-axis-review` is the review step at the tail of the build chain: `grill-with-docs → to-spec → to-tickets → implement → two-axis-review`. It also stands alone on any branch or PR you point it at.
 
 - [implement](./implement.md) is the closest neighbour: it drives the build and calls this skill as its own closing review before committing.
+- [receiving-code-review](./receiving-code-review.md) is the other half: this skill gives the review, that one receives it.
 - [to-spec](./to-spec.md) and [to-tickets](./to-tickets.md) produce the document the Spec axis checks against; a vague spec makes that axis vague.
 - [improve-codebase-architecture](./improve-codebase-architecture.md) is the whole-codebase counterpart: this skill only ever looks at one diff.
 
