@@ -41,10 +41,6 @@ On GitHub, a PR's feedback lives in three places: inline comments, review bodies
 
 Both. It was reported not to fire on a subagent's review in the original, or to fire perfunctorily ("excellent discovery", then straight into edits), because it read as aimed at human reviewers. Here the subagent row is explicit, and [implement](./implement.md) calls it by name on the output of `two-axis-review`, so it does not depend on the agent noticing.
 
-**Why does it never say thanks?**
-
-Because the fix is the acknowledgement. A reply that says what changed and where ("Fixed: null check before the parse, `parser.ts:42`") tells the reviewer more than agreement does, and it keeps the response about the code.
-
 ## It's working if
 
 - Replies to a review restate the requirement or name the fix and its location, rather than agreeing.

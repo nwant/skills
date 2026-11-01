@@ -22,8 +22,9 @@ Done when every claim in the message has, in this turn, the output that backs it
 
 | Claim | Evidence | Not enough |
 | --- | --- | --- |
-| Tests pass | The full suite: 0 failures, exit 0 | An earlier run; the one file you touched |
+| Tests pass | The full suite: 0 failures, exit 0 | An earlier run; the one file you touched, since a change breaks counts and fixtures asserted far from it |
 | It builds | The build or typecheck: exit 0 | A clean linter |
+| Lint is clean | The linter over the whole change: 0 errors | A run over one file |
 | Bug fixed | The original symptom, re-run, now gone | The code changed |
 | The regression test guards the bug | The test seen red without the fix and green with it | The test passing once |
 | Requirements met | Each requirement checked against the diff | Tests passing |
@@ -39,4 +40,3 @@ Output proves something only about whatever produced it.
 - **An empty result is a claim too.** Silence from a search, a log, or a probe means either "absent" or "the instrument is broken". Show the instrument finding something you know is there (a positive control) before reading its silence as a negative.
 - **Output you caused describes your instrument, not the system.** A probe you triggered by hand proves the probe works; it says nothing about whether the system triggered it.
 - **Restore from a copy, not from version control.** A break-and-restore loop on uncommitted work restores each file from a copy taken at the start of the run, because `git checkout -- <file>` reverts the work under test along with the break. After each break, confirm it landed before trusting the red.
-- **Run the whole suite when you add one more of something.** A new item in a collection breaks counts asserted in tests nowhere near the file you changed.

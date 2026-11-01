@@ -37,9 +37,9 @@ A run is six beats, in order:
 1. Read the ticket or spec and work out the seams.
 2. Drive [tdd](./tdd.md) at the pre-agreed seams, one red-green slice at a time.
 3. Typecheck often, run single test files as it goes.
-4. Run the full test suite once, at the end.
+4. Run the full test suite at the end.
 5. Run [two-axis-review](./two-axis-review.md), and work through its findings with [receiving-code-review](./receiving-code-review.md): each one verified, then fixed, pushed back on, or put to you.
-6. Run [verification-before-completion](./verification-before-completion.md) on the claim that the work is done, with the full suite as the evidence, then commit to the current branch.
+6. Run [verification-before-completion](./verification-before-completion.md) on the claim that the work is done, with a fresh full-suite run after the review fixes as the evidence, then commit to the current branch.
 
 One run covers one ticket. The tickets [to-tickets](./to-tickets.md) produces are tracer-bullet vertical slices sized to fit a single fresh [context window](https://www.aihero.dev/ai-coding-dictionary/context-window), so the intended rhythm is: clear context, implement one ticket, commit, clear again. Each ticket is self-contained, which is what makes the previous ticket's context disposable.
 
@@ -81,7 +81,7 @@ Probably the ticket is too big rather than the skill being misused. A run does c
 
 - The session opens by reading the ticket or spec and restating what it will build, rather than asking you what to build.
 - You can see an actual `/tdd` invocation in the trace, not just tests appearing in the diff.
-- Typechecks and single test files run repeatedly during the run, and the full suite runs once near the end.
+- Typechecks and single test files run repeatedly during the run, and the full suite runs near the end, then again after the review fixes.
 - Each review finding ends the run with an outcome you can see: fixed and where, pushed back on with a reason, or asked about.
 - The message before the commit quotes the full suite's result ("212 passed, exit 0"), not "should pass".
 - The run reaches a commit on your current branch without you prompting it to carry on.

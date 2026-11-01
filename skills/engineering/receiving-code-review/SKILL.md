@@ -1,6 +1,6 @@
 ---
 name: receiving-code-review
-description: Weigh review feedback before acting on it. Use when code review findings arrive, from the user, a PR, or a review subagent such as two-axis-review, before implementing any of them.
+description: Weigh review feedback before acting on it. Use when code review findings arrive, from the user, a PR, or a review subagent such as two-axis-review.
 ---
 
 # Receiving code review
@@ -31,7 +31,7 @@ Done when every finding has an outcome you can point to: fixed (and where), push
 
 Push back when a finding would break working behaviour, misses context the reviewer lacks, asks for a feature nothing uses, is wrong for this stack, or contradicts a recorded decision. Make the case with evidence: the failing test, the call site, the constraint.
 
-Before building out a suggested "proper" version of something, check whether anything uses it. A search that comes back empty is a claim about the search: show it finding a caller you know exists before treating the silence as "unused", and propose the removal rather than making it.
+Before building out a suggested "proper" version of something, check whether anything uses it. A search that finds no callers is evidence only once you have proved the search works, as `verification-before-completion` sets out, and even then propose the removal rather than making it.
 
 Where you cannot verify a finding, say what you would need to: "I can't confirm this without the production config. Investigate, or proceed as written?"
 
