@@ -11,6 +11,22 @@ This repo diverged from [mattpocock/skills](https://github.com/mattpocock/skills
 maintained independently, under the MIT license it was released with. `LICENSE` retains the
 original copyright notice as MIT requires, with the fork's added alongside it.
 
+**Upstream ported through `4ae2317`, by hand.** The fork now treats upstream as a source of
+ideas, not a parent: changes are ported selectively and never merged (ADR 0005), and
+`.agents/upstream.md` records the last-reviewed commit, because the merge-base never moves.
+This first pass brought in: grilling questions worded so "yes" accepts the recommendation;
+diagnosing-bugs proving a forced mutation landed; tdd noting what each seam catches; wizard
+template fixes; handoff's fixed temp-dir order; claude-handoff passing its summary without
+shell interpolation; implement fetching the ticket and calling tdd and two-axis-review via the
+Skill tool; wayfinder label, placeholder and research-branch fixes; teach path and quiz fixes;
+two-axis-review's standards-file search and foreground sub-agents; setup-skills' reachable
+repo, label creation, `gh` 2.94 blocking flags, fork-safe issue filing, REST-based external
+PR listing and `glab -O json`; and fresh context windows for every dispatched subagent, now a
+repo rule in `CLAUDE.md`. `implement-spec` and `retro` took upstream's content but stay in
+`in-progress/`, and `pr` joins them there. Skipped on purpose: the `GLOSSARY.md` rename,
+release and repo-ops machinery, upstream's bucket moves, `chief-of-staff` and
+`software-factory`.
+
 **`link-skills.sh` removes what it should no longer install, and stops deleting what it
 never created.** The script linked and refreshed, and never removed, so a renamed, deleted
 or demoted skill kept whatever symlink an earlier run had made. The `code-review` to
