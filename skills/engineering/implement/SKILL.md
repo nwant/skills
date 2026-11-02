@@ -14,9 +14,11 @@ Run typechecking regularly, single test files regularly, and the full test suite
 
 Once done, call the Skill tool with "two-axis-review" to review the work. Then call the Skill tool with "receiving-code-review" to work through its findings.
 
+**A deviation from the spec isn't done until the spec says so.** If the user approves behaviour the spec doesn't describe or contradicts, update the spec file in the same change. Otherwise the next ticket's agent reads the old spec and undoes it.
+
 Before committing, call the Skill tool with "verification-before-completion". Its evidence is a fresh full-suite run made after the review fixes, not the earlier one.
 
-Commit your work to the current branch.
+Commit your work to the current branch, unless the repo's own instructions require a branch per ticket: then create that branch first.
 
 **Name the repo before you commit, and refuse to guess.** A ticket may name a repo
 other than the one you are standing in, and committing it to whichever repo the
