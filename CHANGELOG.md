@@ -11,6 +11,18 @@ This repo diverged from [mattpocock/skills](https://github.com/mattpocock/skills
 maintained independently, under the MIT license it was released with. `LICENSE` retains the
 original copyright notice as MIT requires, with the fork's added alongside it.
 
+**`setup-ts-deep-modules` supports Deno.** The in-progress skill now detects the runtime and
+loads `node.md` or `deno.md` for the steps that differ. Deno repos get `deep_modules.ts`, a
+zero-dependency checker on `deno info --json` that resolves imports exactly as Deno does
+(import map, `jsr:`, `.ts` extensions) and runs with `--allow-read=. --allow-run=deno`; Node
+repos keep dependency-cruiser (ADR 0006). Both report the same five rule names, and
+`test/parity.ts` holds them to one expected list. Two Node bugs found on the way are fixed:
+type-only deep imports passed unchecked (now `tsPreCompilationDeps: true`, which also makes
+type-only cycles count, so a re-run may surface new `no-circular` errors), and with a
+TypeScript version dependency-cruiser cannot parse, it cruised zero modules and reported
+success (now checked after install and treated as a failure). Step 6 runs the boundary check
+alone and must name `tests-through-entrypoints`, not just exit non-zero.
+
 **Superpowers retired; two of its skills rewritten here.** The superpowers plugin overlapped
 most of this collection (brainstorming, TDD, debugging, review, planning) and its session-start
 hook pushed its own process skills ahead of this repo's routing, so it is switched off. The two

@@ -25,7 +25,8 @@ This is a **single-context** repo: one `CONTEXT.md` at the root, no `CONTEXT-MAP
 │       ├── 0002-ship-as-a-claude-code-plugin.md
 │       ├── 0003-config-is-named-and-loaded.md
 │       ├── 0004-tracker-capabilities-live-in-tracker-config.md
-│       └── 0005-diverge-from-upstream-port-selectively.md
+│       ├── 0005-diverge-from-upstream-port-selectively.md
+│       └── 0006-deno-deep-modules-native-checker.md
 ├── docs/
 │   ├── agents/        ← this directory: skill-facing config
 │   ├── engineering/   ← human-facing skill pages
