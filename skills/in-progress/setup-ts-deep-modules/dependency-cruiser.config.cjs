@@ -86,6 +86,9 @@ module.exports = {
     // },
   ],
   options: {
+    // Count type-only imports (`import type`). Without this, dependency-cruiser
+    // drops them as compiled away, and a deep `import type` passes unchecked.
+    tsPreCompilationDeps: true,
     doNotFollow: { path: "node_modules" },
     tsConfig: { fileName: "tsconfig.json" },
     enhancedResolveOptions: {

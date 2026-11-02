@@ -1,0 +1,11 @@
+{
+  "name": "deep-modules-node-fixture",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5"
+  }
+}

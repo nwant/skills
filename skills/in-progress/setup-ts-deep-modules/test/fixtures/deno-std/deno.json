@@ -1,0 +1,12 @@
+{
+  "tasks": {
+    "test": "deno test",
+    "check": "deno check src/ test/ && deno lint && deno fmt --check"
+  },
+  "imports": {
+    "@std/assert": "jsr:@std/assert@^1"
+  },
+  "fmt": {
+    "include": ["src/", "test/", "deno.json"]
+  }
+}
