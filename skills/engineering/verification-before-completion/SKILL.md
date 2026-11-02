@@ -27,11 +27,12 @@ Done when every claim in the message has, in this turn, the output that backs it
 | Lint is clean | The linter over the whole change: 0 errors | A run over one file |
 | Bug fixed | The original symptom, re-run, now gone | The code changed |
 | The regression test guards the bug | The test seen red without the fix and green with it | The test passing once |
+| A new guard is protected | A test seen red with the guard removed and green with it back | The suite passing |
 | Requirements met | Each requirement checked against the diff | Tests passing |
 | A subagent did the work | The diff on the branch, plus a test run there | The subagent's report |
 | It's already done in history | `git show <sha>` touching the code | A commit message saying so |
 
-Two rows already have a home elsewhere. The red-green proof of a regression test is the loop `tdd` runs, and step 2 of Phase 5 in `diagnosing-bugs`. Checking requirements against a spec or ticket is the Spec axis of `two-axis-review`. Use those rather than a weaker check here.
+Three rows already have a home elsewhere. The red-green proof of a regression test is the loop `tdd` runs, and step 2 of Phase 5 in `diagnosing-bugs`. The red for each new guard is the guard check on the Standards axis of `two-axis-review`. Checking requirements against a spec or ticket is the Spec axis of `two-axis-review`. Use those rather than a weaker check here.
 
 ## Provenance
 

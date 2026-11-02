@@ -11,6 +11,13 @@ This repo diverged from [mattpocock/skills](https://github.com/mattpocock/skills
 maintained independently, under the MIT license it was released with. `LICENSE` retains the
 original copyright notice as MIT requires, with the fork's added alongside it.
 
+**`two-axis-review` checks that every new guard has a test.** Three PRs in a row shipped a
+guard (a condition that rejects input, stops early, or skips a side effect) that could be
+deleted with the whole suite green, and both review axes passed each one. The Standards axis
+now runs a guard check: it uses the repo's mutation command when one is documented, and
+otherwise breaks each guard in a scratch copy of the working tree, reporting every one that
+leaves the suite green. `verification-before-completion` gains the matching evidence row.
+
 **`setup-ts-deep-modules` supports Deno.** The in-progress skill now detects the runtime and
 loads `node.md` or `deno.md` for the steps that differ. Deno repos get `deep_modules.ts`, a
 zero-dependency checker on `deno info --json` that resolves imports exactly as Deno does
