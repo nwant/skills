@@ -55,6 +55,13 @@ Each smell reads *what it is* → *how to fix*; match it against the diff:
 - **Middle Man**: a class or function that mostly just delegates onward. → cut it, call the real target direct.
 - **Refused Bequest**: a subclass or implementer that ignores or overrides most of what it inherits. → drop the inheritance, use composition.
 
+The Standards axis also carries the **guard check**, which applies in every repo. A **guard** is a condition the diff adds that rejects input, stops early, or skips a side effect. Each guard must turn the suite red when removed; a guard the suite never reaches can be deleted with nothing failing, and a diff review cannot see that. So run it:
+
+- **Use the repo's mutation command when one is documented.** Report each survivor it lists.
+- **Otherwise break each guard by hand,** in a scratch copy of the working tree, never the working tree itself, since the Spec sub-agent reads the same files in parallel. Make the guard's condition never fire, run the full suite, and restore from a copy. Report each guard that left the suite green.
+
+A survivor is a hard finding. The fix is a test that goes red without the guard, or a comment on the guard naming what makes it a deliberate backstop to another one.
+
 ### 4. Spawn both sub-agents in parallel
 
 Issue both sub-agent calls together, in the foreground, and aggregate the reports they return.
@@ -62,8 +69,8 @@ Issue both sub-agent calls together, in the foreground, and aggregate the report
 **Standards sub-agent prompt** should include:
 
 - The full diff command and commit list.
-- The list of standards-source files you found in step 3, **plus the smell baseline from step 3** pasted in full (the sub-agent has no other access to it).
-- The brief: "Report, per file/hunk where relevant, (a) every place the diff violates a documented standard: cite the standard (file + the rule); and (b) any baseline smell you spot: name it and quote the hunk. Distinguish hard violations from judgement calls: documented-standard breaches can be hard, but baseline smells are always judgement calls, and a documented repo standard overrides the baseline. Skip anything tooling enforces. Under 400 words."
+- The list of standards-source files you found in step 3, **plus the smell baseline and the guard check from step 3** pasted in full (the sub-agent has no other access to them).
+- The brief: "Report, per file/hunk where relevant, (a) every place the diff violates a documented standard: cite the standard (file + the rule); (b) any baseline smell you spot: name it and quote the hunk; and (c) every guard the guard check left green: quote the guard and the passing run. Distinguish hard violations from judgement calls: documented-standard breaches can be hard, but baseline smells are always judgement calls, and a documented repo standard overrides the baseline. Skip anything tooling enforces. Under 400 words."
 
 **Spec sub-agent prompt** should include:
 

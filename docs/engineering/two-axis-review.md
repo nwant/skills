@@ -39,13 +39,15 @@ Step 1 depends on `docs/agents/issue-tracker.md`, which [setup-skills](./setup-s
 | | Standards | Spec |
 | --- | --- | --- |
 | Question | Is it built right? | Is it the right thing? |
-| Reads | The repo's documented standards, plus the smell baseline | The originating issue or spec |
+| Reads | The repo's documented standards, plus the smell baseline and the guard check | The originating issue or spec |
 | Reports | Documented breaches (can be hard), and smells (always judgement calls) | Missing or partial requirements, scope creep, requirements implemented wrongly |
 | Every finding cites | The standards file and the rule, or the named smell plus the hunk | The line of the spec |
 
 A generic review skill that does not know your standards is the thing this design is trying to avoid: it flags what is deliberate in your codebase and misses the invariants your codebase actually depends on. So the repo's own documentation is the [primary source](https://www.aihero.dev/ai-coding-dictionary/primary-source) on the Standards axis, and **the repo always overrides**.
 
 The **smell baseline** is the floor underneath it, twelve Fowler code smells from _Refactoring_ ch.3: Mysterious Name, Duplicated Code, Feature Envy, Data Clumps, Primitive Obsession, Repeated Switches, Shotgun Surgery, Divergent Change, Speculative Generality, Message Chains, Middle Man, Refused Bequest. Each is a labelled heuristic ("possible Feature Envy"), never a hard violation, and each is stated as *what it is* → *how to fix*, so a finding arrives with a move attached rather than a complaint. Anything your linter already enforces is skipped by both axes.
+
+The **guard check** is the one part of the Standards axis that runs code. A guard is a condition the diff adds that rejects input, stops early, or skips a side effect. A test written for the happy path goes green without ever reaching one, so a guard can be deleted with the whole suite still passing, and nothing in the diff shows it. The Standards sub-agent removes each guard in a scratch copy of the working tree (or runs your repo's mutation command, if one is documented) and reports every guard that left the suite green. The fix is a test that goes red without it, or a comment naming it as a deliberate backstop.
 
 ## Common questions
 
