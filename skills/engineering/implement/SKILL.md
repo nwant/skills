@@ -14,7 +14,7 @@ Run typechecking regularly, single test files regularly, and the full test suite
 
 Once done, call the Skill tool with "two-axis-review" to review the work. Then call the Skill tool with "receiving-code-review" to work through its findings.
 
-**A deviation from the spec isn't done until the spec says so.** If the user approves behaviour the spec doesn't describe or contradicts, update the spec file in the same change. Otherwise the next ticket's agent reads the old spec and undoes it.
+**The spec describes everything the diff does.** Before committing, read the diff for behaviour the spec doesn't describe or contradicts (a new event, command, field or edge rule), whether the user approved it or you added it, and update the spec file in the same change. Otherwise the next ticket's agent reads the old spec and undoes it.
 
 Before committing, call the Skill tool with "verification-before-completion". Its evidence is a fresh full-suite run made after the review fixes, not the earlier one.
 
