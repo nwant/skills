@@ -80,7 +80,7 @@ Create a committed `<packages-root>/example/` as a copy-me template, with the fi
 
 Tell the user this is a starter template to copy or delete.
 
-**Done when:** the example package exists, exposes its behaviour through a root entry point, hides `impl` in a subfolder, and its test passes.
+**Done when:** the example package exists, exposes its behaviour through a root entry point, hides `impl` in a subfolder, and its test passes under the repo's existing test runner. If the repo has no test runner, say so and leave the test unrun: adding one is the user's call, not this skill's.
 
 ### 6. Prove the rules bite
 
