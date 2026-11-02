@@ -104,9 +104,9 @@ Deliberately: the concerns below are agent mechanics rather than engineering flo
 - **Subagent dispatch and parallel agents**, fanning work out and getting reports back.
 - **Finishing a branch**, deciding how work integrates.
 
-Worktrees and subagent dispatch are built into the harness. Finishing a branch is your own habit. Naming them
-anyway keeps a router that silently omits a daily situation from sending you looking
-through the wrong list.
+Worktrees and subagent dispatch are built into the harness. Finishing a branch is your
+own habit. Naming them anyway keeps a router that silently omits a daily situation from
+sending you looking through the wrong list.
 
 ## Precondition
 
