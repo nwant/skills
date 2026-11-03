@@ -25,6 +25,12 @@ A `wayfinder` unit: a child **Issue** of a `wayfinder:map` holding a *question* 
 **Triage role**:
 A canonical state-machine label applied to an **Issue** during triage (e.g. `needs-triage`, `ready-for-afk`). Each role maps to a real label string in the **Issue tracker** via `docs/agents/triage-labels.md`.
 
+### Explaining
+
+**Synthesis**:
+A saved document that turns a pile of sources (papers, URLs, existing notes) into a scannable explanation, every figure in it traced to a source. Produced by `synthesize`.
+_Avoid_: research doc, writeup, report, explainer, docs page (that is a skill's human-facing page under `docs/`)
+
 ### Multi-repo vocabulary
 
 These terms belong to the three workspace skills, which are shelved in `skills/misc/` and not
