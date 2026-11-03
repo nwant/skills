@@ -69,6 +69,7 @@ No, it fires them for you. A charting session spawns a `/research` subagent per 
 - One new Markdown file shows up, in the folder the repo already uses for notes, and the agent tells you the path.
 - Every claim in it carries a link, and following two at random lands you on an official doc, a spec, or the actual source file, not on someone's write-up of it.
 - You can make the decision you were stuck on from the file alone, without going back to the sources yourself.
+- The report ends with the file's path and an offer to run `/synthesize` on it.
 
 ## Where it fits
 

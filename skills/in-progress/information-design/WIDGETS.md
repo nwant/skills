@@ -1,4 +1,4 @@
-# Interactive explainers
+# Widgets
 
 A widget earns its place when the point turns on one to three continuous variables and the sources give real numbers for how the output moves with them. Anything else is a table.
 

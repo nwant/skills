@@ -1,6 +1,6 @@
 ---
 name: information-design
-description: Standard for explaining technical material so a reader grasps it fast. Use when writing a synthesis, a PR body, a visual explanation of a system, a diagram, a comparison table, or an interactive explainer.
+description: Standard for explaining technical material so a reader grasps it fast. Use when writing a synthesis, a PR body, a visual explanation of a system, a diagram, a comparison table, or an interactive widget.
 metadata:
   credits:
     skill: show-me
@@ -81,7 +81,54 @@ src/
 └── transport/      # sends API requests
 ```
 
-A `diff` takes the shape of whatever it changes. For a call tree:
+Mermaid, for interaction:
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant UI
+    participant Daemon
+    User->>UI: choose command
+    UI->>Daemon: send expanded prompt
+    Daemon-->>UI: stream result
+```
+
+A `diff` takes the shape of whatever it changes. For a component change:
+
+```diff
+ <SessionPage>
+   useSessionEvents()
+   <SessionToolbar>
++    <RunSkillButton />
+   <SessionTimeline>
++    <SkillResultCard />
+```
+
+For a file-layout change:
+
+```diff
+ src/
+ ├── commands/
++│   └── show-me.ts       # expands the slash command
+ ├── sessions/
+-└── transport.ts
++└── transport/
++    ├── client.ts
++    └── stream.ts
+```
+
+For a state or control-flow change:
+
+```diff
+ on(save)
+-  write content
++  if content is unchanged
++    return cached result
++  write new content
++  invalidate cache
+```
+
+For a call tree:
 
 ```diff
  submitForm
@@ -95,6 +142,13 @@ A `diff` takes the shape of whatever it changes. For a call tree:
 ```
 
 Show the whole block instead when most of it is new, or when omitted context would hide ownership or order.
+
+```ts
+function expandSkill(command: string): string {
+  const skillName = command.slice(1);
+  return `use the ${skillName} skill`;
+}
+```
 
 ### Tables
 
@@ -137,6 +191,6 @@ flowchart LR
 
 In HTML the same roles hold: slate for ordinary structure, teal `#0f766e` for the novel mechanism, amber `#b45309` for bottlenecks. A host product's palette may supply the neutrals and the type; the two roles keep their colours.
 
-## Interactive explainers
+## Widgets
 
 When a point turns on a variable the reader should feel by dragging it, read [WIDGETS.md](WIDGETS.md) before building anything.
