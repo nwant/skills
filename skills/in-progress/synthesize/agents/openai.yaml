@@ -1,0 +1,5 @@
+interface:
+  display_name: "Synthesize"
+  short_description: "Turn sources into a scannable, cited synthesis"
+policy:
+  allow_implicit_invocation: false

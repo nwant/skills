@@ -69,7 +69,8 @@ No, it fires them for you. A charting session spawns a `/research` subagent per 
 - One new Markdown file shows up, in the folder the repo already uses for notes, and the agent tells you the path.
 - Every claim in it carries a link, and following two at random lands you on an official doc, a spec, or the actual source file, not on someone's write-up of it.
 - You can make the decision you were stuck on from the file alone, without going back to the sources yourself.
+- The report ends with the file's path and an offer to run `/synthesize` on it.
 
 ## Where it fits
 
-A reach-for-it-anytime standalone that feeds the thinking skills rather than sitting in the build chain. Its file is something to take *into* the flow: [grilling](../productivity/grilling.md) and [grill-with-docs](./grill-with-docs.md) ask sharper questions when the facts are already on the table, and [to-spec](./to-spec.md) can synthesise against it. [wayfinder](./wayfinder.md) is the one skill that invokes it directly, resolving each research ticket on its map with a `/research` subagent. For the whole map, see [which-skill](./which-skill.md).
+A reach-for-it-anytime standalone that feeds the thinking skills rather than sitting in the build chain. Its file is something to take *into* the flow: [grilling](../productivity/grilling.md) and [grill-with-docs](./grill-with-docs.md) ask sharper questions when the facts are already on the table, and [to-spec](./to-spec.md) can synthesise against it. When the run finishes, the agent points you at `/synthesize` (a beta skill, so it has no page here), which turns the file into a scannable, cited Synthesis if you want one to keep or share. [wayfinder](./wayfinder.md) is the one skill that invokes it directly, resolving each research ticket on its map with a `/research` subagent. For the whole map, see [which-skill](./which-skill.md).
