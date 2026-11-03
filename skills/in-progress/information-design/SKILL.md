@@ -1,6 +1,6 @@
 ---
 name: information-design
-description: Standard for explaining technical material so a reader grasps it fast. Use when writing a synthesis, a PR body, a visual explanation of a system, a diagram, a comparison table, or an interactive widget.
+description: Standard for explaining technical material so a reader grasps it fast. Use when writing a visual explanation of a system, a diagram, a comparison table, or an interactive widget.
 metadata:
   credits:
     skill: show-me
@@ -24,7 +24,7 @@ The reader should get the thesis in ten seconds, the shape of the system in sixt
 - **Concrete and sourced.** Pair each claim with its runtime reality: the number, the unit, the payload. Every figure traces to a source and carries its citation. A figure you construct to illustrate is labelled _illustrative_. Where the source gives no number, say the source gives none.
 - **Real examples.** Use the domain's own names, shapes, and sizes, drawn from the sources or the codebase in front of you.
 - **MECE lists.** A list of failure modes, trade-offs, or components covers the space once: no overlaps, no gaps.
-- **Front-loaded bullets.** Open a bullet with a bold one-to-three word label, then one or two sentences.
+- **Front-loaded bullets.** By default, open a bullet with a bold one-to-three word label, then one or two sentences. Drop the label where the bullet is already a single scannable phrase.
 - **Brief.** Skip the preamble. Keep only the calls, files, states, and boundaries the reader needs for the point at hand.
 
 ## Choosing a view
@@ -158,13 +158,15 @@ Cells hold numbers with units (`ms`, `GB/s`, `tokens/s`) and `Yes`/`No`, not pro
 
 For a mutation, show the literal state twice and let the reader diff it:
 
+Before:
+
 ```json
-// Before
 { "cache": { "entries": 4096, "evicted": 0 } }
 ```
 
+After:
+
 ```json
-// After
 { "cache": { "entries": 3584, "evicted": 512 } }
 ```
 
@@ -189,7 +191,7 @@ flowchart LR
 - **`novel`** (teal) marks the mechanism the material introduces.
 - **`bottleneck`** (amber) marks a constraint, a failure state, or a latency wall, and nothing else.
 
-In HTML the same roles hold: slate for ordinary structure, teal `#0f766e` for the novel mechanism, amber `#b45309` for bottlenecks. A host product's palette may supply the neutrals and the type; the two roles keep their colours.
+In HTML the same roles hold: slate `#475569` for ordinary structure, teal `#0f766e` for the novel mechanism, amber `#b45309` for bottlenecks. A host product's palette may supply the neutrals and the type; the two roles keep their colours.
 
 ## Widgets
 

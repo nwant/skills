@@ -24,7 +24,7 @@ Before writing, name for yourself:
 - **Bottleneck**: the constraint the material addresses.
 - **Topology**: the components and how they connect.
 - **Trade-offs**: the variables the options differ on, with the numbers the sources give.
-- **Widget test**: does the key trade-off turn on one to three continuous variables the sources give numbers for? If yes, note the candidate controls.
+- **Widget test**: does the key trade-off pass the test at the top of `information-design`'s widget rules? If yes, note the candidate controls.
 
 ## 4. Write
 
@@ -46,7 +46,7 @@ sources:
 <the bottleneck>
 
 ## How it works
-<the system as a black box: one Mermaid diagram, at most eight nodes>
+<the system as a black box: one Mermaid diagram within `information-design`'s node limit>
 
 ## Mechanics
 <algorithms, state changes, formulas: exploded views, before and after blocks>

@@ -32,7 +32,7 @@ Skip all preambles and keep prose brief. Use the user's domain language from `CO
 
 ### Summary
 
-Call the Skill tool with "information-design", and pick the smallest view from its catalogue that makes the change clear. Prefer a `diff` over a view when the surrounding shape already exists. Place each visual next to the short text it supports.
+Call the Skill tool with "information-design", and pick the smallest view from its catalogue that makes the change clear. Place each visual next to the short text it supports.
 
 ### Evidence
 
