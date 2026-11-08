@@ -11,7 +11,7 @@ Every issue-tracker backend hard-codes a CLI shape into the skills (commands, fl
 - GitHub, GitLab, and Backlog.md are the kind of tools we'd consider mainstream: broadly known, widely used, well past the experimental phase.
 - A brand-new agent-focused tool with a few hundred GitHub stars is not, no matter how interesting the design.
 
-Stars, age, and download counts are useful signals when making the call but none of them is the rule. The rule is: would a typical engineer recognise this tool and have plausibly chosen it for their team?
+Stars, age, and download counts are useful signals when making the call but none of them is the rule. The rule is: would a typical engineer recognize this tool and have plausibly chosen it for their team?
 
 The escape hatches for non-mainstream trackers already exist:
 

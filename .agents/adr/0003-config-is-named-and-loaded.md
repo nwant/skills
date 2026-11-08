@@ -40,7 +40,7 @@ are stated in their general form.
 - **Ambiguity is a question for a person, and should be asked once**, at the moment the answer is
   being decided, not re-derived on every invocation of every skill.
 - **A written file that nothing reads is a defect with no symptom.** This was found in the wild:
-  one repo ran `/setup-skills`, which wrote a carefully customised `docs/agents/domain.md` and
+  one repo ran `/setup-skills`, which wrote a carefully customized `docs/agents/domain.md` and
   `docs/agents/triage-labels.md`, and `grep -rn` over `skills/` shows nothing reads either one
   except `setup-skills`, which writes them. The repo's own conventions sat in a file no skill was
   told to open. `two-axis-review` is the only skill that names its config file, and it is the
@@ -66,7 +66,7 @@ paragraph again, serving zero instances. That is Speculative Generality, which
 `two-axis-review`'s own smell baseline prescribes deleting until a real need shows.
 
 The decision to shelve is independent of whether the superseded 0003 was right. It was right, and
-what it was right about generalises past the feature that occasioned it, which is why this file
+what it was right about generalizes past the feature that occasioned it, which is why this file
 keeps the argument and drops the subject. If a workspace is ever created, those skills come back
 out of `misc/` and this rule already covers how they record what they resolve.
 

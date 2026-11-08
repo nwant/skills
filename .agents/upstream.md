@@ -25,6 +25,9 @@ Port what is worth having, mapping upstream names onto ours as you go:
 | `GLOSSARY.md`, `GLOSSARY-MAP.md` | `CONTEXT.md`, `CONTEXT-MAP.md` |
 | `docs/adr/` (this repo only) | `.agents/adr/` |
 
+Convert British spellings to American in everything you port (see the spelling rule in
+[`CLAUDE.md`](../CLAUDE.md)); upstream writes British English (-our, -ise, doubled L, and the like).
+
 Then update the sha above to the `upstream/main` commit you reviewed up to, in the same pull
 request as the ports.
 

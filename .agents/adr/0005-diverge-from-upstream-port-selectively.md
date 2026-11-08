@@ -19,7 +19,7 @@ decision:
 - **Conventions upstream changed and we kept**: upstream renamed the glossary convention
   `CONTEXT.md` to `GLOSSARY.md`; this fork, the repos it has set up, and `docs/agents/domain.md`
   all use `CONTEXT.md`.
-- **Different bucket judgements**: upstream graduated `pr`, `retro` and `implement-spec` and
+- **Different bucket judgments**: upstream graduated `pr`, `retro` and `implement-spec` and
   deleted `resolving-merge-conflicts`. Promotion here follows this repo's own use.
 
 Tracking upstream would cost a conflict-heavy merge every time and buy nothing, because each

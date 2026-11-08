@@ -131,7 +131,7 @@ Do not propose interfaces yet. Ask which candidate the user wants to explore.
 ### 5. Grilling loop
 
 Call the Skill tool with "grilling" to walk the chosen candidate: which repo owns the
-seam afterwards, what crosses it, what the migration order is, which tests move.
+seam afterward, what crosses it, what the migration order is, which tests move.
 
 Side effects inline. Call the Skill tool with "domain-modeling" to keep the model
 current:

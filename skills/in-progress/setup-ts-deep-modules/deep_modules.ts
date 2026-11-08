@@ -1,6 +1,6 @@
 // Deep-module enforcement for Deno repos. Zero dependencies.
 //
-// Each package under PACKAGES_ROOT is a DEEP MODULE: a lot of behaviour behind
+// Each package under PACKAGES_ROOT is a DEEP MODULE: a lot of behavior behind
 // a small interface. A package's PUBLIC SURFACE is its ENTRY POINTS: the files
 // at the package root (mod.ts, client.ts, …). Implementation lives in
 // SUBFOLDERS and is private (by convention `lib/` for implementation and

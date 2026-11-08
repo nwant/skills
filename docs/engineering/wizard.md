@@ -84,7 +84,7 @@ It did. It's now model-invoked, so the agent reaches for it unprompted when it h
 
 **It used to be in `in-progress/`: where is it now?**
 
-`engineering/`, as of v1.2. It graduated out of the beta bucket, so it arrives with the rest of the promoted set. Its behaviour didn't change on graduation.
+`engineering/`, as of v1.2. It graduated out of the beta bucket, so it arrives with the rest of the promoted set. Its behavior didn't change on graduation.
 
 ## It's working if
 
@@ -97,4 +97,4 @@ It did. It's now model-invoked, so the agent reaches for it unprompted when it h
 
 ## Where it fits
 
-`wizard` is a reach-for-it-anytime standalone, sitting at the line where automation stops and a human has to click. Its nearest neighbour is [setup-skills](./setup-skills.md), because both exist to get a repo into a working state: that one configures this skill set, while `wizard` generates a setup path for everything else. It also pairs with [implement](./implement.md): when a build lands a feature that needs credentials or a manual cutover, a wizard is how the human half gets done. When you're unsure which skill fits the moment, [which-skill](./which-skill.md) routes you.
+`wizard` is a reach-for-it-anytime standalone, sitting at the line where automation stops and a human has to click. Its nearest neighbor is [setup-skills](./setup-skills.md), because both exist to get a repo into a working state: that one configures this skill set, while `wizard` generates a setup path for everything else. It also pairs with [implement](./implement.md): when a build lands a feature that needs credentials or a manual cutover, a wizard is how the human half gets done. When you're unsure which skill fits the moment, [which-skill](./which-skill.md) routes you.

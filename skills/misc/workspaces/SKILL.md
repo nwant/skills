@@ -39,7 +39,7 @@ _Avoid_: monorepo (one git root, the opposite shape), project, umbrella repo
 A repo a workspace claims, living as its **sibling** on disk with its own git history
 and its own `CLAUDE.md`. Membership is **many-to-many**: one repo belonging to several
 workspaces is normal rather than a misconfiguration, because a repo can host work for
-more than one programme. Which workspace is in effect is resolved by working
+more than one program. Which workspace is in effect is resolved by working
 directory first, and is genuinely ambiguous otherwise.
 _Avoid_: subrepo, submodule, package (all imply containment)
 
@@ -84,7 +84,7 @@ esac
 ```
 
 **Exit 1 is not an error.** It means single-repo, and the skill should carry on with
-its single-repo behaviour without mentioning workspaces at all.
+its single-repo behavior without mentioning workspaces at all.
 
 **Exit 2 must ask, never guess.** Name the claimants and let the user choose. Picking
 one silently is how a term meant for one workspace's glossary gets written into
@@ -138,7 +138,7 @@ code.
 
 *Judgments* select one authority and must be chosen, never merged. Coding standards,
 acceptance criteria, tracker and label config: applying two workspaces' standards to one
-diff is how a change gets judged against rules its programme does not follow. When the
+diff is how a change gets judged against rules its program does not follow. When the
 resolution is ambiguous, **ask which workspace** rather than unioning them.
 
 Writing is always a judgment: pick exactly one home by the rule above. A term written

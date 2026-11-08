@@ -84,14 +84,14 @@ They did, and that was a bug: a single shared file also raced when parallel agen
 That was the failure mode when the spec lived in a tracker description. The spec is now a repo file, so a fresh session reads the file directly instead of spending [tool calls](https://www.aihero.dev/ai-coding-dictionary/tool-call) re-fetching chunks. Clearing or [compacting](https://www.aihero.dev/ai-coding-dictionary/compaction) between `/to-spec` and `/to-tickets` no longer puts the artifact at risk.
 
 **The acceptance criteria graded nothing: some passed before any work was done.**
-The template asks for criteria and says nothing about whether they can fail, so this happens. Three shapes recur: a criterion already true at the base commit, a criterion that can only be satisfied by work another ticket owns, and one that restates the request rather than deriving from the artifact. Vertical slicing prevents most of it (a slice that delivers behaviour which didn't exist before is red at the base commit by construction), but the check is worth doing by hand. For each criterion, name the observation that would show it false, and confirm it fails at the commit the implementer starts from.
+The template asks for criteria and says nothing about whether they can fail, so this happens. Three shapes recur: a criterion already true at the base commit, a criterion that can only be satisfied by work another ticket owns, and one that restates the request rather than deriving from the artifact. Vertical slicing prevents most of it (a slice that delivers behavior which didn't exist before is red at the base commit by construction), but the check is worth doing by hand. For each criterion, name the observation that would show it false, and confirm it fails at the commit the implementer starts from.
 
 **The tickets are published. How do I actually run them?**
 The skill stops at the artifact, and there is no auto-dispatch mode. Dispatch is manual: look at the board, count the tickets with no open blockers, and open that many agent sessions. One ticket per fresh context, cleared between them. Be aware that [implement](./implement.md) does not reliably close or check off the ticket when it finishes, on GitHub or in local markdown, so the ticket's state is yours to update.
 
 ## It's working if
 
-- Every ticket has an answer to "what can I demo when this is done?", and the answer is behaviour, not a layer.
+- Every ticket has an answer to "what can I demo when this is done?", and the answer is behavior, not a layer.
 - The list comes back to you numbered, with a "Blocked by" line on each, before anything is published.
 - The ticket at the top has no blockers and can be started immediately.
 - Every published ticket is attached beneath the resolved parent item.
