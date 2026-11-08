@@ -51,7 +51,7 @@ done
 # ---- step 2: claimed by a sibling workspace ----
 command -v git >/dev/null 2>&1 || exit 1
 
-# Normalise a remote URL to <owner>/<repo>: ssh form, https form, bare form.
+# Normalize a remote URL to <owner>/<repo>: ssh form, https form, bare form.
 slug_of() {
   printf '%s\n' "$1" \
     | sed -e 's|^[a-z+]*://||' -e 's|^[^@]*@||' -e 's|^[^/:]*[:/]||' -e 's|\.git$||'

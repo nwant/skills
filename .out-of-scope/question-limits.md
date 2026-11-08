@@ -9,7 +9,7 @@ Grilling is intentionally open-ended. The point is to keep digging until each br
 If a session feels too long, the right escape hatches already exist:
 
 - The user can stop the session at any time and accept the current state of the plan.
-- The user can tell the model to wrap up, summarise, and move on, since natural-language steering is the intended control surface, not a numeric limit.
+- The user can tell the model to wrap up, summarize, and move on, since natural-language steering is the intended control surface, not a numeric limit.
 
 Adding a hard cap would also conflate two different failure modes: a model that asks too many questions because the plan is genuinely under-specified (working as intended) vs. a model that asks redundant or low-value questions (a prompt-quality issue, not a quantity issue). The fix for the latter belongs in the skill prompt, not in a counter.
 

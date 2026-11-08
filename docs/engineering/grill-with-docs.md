@@ -24,7 +24,7 @@ The wayfinder split comes down to session count: `/grill-with-docs` for single-s
 
 ## Prerequisites
 
-The skill writes into your repo, so you need to be somewhere it is safe to write. Resolved terms go to a `CONTEXT.md` glossary at the root, or to the relevant context's `CONTEXT.md` where `docs/agents/domain.md` records the repo as multi-context. That config is what settles the layout; the root `CONTEXT-MAP.md` is then read to find the contexts. Decisions go to `docs/adr/`. Both are created lazily; nothing exists until the first term or decision crystallises, so there is nothing to scaffold up front.
+The skill writes into your repo, so you need to be somewhere it is safe to write. Resolved terms go to a `CONTEXT.md` glossary at the root, or to the relevant context's `CONTEXT.md` where `docs/agents/domain.md` records the repo as multi-context. That config is what settles the layout; the root `CONTEXT-MAP.md` is then read to find the contexts. Decisions go to `docs/adr/`. Both are created lazily; nothing exists until the first term or decision crystallizes, so there is nothing to scaffold up front.
 
 It also needs two other skills present, because its own `SKILL.md` is one line that delegates to them: [grilling](../productivity/grilling.md) supplies the interview, [domain-modeling](./domain-modeling.md) supplies the writing. Installing `grill-with-docs` alone gets you a skill that does not work.
 
@@ -63,7 +63,7 @@ Yes. This is the right skill for a codebase with no ADRs, no domain language and
 The skill's closing message tends to be open-ended, which is a known rough edge. In the main flow the answer is [to-spec](./to-spec.md), in the same conversation. If the change is small enough to build immediately, go straight to [implement](./implement.md) instead.
 
 **Why is it called that?**
-Nobody is happy with the name. There is an open suggestion to rename it `grill-domain-model`, which describes the behaviour more honestly. Nothing has moved on it. If a rename ever lands, the docs page moves with it and the URL changes.
+Nobody is happy with the name. There is an open suggestion to rename it `grill-domain-model`, which describes the behavior more honestly. Nothing has moved on it. If a rename ever lands, the docs page moves with it and the URL changes.
 
 ## It's working if
 
@@ -81,4 +81,4 @@ Nobody is happy with the name. There is an open suggestion to rename it `grill-d
 grill-with-docs → to-spec → to-tickets → implement → two-axis-review
 ```
 
-It comes before anything is written down as a spec: it produces the shared understanding and settled vocabulary that [to-spec](./to-spec.md) then synthesises without interviewing you again. Its close neighbours are [grill-me](../productivity/grill-me.md), the same interview with no repo and no files, and [domain-modeling](./domain-modeling.md), the glossary-and-ADR discipline it drives; both sit on the [grilling](../productivity/grilling.md) primitive. Upstream of it, [wayfinder](./wayfinder.md) charts efforts too large for one session and can hand parts of the map back down to it. When you're unsure which skill or flow fits, [which-skill](./which-skill.md) routes you.
+It comes before anything is written down as a spec: it produces the shared understanding and settled vocabulary that [to-spec](./to-spec.md) then synthesizes without interviewing you again. Its close neighbors are [grill-me](../productivity/grill-me.md), the same interview with no repo and no files, and [domain-modeling](./domain-modeling.md), the glossary-and-ADR discipline it drives; both sit on the [grilling](../productivity/grilling.md) primitive. Upstream of it, [wayfinder](./wayfinder.md) charts efforts too large for one session and can hand parts of the map back down to it. When you're unsure which skill or flow fits, [which-skill](./which-skill.md) routes you.

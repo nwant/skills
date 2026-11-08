@@ -29,7 +29,7 @@ Done when every finding has an outcome you can point to: fixed (and where), push
 
 ## Pushing back
 
-Push back when a finding would break working behaviour, misses context the reviewer lacks, asks for a feature nothing uses, is wrong for this stack, or contradicts a recorded decision. Make the case with evidence: the failing test, the call site, the constraint.
+Push back when a finding would break working behavior, misses context the reviewer lacks, asks for a feature nothing uses, is wrong for this stack, or contradicts a recorded decision. Make the case with evidence: the failing test, the call site, the constraint.
 
 Before building out a suggested "proper" version of something, check whether anything uses it. A search that finds no callers is evidence only once you have proved the search works, as `verification-before-completion` sets out, and even then propose the removal rather than making it.
 
@@ -37,6 +37,6 @@ Where you cannot verify a finding, say what you would need to: "I can't confirm 
 
 ## Responding
 
-Answer with substance: the requirement restated, or the fix and where it landed ("Fixed: null check before the parse, `parser.ts:42`"). The fix is the acknowledgement, so the reply carries the change rather than praise or thanks. When your pushback turns out wrong, say so in one line with what you checked, and fix it.
+Answer with substance: the requirement restated, or the fix and where it landed ("Fixed: null check before the parse, `parser.ts:42`"). The fix is the acknowledgment, so the reply carries the change rather than praise or thanks. When your pushback turns out wrong, say so in one line with what you checked, and fix it.
 
 On GitHub, reply to an inline comment in its own thread (`gh api repos/{owner}/{repo}/pulls/{pr}/comments/{id}/replies`), not as a top-level PR comment.

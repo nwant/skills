@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Setup TS Deep Modules
 
-Make every package in this repo a **deep module**: a lot of behaviour behind a small interface. A package's public surface is its **entry points** (the files at the package root), and everything in its subfolders is hidden. This skill installs a boundary checker and the rules that make the entry points the only way in, then proves the rules bite.
+Make every package in this repo a **deep module**: a lot of behavior behind a small interface. A package's public surface is its **entry points** (the files at the package root), and everything in its subfolders is hidden. This skill installs a boundary checker and the rules that make the entry points the only way in, then proves the rules bite.
 
 The checker depends on the runtime. Node repos get [dependency-cruiser](https://github.com/sverweij/dependency-cruiser) with [`dependency-cruiser.config.cjs`](./dependency-cruiser.config.cjs). Deno repos get [`deep_modules.ts`](./deep_modules.ts), a zero-dependency checker on top of `deno info --json`, so the import graph resolves exactly as Deno resolves it (import map, `jsr:`, `.ts` extensions) under scoped permissions. Both enforce the same rules under the same names; [`test/parity.ts`](./test/parity.ts) holds them to it.
 
@@ -34,7 +34,7 @@ Four rules, all `error`:
 
 Type-only imports (`import type`) count on both runtimes: a deep `import type` is a deep import.
 
-**Entry points, not a barrel.** Because the public surface is *every* root file, a package can expose several small entry points (`mod.ts`, `client.ts`, `server.ts`) instead of funnelling everything through one giant entry file. Barrel files that re-export a whole subtree are discouraged; keep entry points small and hide implementation in subfolders.
+**Entry points, not a barrel.** Because the public surface is *every* root file, a package can expose several small entry points (`mod.ts`, `client.ts`, `server.ts`) instead of funneling everything through one giant entry file. Barrel files that re-export a whole subtree are discouraged; keep entry points small and hide implementation in subfolders.
 
 Layering (which packages may depend on which) is a *different* concern and ships empty: a commented stub in the `.cjs` config, an empty `LAYERING` list in `deep_modules.ts`.
 
@@ -80,7 +80,7 @@ Create a committed `<packages-root>/example/` as a copy-me template, with the fi
 
 Tell the user this is a starter template to copy or delete.
 
-**Done when:** the example package exists, exposes its behaviour through a root entry point, hides `impl` in a subfolder, and its test passes under the repo's existing test runner. If the repo has no test runner, say so and leave the test unrun: adding one is the user's call, not this skill's.
+**Done when:** the example package exists, exposes its behavior through a root entry point, hides `impl` in a subfolder, and its test passes under the repo's existing test runner. If the repo has no test runner, say so and leave the test unrun: adding one is the user's call, not this skill's.
 
 ### 6. Prove the rules bite
 

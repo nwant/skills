@@ -4,7 +4,7 @@
 
 `to-spec` turns the conversation you have just had into a **[spec](https://www.aihero.dev/ai-coding-dictionary/spec)** file in the repo, plus a short parent item at a higher altitude that points at it.
 
-It does not interview you. By the time you reach for it the deciding is already done, so it synthesises what is known (from the thread, from the codebase, from your `CONTEXT.md` and ADRs) rather than opening a fresh round of questions. The spec is a record of decisions already made, not a place where new ones get made.
+It does not interview you. By the time you reach for it the deciding is already done, so it synthesizes what is known (from the thread, from the codebase, from your `CONTEXT.md` and ADRs) rather than opening a fresh round of questions. The spec is a record of decisions already made, not a place where new ones get made.
 
 ## When to reach for it
 
@@ -89,4 +89,4 @@ This was the symptom that moved the spec out of the tracker. A dense spec can ou
 grill-with-docs → to-spec → to-tickets → implement → two-axis-review
 ```
 
-Its neighbours upstream are [grill-with-docs](./grill-with-docs.md), which does the deciding this skill only records, and [wayfinder](./wayfinder.md), whose finished map merges onto the chain right here. Downstream, [to-tickets](./to-tickets.md) cuts the spec into tracer-bullet tickets for [implement](./implement.md) to build. When you're unsure which skill or flow fits, [which-skill](./which-skill.md) routes you.
+Its neighbors upstream are [grill-with-docs](./grill-with-docs.md), which does the deciding this skill only records, and [wayfinder](./wayfinder.md), whose finished map merges onto the chain right here. Downstream, [to-tickets](./to-tickets.md) cuts the spec into tracer-bullet tickets for [implement](./implement.md) to build. When you're unsure which skill or flow fits, [which-skill](./which-skill.md) routes you.

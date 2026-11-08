@@ -14,7 +14,7 @@ Run typechecking regularly, single test files regularly, and the full test suite
 
 Once done, call the Skill tool with "two-axis-review" to review the work. Then call the Skill tool with "receiving-code-review" to work through its findings.
 
-**The spec describes everything the diff does.** Before committing, read the diff for behaviour the spec doesn't describe or contradicts (a new event, command, field or edge rule), whether the user approved it or you added it, and update the spec file in the same change. Otherwise the next ticket's agent reads the old spec and undoes it.
+**The spec describes everything the diff does.** Before committing, read the diff for behavior the spec doesn't describe or contradicts (a new event, command, field or edge rule), whether the user approved it or you added it, and update the spec file in the same change. Otherwise the next ticket's agent reads the old spec and undoes it.
 
 Before committing, call the Skill tool with "verification-before-completion". Its evidence is a fresh full-suite run made after the review fixes, not the earlier one.
 
@@ -27,4 +27,4 @@ are about to commit to, and if the ticket names a different one, stop and say so
 rather than orchestrating a change across several. One ticket, one repo, per run.
 
 This is about reading the ticket, not about working out where you are: the ticket
-names its repo, so nothing has to be resolved to honour it.
+names its repo, so nothing has to be resolved to honor it.

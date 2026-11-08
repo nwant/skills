@@ -35,7 +35,7 @@ It writes in two places. The report goes to `<tmpdir>/architecture-review-<times
 
 ## Depth, and the report that hunts for it
 
-The skill turns on one idea: **depth**. A deep module puts a lot of behaviour behind a small, stable interface. A shallow one leaks its implementation through an interface nearly as wide as the code beneath it. The report hunts for shallowness in three forms: pure functions extracted only for testability while the real bugs live in how they are called (no **locality**), modules leaking across their **seams**, and a concept you cannot understand without opening five files. It closes with a proposal for the deepening that fixes it.
+The skill turns on one idea: **depth**. A deep module puts a lot of behavior behind a small, stable interface. A shallow one leaks its implementation through an interface nearly as wide as the code beneath it. The report hunts for shallowness in three forms: pure functions extracted only for testability while the real bugs live in how they are called (no **locality**), modules leaking across their **seams**, and a concept you cannot understand without opening five files. It closes with a proposal for the deepening that fixes it.
 
 Each candidate is a card: the files involved, the friction, a plain-English solution, the benefit stated in terms of **locality** and **leverage**, a before/after diagram, and a strength badge.
 
@@ -79,7 +79,7 @@ Partly. It is strong on big existing codebases lacking consistent structure, and
 
 **Will it ever tell me the codebase is fine?**
 
-Rarely, and you should know that going in. The skill is built to output findings, so the framing pushes it toward producing candidates rather than concluding that nothing is wrong. The strength badges are the defence: a report where everything is `Speculative` is the skill telling you it found nothing, in the only way it knows how.
+Rarely, and you should know that going in. The skill is built to output findings, so the framing pushes it toward producing candidates rather than concluding that nothing is wrong. The strength badges are the defense: a report where everything is `Speculative` is the skill telling you it found nothing, in the only way it knows how.
 
 **Does it work in Codex or another harness?**
 
@@ -100,4 +100,4 @@ There is no good answer shipped with the skill. The recurring request is for a `
 
 ## Where it fits
 
-`improve-codebase-architecture` is **periodic maintenance**: run it every few days, outside any chain, to queue up work rather than to do it. Its neighbours are [codebase-design](./codebase-design.md), which owns the depth-and-seam vocabulary every candidate is written in, [grilling](../productivity/grilling.md), which walks the decision tree once you have chosen a candidate, and [domain-modeling](./domain-modeling.md), which keeps `CONTEXT.md` and the ADRs current as the decision settles. What it produces is an idea, which re-enters the main build flow at [grill-with-docs](./grill-with-docs.md) or [to-spec](./to-spec.md). For which skill fits a situation, [which-skill](./which-skill.md) is the router over the whole set.
+`improve-codebase-architecture` is **periodic maintenance**: run it every few days, outside any chain, to queue up work rather than to do it. Its neighbors are [codebase-design](./codebase-design.md), which owns the depth-and-seam vocabulary every candidate is written in, [grilling](../productivity/grilling.md), which walks the decision tree once you have chosen a candidate, and [domain-modeling](./domain-modeling.md), which keeps `CONTEXT.md` and the ADRs current as the decision settles. What it produces is an idea, which re-enters the main build flow at [grill-with-docs](./grill-with-docs.md) or [to-spec](./to-spec.md). For which skill fits a situation, [which-skill](./which-skill.md) is the router over the whole set.

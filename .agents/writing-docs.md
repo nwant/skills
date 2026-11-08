@@ -4,7 +4,7 @@ Every skill in `engineering/` and `productivity/` has a human-facing **docs page
 
 Most of these skills are **user-invoked**: the agent will never fire them for you, so *you* are the index that has to remember they exist and when to reach for them. That memory is **cognitive load**. The job of a docs page is to relieve it: to orient one reader around one skill so they can hold it in their head, know when to reach for it, and see where it sits in the system. The pages are collectively a distributed router; each is a node.
 
-Act whenever a promoted skill is added, renamed, or has its behaviour changed: create or re-sync its docs page. A rename moves the file too (`docs/<bucket>/<old>.md` → `docs/<bucket>/<new>.md`), because the path tracks the name; a skill that moves between `engineering/` and `productivity/` moves its docs file to the matching folder. Skills in `misc/`, `in-progress/`, and `deprecated/` get no page, because none of those buckets is promoted. A skill moving *out* of one of them into `engineering/` or `productivity/` gains a page; one moving the other way loses it.
+Act whenever a promoted skill is added, renamed, or has its behavior changed: create or re-sync its docs page. A rename moves the file too (`docs/<bucket>/<old>.md` → `docs/<bucket>/<new>.md`), because the path tracks the name; a skill that moves between `engineering/` and `productivity/` moves its docs file to the matching folder. Skills in `misc/`, `in-progress/`, and `deprecated/` get no page, because none of those buckets is promoted. A skill moving *out* of one of them into `engineering/` or `productivity/` gains a page; one moving the other way loses it.
 
 Because these pages are read in the repo, **every link is repo-relative**: never an absolute URL into a site that hosts a copy. A link to a sibling page in the same bucket is `./<name>.md`; across buckets it is `../<bucket>/<name>.md`; a link to a skill's source is `../../skills/<bucket>/<name>/SKILL.md`. Relative links survive a fork, a rename, and a move to a different host.
 
@@ -14,7 +14,7 @@ Open with an H1 naming the skill, so the page reads correctly on GitHub.
 
 Fill the template below, keeping its order. The **fixed frame** (`## What it does`, `## When to reach for it`, `## Where it fits`) appears on every page. `## Prerequisites` and the free-form substance sections carry only what this particular skill needs; delete the rest.
 
-Four sections make a page worth reading: `What it does`, `When to reach for it`, `Common questions`, `It's working if`. The first two orient the reader; the last two are where the page stops summarising the skill and starts answering the reader's own situation. Each of the last two has a bar to clear, below, but treat a page that clears neither as unfinished, not as finished-and-short.
+Four sections make a page worth reading: `What it does`, `When to reach for it`, `Common questions`, `It's working if`. The first two orient the reader; the last two are where the page stops summarizing the skill and starts answering the reader's own situation. Each of the last two has a bar to clear, below, but treat a page that clears neither as unfinished, not as finished-and-short.
 
 **A page carries no install commands.** The ai-hero page template renders the install widget itself (a copy button, the single-skill command, the whole-set command, and the update line) above the body. A page that also writes them out shows the reader the same command twice, and the two copies drift: the hand-written pair on every page went stale against the widget beside it. Install wording is a property of the site, not of the page. If it needs changing, change it in ai-hero; the canonical wording lives in [the install block](./install-block.md).
 
@@ -22,7 +22,7 @@ Four sections make a page worth reading: `What it does`, `When to reach for it`,
 
 ## What it does
 
-One or two plain-language paragraphs. Lead with the skill's one-sentence job, then state the **defining constraint**: the single fact that makes this skill behave differently from the obvious default (for `to-spec`: it does not interview the user again, it synthesises what is already known). Write it as a plain declarative sentence, never a labelled aside like "The defining constraint:" or "The key thing:"; the formula reads as filler. This line is the most valuable on the page; never omit it.
+One or two plain-language paragraphs. Lead with the skill's one-sentence job, then state the **defining constraint**: the single fact that makes this skill behave differently from the obvious default (for `to-spec`: it does not interview the user again, it synthesizes what is already known). Write it as a plain declarative sentence, never a labeled aside like "The defining constraint:" or "The key thing:"; the formula reads as filler. This line is the most valuable on the page; never omit it.
 
 ## When to reach for it
 
@@ -49,7 +49,7 @@ An observed question always beats an invented one, so go and find them before yo
 
 - **A personal wiki or notes directory.** If you keep one on this machine, it is the richest source there is: notes on what confuses people are exactly what this section owes an answer to. Quote the asker's own question rather than your summary of it. Skip this bullet where no such directory exists.
 - **This repo's issues.** `gh issue list --repo nwant/skills --search "<skill-name>" --state all`. A question filed twice is a question the page owes an answer to.
-- **`CHANGELOG.md`.** Anything renamed, moved, or behaviourally changed generates a "where did it go?" that the page has to answer.
+- **`CHANGELOG.md`.** Anything renamed, moved, or behaviorally changed generates a "where did it go?" that the page has to answer.
 
 Where the hunt comes up thin, the section may also carry a question a reader would plainly ask, but **the count stays honest to the evidence**. A well-discussed skill earns six; an obscure one earns one or two, or none at all. Padding a thin skill out to match a rich one is how the section fills with questions nobody has, and an invented question teaches the reader nothing.
 
@@ -64,7 +64,7 @@ A few bullets naming what the reader sees when the skill is doing its job. The b
 Always present. Situate the skill in the system in a sentence or two:
 
 - **Role.** Name it: a **chain step** (`grill-with-docs → to-spec → to-tickets → implement → two-axis-review`), a **run-once setup** (`setup-skills`), **periodic maintenance** (`improve-codebase-architecture`, "every few days"), or a **reach-for-it-anytime standalone** (`diagnosing-bugs`, `prototype`, `handoff`). A standalone's map is one honest sentence, which is far better than omitting the section.
-- **Neighbours.** The one or two siblings that matter, each with a because-clause, linked relatively.
+- **Neighbors.** The one or two siblings that matter, each with a because-clause, linked relatively.
 - **The map.** Point to [which-skill](./which-skill.md), the router over the whole set, so this page stays a node and never has to redraw the graph.
 
 </page-template>
@@ -82,13 +82,13 @@ Always present. Situate the skill in the system in a sentence or two:
 
 - The page exists at `docs/<bucket>/<name>.md`, and no stale page survives a rename or bucket move.
 - The page writes no install command of its own: `README.md` owns the install story.
-- `## What it does` states the defining constraint, as plain prose rather than a labelled aside.
+- `## What it does` states the defining constraint, as plain prose rather than a labeled aside.
 - The page names no author and quotes no author: every claim stands on its own.
 - `## When to reach for it` states invocation mode and the trigger boundary.
 - `## Where it fits` names the role and links to `which-skill`.
 - A prerequisite (workspace, prior setup, tooling) is stated where one exists, and the section is absent where none does.
 - The middle surfaces the leading word.
-- Every AI Coding Dictionary term the page uses is spelt the dictionary's way, and its first use (and only its first use) links to the dictionary entry.
+- Every AI Coding Dictionary term on the page keeps the dictionary's wording in American spelling (link slugs stay exactly as the dictionary has them), and its first use (and only its first use) links to the dictionary entry.
 - Every multi-way branch is a table or a list, not a paragraph the reader has to read in full.
 - The hunt for real questions ran (the wiki, the issues, the changelog), and `## Common questions` is sized to what it found, not padded to match a richer skill's page.
 - Every `## It's working if` bullet is checkable without opening `SKILL.md`.

@@ -19,7 +19,7 @@ Where the work currently lives decides whether this is the right skill:
 | A spec, and the build is small | `/implement` directly against the spec |
 | Only in the conversation you just had, and it's still small | `/implement` right there, in the same window |
 | Not written down anywhere yet | [grill-with-docs](./grill-with-docs.md), or [grill-me](../productivity/grill-me.md) if there's no codebase |
-| One concrete behaviour you want test-first, with no spec | [tdd](./tdd.md) directly |
+| One concrete behavior you want test-first, with no spec | [tdd](./tdd.md) directly |
 | Already built, and you want it checked | [two-axis-review](./two-axis-review.md) directly |
 
 The same-session case is worth naming because the skill's own first line doesn't cover it. `SKILL.md` says "the spec or tickets", which nudges the [model](https://www.aihero.dev/ai-coding-dictionary/model) to go hunting for a file that doesn't exist. If the plan lives only in the thread, say so when you invoke it.
@@ -45,7 +45,7 @@ One run covers one ticket. The tickets [to-tickets](./to-tickets.md) produces ar
 
 ## Pre-agreed seams
 
-The idea the skill runs on is the **seam**: the public boundary you observe behaviour at, without reaching inside. Tests live at seams. Working at a seam agreed before any code is written is what keeps the tests durable, because the implementation underneath can be rewritten without the tests moving.
+The idea the skill runs on is the **seam**: the public boundary you observe behavior at, without reaching inside. Tests live at seams. Working at a seam agreed before any code is written is what keeps the tests durable, because the implementation underneath can be rewritten without the tests moving.
 
 The word "pre-agreed" is doing real work, and it is also the skill's weakest joint. Nothing inside `implement` agrees the seams. `tdd` is the skill that asks, and it refuses to write a test at an unconfirmed seam. So in practice the agreement happens either upstream in the spec, or in the first exchange of the run. If it happens nowhere, the precondition never fires and the run quietly becomes "just write the code". Naming the seams in the spec is what stops that.
 
@@ -95,7 +95,7 @@ Probably the ticket is too big rather than the skill being misused. A run does c
 grill-with-docs → to-spec → to-tickets → implement → two-axis-review
 ```
 
-Its neighbours are [to-tickets](./to-tickets.md), which produces the tickets it consumes and declares the blocking edges that decide their order; [tdd](./tdd.md), which it drives internally at each seam; [two-axis-review](./two-axis-review.md), which it runs before committing; and [receiving-code-review](./receiving-code-review.md) and [verification-before-completion](./verification-before-completion.md), the two it uses to act on that review and to prove the work is done. It sits downstream of the planning skills and trusts them. It does not re-validate the shape of what it was handed, so a badly-structured map or a horizontally-layered ticket gets built as written.
+Its neighbors are [to-tickets](./to-tickets.md), which produces the tickets it consumes and declares the blocking edges that decide their order; [tdd](./tdd.md), which it drives internally at each seam; [two-axis-review](./two-axis-review.md), which it runs before committing; and [receiving-code-review](./receiving-code-review.md) and [verification-before-completion](./verification-before-completion.md), the two it uses to act on that review and to prove the work is done. It sits downstream of the planning skills and trusts them. It does not re-validate the shape of what it was handed, so a badly-structured map or a horizontally-layered ticket gets built as written.
 
 That trust is why [wayfinder](./wayfinder.md) merges onto the chain at [to-spec](./to-spec.md) rather than looping its map straight into `implement`. Go straight to `implement` from a map only when the effort turned out genuinely small.
 

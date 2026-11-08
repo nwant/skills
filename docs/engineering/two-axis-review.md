@@ -40,12 +40,12 @@ Step 1 depends on `docs/agents/issue-tracker.md`, which [setup-skills](./setup-s
 | --- | --- | --- |
 | Question | Is it built right? | Is it the right thing? |
 | Reads | The repo's documented standards, plus the smell baseline and the guard check | The originating issue or spec |
-| Reports | Documented breaches (can be hard), and smells (always judgement calls) | Missing or partial requirements, scope creep, requirements implemented wrongly |
+| Reports | Documented breaches (can be hard), and smells (always judgment calls) | Missing or partial requirements, scope creep, requirements implemented wrongly |
 | Every finding cites | The standards file and the rule, or the named smell plus the hunk | The line of the spec |
 
 A generic review skill that does not know your standards is the thing this design is trying to avoid: it flags what is deliberate in your codebase and misses the invariants your codebase actually depends on. So the repo's own documentation is the [primary source](https://www.aihero.dev/ai-coding-dictionary/primary-source) on the Standards axis, and **the repo always overrides**.
 
-The **smell baseline** is the floor underneath it, twelve Fowler code smells from _Refactoring_ ch.3: Mysterious Name, Duplicated Code, Feature Envy, Data Clumps, Primitive Obsession, Repeated Switches, Shotgun Surgery, Divergent Change, Speculative Generality, Message Chains, Middle Man, Refused Bequest. Each is a labelled heuristic ("possible Feature Envy"), never a hard violation, and each is stated as *what it is* → *how to fix*, so a finding arrives with a move attached rather than a complaint. Anything your linter already enforces is skipped by both axes.
+The **smell baseline** is the floor underneath it, twelve Fowler code smells from _Refactoring_ ch.3: Mysterious Name, Duplicated Code, Feature Envy, Data Clumps, Primitive Obsession, Repeated Switches, Shotgun Surgery, Divergent Change, Speculative Generality, Message Chains, Middle Man, Refused Bequest. Each is a labeled heuristic ("possible Feature Envy"), never a hard violation, and each is stated as *what it is* → *how to fix*, so a finding arrives with a move attached rather than a complaint. Anything your linter already enforces is skipped by both axes.
 
 The **guard check** is the one part of the Standards axis that runs code. A guard is a condition the diff adds that rejects input, stops early, or skips a side effect. A test written for the happy path goes green without ever reaching one, so a guard can be deleted with the whole suite still passing, and nothing in the diff shows it. The Standards sub-agent removes each guard in a scratch copy of the working tree (or runs your repo's mutation command, if one is documented) and reports every guard that left the suite green. The fix is a test that goes red without it, or a comment naming it as a deliberate backstop.
 
@@ -73,7 +73,7 @@ Not without checking. Sub-agent output is a hypothesis, not evidence: one team r
 
 **Why does it find new problems every single time I run it?**
 
-Because fixes create new surface, and because the judgement-call half of the Standards axis is not deterministic between runs. One reader described the loop plainly: "/two-axis-review and /improve-code-architecture always find new stuff every time. I implement fixes, rerun these skills, and again and again." There is no convergence guarantee. Treat a pass as a list of leads, act on the ones with a cited rule behind them, and stop: do not run it in a loop until it comes back clean, because it will not.
+Because fixes create new surface, and because the judgment-call half of the Standards axis is not deterministic between runs. One reader described the loop plainly: "/two-axis-review and /improve-code-architecture always find new stuff every time. I implement fixes, rerun these skills, and again and again." There is no convergence guarantee. Treat a pass as a list of leads, act on the ones with a cited rule behind them, and stop: do not run it in a loop until it comes back clean, because it will not.
 
 **Does it review my uncommitted work?**
 
@@ -91,7 +91,7 @@ No. It diffs `<fixed-point>...HEAD`, three-dot, which is measured from the merge
 
 `two-axis-review` is the review step at the tail of the build chain: `grill-with-docs → to-spec → to-tickets → implement → two-axis-review`. It also stands alone on any branch or PR you point it at.
 
-- [implement](./implement.md) is the closest neighbour: it drives the build and calls this skill as its own closing review before committing.
+- [implement](./implement.md) is the closest neighbor: it drives the build and calls this skill as its own closing review before committing.
 - [receiving-code-review](./receiving-code-review.md) is the other half: this skill gives the review, that one receives it.
 - [to-spec](./to-spec.md) and [to-tickets](./to-tickets.md) produce the document the Spec axis checks against; a vague spec makes that axis vague.
 - [improve-codebase-architecture](./improve-codebase-architecture.md) is the whole-codebase counterpart: this skill only ever looks at one diff.

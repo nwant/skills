@@ -293,9 +293,9 @@ test_clone_and_idempotency() {
   assert_contains "reports the clone" "+ repo-a"
   assert_contains "names the destination" "$WS_PARENT/repo-a"
   if [ -f "$WS_PARENT/repo-a/file" ]; then
-    pass=$((pass + 1)); printf '  ok   working tree materialised\n'
+    pass=$((pass + 1)); printf '  ok   working tree materialized\n'
   else
-    fail=$((fail + 1)); printf '  FAIL working tree materialised\n'
+    fail=$((fail + 1)); printf '  FAIL working tree materialized\n'
   fi
 
   run_sync

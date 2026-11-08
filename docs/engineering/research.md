@@ -56,7 +56,7 @@ You can, and a two-line prompt saying exactly that was the practice this skill r
 
 **When does it stop reading?**
 
-There is no stopping criterion in the skill, and this shows up as two complaints that look opposite but are the same gap: agents that go far too deep, and agents that cover a topic broadly while missing the one specific detail that mattered. One practitioner put it as "deep-research skills are a bit too deep sometimes. And telling an agent to research usually results in missing crucial details." Scoping is on you. A narrow, answerable question (one API, one behaviour, one version claim) comes back far better than "research X".
+There is no stopping criterion in the skill, and this shows up as two complaints that look opposite but are the same gap: agents that go far too deep, and agents that cover a topic broadly while missing the one specific detail that mattered. One practitioner put it as "deep-research skills are a bit too deep sometimes. And telling an agent to research usually results in missing crucial details." Scoping is on you. A narrow, answerable question (one API, one behavior, one version claim) comes back far better than "research X".
 
 **`/wayfinder` created research tickets. Do I resolve those myself?**
 
@@ -73,4 +73,4 @@ No, it fires them for you. A charting session spawns a `/research` subagent per 
 
 ## Where it fits
 
-A reach-for-it-anytime standalone that feeds the thinking skills rather than sitting in the build chain. Its file is something to take *into* the flow: [grilling](../productivity/grilling.md) and [grill-with-docs](./grill-with-docs.md) ask sharper questions when the facts are already on the table, and [to-spec](./to-spec.md) can synthesise against it. When the run finishes, the agent points you at `/synthesize` (a beta skill, so it has no page here), which turns the file into a scannable, cited Synthesis if you want one to keep or share. [wayfinder](./wayfinder.md) is the one skill that invokes it directly, resolving each research ticket on its map with a `/research` subagent. For the whole map, see [which-skill](./which-skill.md).
+A reach-for-it-anytime standalone that feeds the thinking skills rather than sitting in the build chain. Its file is something to take *into* the flow: [grilling](../productivity/grilling.md) and [grill-with-docs](./grill-with-docs.md) ask sharper questions when the facts are already on the table, and [to-spec](./to-spec.md) can synthesize against it. When the run finishes, the agent points you at `/synthesize` (a beta skill, so it has no page here), which turns the file into a scannable, cited Synthesis if you want one to keep or share. [wayfinder](./wayfinder.md) is the one skill that invokes it directly, resolving each research ticket on its map with a `/research` subagent. For the whole map, see [which-skill](./which-skill.md).
