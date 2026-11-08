@@ -10,7 +10,9 @@ You don't remember every skill, so ask.
 
 Before stating what a skill does or recommending a step be skipped, read that skill's SKILL.md: the summaries here are for orientation only.
 
-A **flow** is a path through the skills. Most paths run along one **main flow**, and two **on-ramps** merge onto it. Everything else is standalone, or one of two layers that run underneath: vocabulary and discipline.
+A **flow** is a path through the skills. Most paths run along one **main flow**, and two **on-ramps** merge onto it. Explanation workflows also stand on their own; vocabulary and discipline run underneath the flows.
+
+**User-invoked only:** `/grill-me`, `/grill-with-docs`, `/handoff`, `/implement`, `/improve-codebase-architecture`, `/retro`, `/setup-skills`, `/show-me`, `/synthesize`, `/teach`, `/to-questionnaire`, `/to-spec`, `/to-tickets`, `/triage`, `/wait-what`, `/wayfinder`. The agent cannot start these: hand the user the exact command, arguments included.
 
 ## The main flow: idea → ship
 
@@ -25,7 +27,7 @@ The route most work travels. You have an idea and want it built.
    - **Yes** → **`/to-spec`**, which writes the spec as a **file in the repo** and creates the short, higher-altitude tracker item pointing at it (a tracker cannot hold a spec: descriptions are capped, uneditable in a diff, and unreviewable). Then **`/to-tickets`** splits the **spec**, hanging tracer-bullet tickets under that item, each declaring its **blocking edges**. On a local tracker that's one file per ticket under `.scratch/<feature>/issues/`, worked blockers-first by hand; on a real tracker the edges become native blocking links, so any ticket whose blockers are done can be grabbed: kick off **`/implement`** per ticket, **`/clear`ing context between each one**. Each ticket is self-contained, so the last one's context is disposable.
    - **No** → **`/implement`** right here, in the same context window.
 
-   Either way, **`/implement`** builds each issue by driving **`/tdd`** internally (one red-green slice at a time), then closes out by running **`/two-axis-review`**, a two-axis review (Standards + Spec) of the diff, works through its findings with **`/receiving-code-review`**, and runs **`/verification-before-completion`** before committing. Reach for **`/tdd`** on its own when you just want to build a concrete behaviour test-first without a full spec, and **`/two-axis-review`** on its own whenever you want to review a branch or PR against a fixed point.
+   Either way, **`/implement`** builds each issue by driving **`/tdd`** internally (one red-green slice at a time), then closes out by running **`/two-axis-review`**, a two-axis review (Standards + Spec) of the diff, works through its findings with **`/receiving-code-review`**, and runs **`/verification-before-completion`** before committing. Reach for **`/tdd`** on its own when you just want to build a concrete behavior test-first without a full spec, and **`/two-axis-review`** on its own whenever you want to review a branch or PR against a fixed point.
 
 ### Context hygiene
 
@@ -41,7 +43,7 @@ A starting situation that generates work, then merges onto the main flow.
 
   Triage is only for issues **you didn't create**: bug reports, incoming feature requests, anything that arrives raw. Tickets that `/to-tickets` produced are already agent-ready, so **don't triage them**.
 
-- **Something's broken** → **`/diagnosing-bugs`**. For the hard ones: the bug that resists a first glance, the intermittent flake, the regression that crept in between two known-good states. It refuses to theorise until it has a **tight feedback loop** (one command that already goes red on *this* bug), then fixes with a regression test. Its post-mortem hands off to **`/improve-codebase-architecture`** when the real finding is that there's no good seam to lock the bug down.
+- **Something's broken** → **`/diagnosing-bugs`**. For the hard ones: the bug that resists a first glance, the intermittent flake, the regression that crept in between two known-good states. It refuses to theorize until it has a **tight feedback loop** (one command that already goes red on *this* bug), then fixes with a regression test. Its post-mortem hands off to **`/improve-codebase-architecture`** when the real finding is that there's no good seam to lock the bug down.
 
 - **A huge, foggy effort: a greenfield project or a huge feature build, too big for one session** → **`/wayfinder`**, the most cognitively demanding flow here. When the way from here to the destination isn't visible yet, it charts a **shared map** of **decision tickets** on the issue tracker and resolves them one at a time, producing **decisions, not deliverables**, until the fog is pushed back and the way is clear. Where **`/grill-with-docs`** sharpens an idea you can hold in one session, wayfinder is for the idea you can't, and it's slower and denser, so save it for exactly that, never a well-scoped feature.
 
@@ -59,7 +61,7 @@ Not feature work, just upkeep.
 Two model-invoked references that run *beneath* the other skills, each the single source of truth for its vocabulary. Reach for them directly when the **words**, not the process, are the problem; or let the skills above pull them in.
 
 - **`/domain-modeling`**: sharpen the project's *domain* language: challenge a fuzzy term, resolve an overloaded word ("account" doing three jobs), record a hard-to-reverse decision as an ADR. It's the active discipline `/grill-with-docs` drives to keep `CONTEXT.md` a clean glossary.
-- **`/codebase-design`** is the deep-module vocabulary (module, interface, depth, seam, adapter, leverage, locality) for designing a module's *shape*: a lot of behaviour behind a small interface at a clean seam. `/tdd` and `/improve-codebase-architecture` both speak it.
+- **`/codebase-design`** is the deep-module vocabulary (module, interface, depth, seam, adapter, leverage, locality) for designing a module's *shape*: a lot of behavior behind a small interface at a clean seam. `/tdd` and `/improve-codebase-architecture` both speak it.
 
 ## Discipline underneath
 
@@ -67,6 +69,19 @@ Two model-invoked skills that fire at a **moment** rather than at a step: the ag
 
 - **`/verification-before-completion`**: evidence before claims. Fires just before the agent says work is done, fixed, or passing, commits, or trusts a subagent's report: it runs the command that proves the claim and reads the output first.
 - **`/receiving-code-review`**: fires when review findings arrive, from you, a PR, or `/two-axis-review`. Each finding is checked against the codebase, then fixed, pushed back on with evidence, or asked about. `/two-axis-review` *gives* a review; this *receives* one.
+
+## Explaining and reviewing
+
+Choose the entry point by what you need to keep or do. The beta entries below live in `in-progress/`; they are installed but can change before promotion.
+
+| Need | Skill |
+| --- | --- |
+| Understand the current topic visually, with a transient explanation | `/show-me` (user-invoked); inline when suitable, otherwise scratch HTML |
+| Turn a fixed pile of sources into a saved, cited Synthesis | `/synthesize` (user-invoked); source gaps stay explicit |
+| Learn a topic over multiple sessions with practice and learning records | `/teach` (user-invoked); a persistent teaching directory |
+| Write a PR body for review | `/pr` (model- or user-invoked); Summary, Evidence, and Merge Danger |
+
+`/information-design` is the model-invoked standard beneath those workflows, also reachable directly by the user. It owns explanatory methods and visual construction; each caller owns its workflow and delivery. `pr`, `show-me`, and `synthesize` load it, and `teach` loads it when producing Visual explanations. It does not create a course, save a Synthesis, or prescribe a PR template by itself.
 
 ## Phase boundaries
 
@@ -92,7 +107,6 @@ Off the main flow entirely.
 - **`/to-questionnaire`** comes in when the thing blocking you isn't in your head or the codebase but in **someone else's**, and it writes them a questionnaire to fill in. It's the inverse of `/grill-me`: instead of interviewing you about the subject, it interviews you about the **send** (who it's going to, what you need back) and aims the questions at the gap. What comes back is material for `/grill-with-docs` or `/to-spec`.
 - **`/wizard`** is for the steps only a **human** can take: provisioning infrastructure, setting up credentials or CI secrets, clicking through an unfamiliar third-party dashboard, running a one-off migration or cutover. It generates an interactive bash script that opens each URL, captures each value, and writes it into `.env` and GitHub secrets, so the procedure stops being something you re-explain to an agent every time. Model-invoked, so the agent reaches for it the moment it hits a wall only you can pass. If the agent could just do it itself, it should; this is for where a human is genuinely in the loop.
 - **`/wait-what`** is the corrective for a message that didn't land. Use it mid-conversation, inside any other skill, and the agent re-pitches what it just said with the context you were missing, in plain English, using the `CONTEXT.md` vocabulary. It works after the fact; `/grill-with-docs` is the upfront cure, because a shared language agreed early is what stops the jargon arriving at all.
-- **`/teach`**: learn a concept over multiple sessions, using the current directory as a stateful workspace.
 - **`/writing-for-agents`** is the reference for writing documents agents consume: skills, AGENTS.md, pointed-at docs.
 
 ## Outside this map

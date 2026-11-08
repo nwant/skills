@@ -15,20 +15,19 @@ Done when every source is read and numbered, and the gaps are listed.
 
 ## 2. Load the standard
 
-Call the Skill tool with "information-design". Its rules govern everything you write from here.
+Call the Skill tool with "information-design" for the explanatory design. This workflow owns source boundaries, the saved document, and citation review.
 
-## 3. Classify
+## 3. Frame
 
 Before writing, name for yourself:
 
-- **Bottleneck**: the constraint the material addresses.
-- **Topology**: the components and how they connect.
-- **Trade-offs**: the variables the options differ on, with the numbers the sources give.
-- **Widget test**: does the key trade-off pass the test at the top of `information-design`'s widget rules? If yes, note the candidate controls.
+- **Reader task**: what the Synthesis should help the reader understand or decide.
+- **Evidence**: the findings and relationships the source pile supports, and the gaps it leaves.
+- **Design**: apply the shared standard to choose the teaching order and representations. When considering interaction, follow its pointer to the interaction rules before judging eligibility.
 
 ## 4. Write
 
-Ask where to save if the repo has no convention for notes; otherwise match it. Write the Synthesis in this order, dropping any section the sources cannot support rather than padding it:
+Ask where to save if the repo has no convention for notes; otherwise match it. Use this metadata, then write the explanation in the order chosen for the reader's task:
 
 ```markdown
 ---
@@ -40,36 +39,21 @@ sources:
   - <url or path of [2]>
 ---
 
-<BLUF: two or three sentences>
-
-## Why
-<the bottleneck>
-
-## How it works
-<the system as a black box: one Mermaid diagram within `information-design`'s node limit>
-
-## Mechanics
-<algorithms, state changes, formulas: exploded views, before and after blocks>
-
-## Trade-offs
-<a table of the options against the variables, then MECE bullets on limits>
-
-## Appendix
-<benchmark grids, proofs, payloads>
+<central finding, sections, and views selected using information-design>
 ```
 
-Cite inline with the source number, `[2]`, after each claim it supports.
+Include sections only when they serve the reader's task and the sources support them. Cite inline with the source number, `[2]`, after each claim it supports. Keep gaps explicit.
 
-## 5. Offer a widget
+## 5. Deliver or offer interaction
 
-If the widget test passed, propose the widget to the user in one line: the controls, the default state, what the reader will see move. Build it only after they agree, following `information-design`'s widget rules, as one HTML file beside the Synthesis, linked from the section it explains.
+If a useful interaction was requested, build it within that scope using the shared interaction rules. When a useful interaction was not requested, deliver the static Synthesis and offer the optional interaction in one line: the question it answers and what the reader can inspect, step through, or change. Build that companion after the user agrees, as one HTML file beside the Synthesis, linked from the relevant section. When static views suffice, deliver the Synthesis without proposing a companion.
 
 ## 6. Check the citations
 
-Dispatch a subagent with a fresh context window. Give it the Synthesis path and the source list, and ask it to read both and report every figure and factual claim that its cited source does not support, or that carries no citation and is not labelled _illustrative_. It reports; it does not edit.
+Dispatch a subagent with a fresh context window. Give it the Synthesis path and the source list, and ask it to read both and report every figure and factual claim that its cited source does not support, or that carries no citation and is not labeled _illustrative_. It reports; it does not edit.
 
 For each claim it reports: add the right citation, label it _illustrative_, or cut it. Done when every reported claim is resolved, and the subagent's report is the evidence, not your own re-read.
 
 ## 7. Report
 
-Tell the user the file path, the widget path if one was built, and the gaps. For gaps worth filling, suggest running `/research` on them and then `/synthesize` again with the new file added to the pile.
+Tell the user the file path, any companion path, and the gaps. For gaps worth filling, suggest running `/research` on them and then `/synthesize` again with the new file added to the pile.
