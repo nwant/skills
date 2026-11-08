@@ -32,7 +32,7 @@ Skip all preambles and keep prose brief. Use the user's domain language from `CO
 
 ### Summary
 
-Call the Skill tool with "information-design", and pick the smallest view from its catalogue that makes the change clear. Place each visual next to the short text it supports.
+Call the Skill tool with "information-design" to design the Summary for reviewing the change. Keep this PR template as the delivery format.
 
 ### Evidence
 

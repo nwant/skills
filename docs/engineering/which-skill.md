@@ -16,21 +16,23 @@ You invoke this by typing `/which-skill`; the agent won't reach for it on its ow
 | Bugs and requests arriving from other people | The [triage](./triage.md) on-ramp, and why [tickets](https://www.aihero.dev/ai-coding-dictionary/ticket) you generated yourself don't belong on it |
 | Two skills that look interchangeable | The line between them, and it is usually one concrete test rather than a matter of taste. [grill-me](../productivity/grill-me.md) or [grill-with-docs](./grill-with-docs.md) turns on whether you are in a working directory; [grill-with-docs](./grill-with-docs.md) or [wayfinder](./wayfinder.md) turns on whether the effort fits one session |
 | A long session and a decision about the [context](https://www.aihero.dev/ai-coding-dictionary/context) | The ordered tree over the five options at a phase boundary |
+| A visual explanation, saved source-based document, course, or PR description | The explanation workflow suited to what you want to do or keep |
 | A skill you have already picked | Nothing useful. Invoke that skill directly. |
 
 ## Prerequisites
 
-The router names skills; it does not install them. Everything it points at has to be installed for the recommendation to be actionable, and it only knows the promoted skills in this repo.
+The router names skills; it does not install them. Everything it points at has to be installed for the recommendation to be actionable. Its explanation routes include beta skills from `in-progress/`, which are installed alongside promoted skills but can change before promotion.
 
 The tracker-dependent routes (triage, `to-spec`, `to-tickets`, `implement`) assume [setup-skills](./setup-skills.md) has already configured an issue tracker in the repo. The router will happily recommend them before that has happened, but the skills themselves no longer play along: each names the file it needs under `docs/agents/`, and a route you take too early stops and tells you to run `/setup-skills` rather than guessing a tracker.
 
 ## Flows, not skills
 
-The word the skill gives you to think with is **flow**: a path *through* the skills, not a single one. Naming your situation places you on a flow at a step, which is a different answer from "here is the skill that matches your keywords". Five kinds of route exist, and the skill itself carries them in full:
+The word the skill gives you to think with is **flow**: a path *through* the skills, not a single one. Naming your situation places you on a flow at a step, which is a different answer from "here is the skill that matches your keywords". The skill carries these routes:
 
 - **The main flow**, idea to ship. Grill, spec, tickets, implement, review, with two branches inside it: a prototype detour when a question needs runnable code to settle, and the spec-and-tickets split, which only earns its cost when the build spans more than one session.
 - **On-ramps**, for a situation that generates work and then merges onto the main flow: incoming bug reports, something broken, or an effort too foggy and too large to hold in one session.
 - **Standalones**, off every flow, reached for on their own terms: the prototype, the questionnaire, the merge conflict you are already sitting in.
+- **Explanation workflows**, distinguished by the task and what persists: [show-me](../../skills/in-progress/show-me/SKILL.md) for a transient visual explanation, [synthesize](../../skills/in-progress/synthesize/SKILL.md) for a saved Synthesis, [teach](../productivity/teach.md) for a course, and [pr](../../skills/in-progress/pr/SKILL.md) for a PR body. Their shared design standard is [information-design](../../skills/in-progress/information-design/SKILL.md); their workflows and delivery formats remain distinct.
 - **A vocabulary layer underneath**, the two references the other skills pull in when the words rather than the process are the problem.
 - **A discipline layer underneath**, two skills that fire at a moment rather than a step: [verification-before-completion](./verification-before-completion.md) just before a claim that work is done, and [receiving-code-review](./receiving-code-review.md) when review findings arrive.
 
@@ -58,7 +60,7 @@ People keep asking for one in the README. This skill is that list: it is what it
 
 A known bug, unfixed. Most of the skills the router routes you through set `disable-model-invocation: true`, which means the harness leaves them out of the skill list it injects into the agent's context. The agent reads that list as exhaustive and reports them missing. One reported session had it declare the whole spec-and-tickets flow absent and reroute to bare `/grilling` and `/tdd`. Fourteen of the twenty-seven promoted skills carry the flag, so this is the common case rather than an edge. They are installed. Type the slash command anyway, or list `~/.claude/skills` (or the matching directory for your harness): `scripts/link-skills.sh` puts a symlink there for every skill it installs, so that listing is the authority on what is present.
 
-**It described a skill's behaviour, and the skill doesn't do that.**
+**It described a skill's behavior, and the skill doesn't do that.**
 
 Also real, also unfixed. The router answers from its own one-line summary of each skill rather than from the skill. One detailed report tracked three instances in a single session, including a recommendation to skip [to-spec](./to-spec.md) on the strength of the gloss "turn the thread into a spec": `to-spec/SKILL.md` was never opened. In every case it verified only after the user pushed back, and never on its own initiative. Skipping `to-spec` there cost a real seam check, and the tickets that came out undercounted the work. When the router asserts something load-bearing about another skill, ask it to open that `SKILL.md` first. The same applies to questions the map does not cover at all, such as whether to use [plan mode](https://www.aihero.dev/ai-coding-dictionary/agent-mode): that answer is the [model](https://www.aihero.dev/ai-coding-dictionary/model)'s inference, not something written down here.
 
@@ -72,7 +74,7 @@ No. Three separate proposals have asked for a router that reads your local `skil
 
 **It told me to edit a SKILL.md.**
 
-Check the scope before you do. Installed skills are symlinks into this repo, so the edit takes effect at once and lasts once committed, but it changes the skill for every repo you use it in. Someone asked how to make [implement](./implement.md) close tickets and got told to add a line to the skill: right if every repo should close tickets that way, wrong if only one should. Behaviour that belongs to one repo goes in that repo's `CLAUDE.md` or `AGENTS.md`, or in the invocation. Prompt-level adaptations survive updates: pointing the flow at Linear instead of GitHub, or asking it which open tickets could run in parallel, are both things people do this way.
+Check the scope before you do. Installed skills are symlinks into this repo, so the edit takes effect at once and lasts once committed, but it changes the skill for every repo you use it in. Someone asked how to make [implement](./implement.md) close tickets and got told to add a line to the skill: right if every repo should close tickets that way, wrong if only one should. Behavior that belongs to one repo goes in that repo's `CLAUDE.md` or `AGENTS.md`, or in the invocation. Prompt-level adaptations survive updates: pointing the flow at Linear instead of GitHub, or asking it which open tickets could run in parallel, are both things people do this way.
 
 **It named a skill I don't have, or missed one I do.**
 
@@ -83,8 +85,8 @@ Check the changelog for a rename before assuming it is gone. `writing-great-skil
 - It ends by naming what to type and stops there, instead of starting the work itself.
 - The route it gives back mentions where to clear or compact context and where you are expected to review, not just a list of skill names.
 - Where two skills are close, it says which one and why the other is wrong for you.
-- Any claim it makes about another skill's behaviour shows up in the trace as it reading that skill's `SKILL.md`.
-- You recognise your own situation in what it hands back, rather than the nearest generic scenario.
+- Any claim it makes about another skill's behavior shows up in the trace as it reading that skill's `SKILL.md`.
+- You recognize your own situation in what it hands back, rather than the nearest generic scenario.
 
 ## Where it fits
 

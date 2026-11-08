@@ -27,6 +27,9 @@ A canonical state-machine label applied to an **Issue** during triage (e.g. `nee
 
 ### Explaining
 
+**Visual explanation**:
+An explanation whose visuals carry an essential relationship, state change, or comparison, enabling the reader's intended reasoning task, such as tracing behavior or comparing alternatives. It can stand alone or form part of a **Synthesis**.
+
 **Synthesis**:
 A saved document that turns a pile of sources (papers, URLs, existing notes) into a scannable explanation, every figure in it traced to a source. Produced by `synthesize`.
 _Avoid_: research doc, writeup, report, explainer, docs page (that is a skill's human-facing page under `docs/`)

@@ -7,14 +7,14 @@ metadata:
   credits:
     skill: show-me
     author: Dex Horthy
-    organisation: Humanlayer
+    organization: Humanlayer
     url: "https://github.com/humanlayer/skills/blob/main/plugins/show-me/skills/show-me/SKILL.md"
 ---
 
 Show the current topic, or the one the user named, so they see it rather than read about it.
 
 1. Call the Skill tool with "information-design".
-2. Pick the smallest view from its catalogue that makes the key point clear, and answer inline in the chat. Use the real names, files, and data from the conversation and the codebase.
-3. When the point is a visual UI, a layout, a dense state comparison, or a concept Mermaid cannot carry, write one focused, self-contained HTML file instead: a diagram, an infographic, or a short slide deck. Write it to the harness's scratch directory, or the system temp directory if there is none, never into the repo. Open it (`open` on macOS, `xdg-open` on Linux) and give the user its full path.
+2. Use the shared standard to design the explanation, and answer inline in the chat when the medium supports the needed view.
+3. When the explanation needs custom spatial layout or interaction that the inline medium cannot carry, write one focused, self-contained HTML file. Write it to the harness's scratch directory, or the system temp directory if there is none, never into the repo. Open it (`open` on macOS, `xdg-open` on Linux) and give the user its full path.
 
 This is a throwaway explanation. When the user wants to keep it, the durable form is a Synthesis: tell them to run `/synthesize`.

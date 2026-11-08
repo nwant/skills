@@ -1,198 +1,103 @@
 ---
 name: information-design
-description: Standard for explaining technical material so a reader grasps it fast. Use when writing a visual explanation of a system, a diagram, a comparison table, or an interactive widget.
+description: Design technical explanations around the reader's reasoning task. Use for visual explanations, diagrams, quantitative comparisons, and interactive walkthroughs.
 metadata:
   credits:
     skill: show-me
     author: Dex Horthy
-    organisation: Humanlayer
+    organization: Humanlayer
     url: "https://github.com/humanlayer/skills/blob/main/plugins/show-me/skills/show-me/SKILL.md"
 ---
 
-The reader should get the thesis in ten seconds, the shape of the system in sixty, and the mechanics only when they go looking. Every rule below serves that ladder.
+Help the reader perform the intended reasoning task: trace behavior, explain a change, compare alternatives, locate a fact, or review an implementation. Assume technical literacy without familiarity with this particular system; adapt to the stated audience.
 
-## Structure
+This skill owns explanatory design. The invoking workflow owns its template, delivery format, storage, persistence, and asset reuse. Apply the standard within that contract, including a PR template or an existing teaching course.
 
-- **BLUF.** Open with two or three sentences: the problem, the mechanism that solves it, the result. Nothing precedes them but metadata.
-- **Ladder of abstraction.** Descend in order: the **bottleneck** (the constraint that makes the problem hard), then the system as a black box, then the mechanics. State why before how.
-- **Details on demand.** Raw benchmark tables, hyperparameter grids, verbose payloads, and secondary proofs go in a `<details>` block or a closing `## Appendix`.
-- **Contiguity.** Each diagram, table, or code block sits directly under the sentence that introduces it.
+## Frame the explanation
 
-## Prose
+Before choosing a view, identify:
 
-- **Name the actor.** "The scheduler evicts the oldest batch", with the component as the subject of the verb.
-- **Concrete and sourced.** Pair each claim with its runtime reality: the number, the unit, the payload. Every figure traces to a source and carries its citation. A figure you construct to illustrate is labelled _illustrative_. Where the source gives no number, say the source gives none.
-- **Real examples.** Use the domain's own names, shapes, and sizes, drawn from the sources or the codebase in front of you.
-- **MECE lists.** A list of failure modes, trade-offs, or components covers the space once: no overlaps, no gaps.
-- **Front-loaded bullets.** By default, open a bullet with a bold one-to-three word label, then one or two sentences. Drop the label where the bullet is already a single scannable phrase.
-- **Brief.** Skip the preamble. Keep only the calls, files, states, and boundaries the reader needs for the point at hand.
+- **Reader task:** what the reader needs to understand or decide.
+- **Units:** the parts the explanation is about, named in the system's own vocabulary (its phases, stages, services, components), not in representation types. For a request as broad as "how the system works", these units are the explanation's skeleton.
+- **Relationship:** what they must see, such as sequence, accumulation, ownership, dependency, comparison, or state change.
+- **Inference:** what they should be able to work out afterward, such as what survives another phase transition or which option meets a constraint.
 
-## Choosing a view
+State the reader task, units, and inference in one line, in your reply or at the top of the artifact, so the reader can correct the framing before the detail builds on it. The teaching order follows the reader task, not the richest available data.
 
-Match the view to the shape of the data, and pick the smallest one that makes the point. One view is common, several is fine, all of them is a mistake.
+Choose the simplest representation that preserves the relationships needed for that inference. For an explicitly visual request, the main visual carries essential explanatory work; prose supplies interpretation and qualifications.
 
-| Shape of the point | View |
+## Choose the teaching order
+
+Establish the thesis early and give the reader an overview before the mechanics. Aim for a thesis in ten seconds and the shape of the explanation in sixty; fit the caller's format rather than imposing opening paragraphs.
+
+- **Mechanism:** start with a concrete input and outcome, then reveal the state or interactions that explain it. Introduce terminology as it becomes useful.
+- **Comparison:** establish the decision and criteria, then align the alternatives against them.
+- **Performance:** lead with the measured constraint, then connect the aggregate pattern to representative calls or events. Call something a bottleneck only when evidence establishes what it constrains.
+- **Reference or review:** lead with the lookup target or change, then expose the detail needed to use or assess it.
+
+Keep the same example recognizable from overview to detail. Put secondary payloads, benchmark grids, settings, and supporting proofs behind details or in an appendix.
+
+## Choose a representation
+
+The choices below are candidates, not mandatory formats. Combine views when they answer distinct questions or connect an overview to a concrete instance.
+
+| Relationship or reader task | Useful views |
 | --- | --- |
-| Logic or an algorithm | pseudocode |
-| Runtime control flow | call tree |
-| UI structure | component tree, with state and module boundaries that matter |
-| File responsibility, a broad refactor | shallow file tree with `# responsibility` comments |
-| Interaction, control or data flow, topology | Mermaid (`flowchart`, `sequenceDiagram`) |
-| A multi-variable comparison | table |
-| A state or data mutation | before and after blocks |
-| A change to a shape that already exists | `diff` over any of the above |
-| Mostly new code, or a copyable target | the whole block |
+| Stages that hand off work | Aligned stage cards (gets / does / passes on), with the handoff payload labeled between them |
+| Order, duration, overlap | Timeline; swimlanes when actors matter |
+| Messages across boundaries | Sequence diagram |
+| State through execution | Aligned before/after states, storyboard, execution stepper |
+| Accumulation, reset, retention | Message stacks or ranges showing added, retained, and replaced parts |
+| Quantitative differences or trends | Aligned bars, lines, small multiples |
+| Coverage, gaps, repeated reads | Range diagram or coverage matrix |
+| Ownership, dependency, connectivity | Component diagram or topology |
+| Exact values or categorical comparison | Table with units and concise text where useful |
+| Algorithm or runtime call hierarchy | Pseudocode or call tree |
+| UI or file responsibility | Component tree or shallow annotated file tree |
+| Implementation change | Diff over the relevant code, tree, or state |
+| Mostly new code or a copyable target | Complete relevant block |
 
-Pseudocode:
+For example, a call tree shows who invokes whom; a sequence diagram shows exchanges across actors; successive message stacks show what is resent or discarded. Choose according to the question, even when all three describe the same system.
 
-```text
-on(save)
-  if content is unchanged
-    return cached result
-  write new content
-  return fresh result
-```
-
-Call tree:
-
-```text
-submitForm
-  createSession
-    persistPrompt
-    launchAgent
-  navigateToSession
-```
-
-Component tree:
-
-```text
-<SessionPage> (apps/example/src/routes/session.tsx)
-  useSessionEvents()
-  <SessionToolbar>
-    <RunSkillButton> (packages/ui)
-```
-
-File tree:
-
-```text
-src/
-├── commands/       # parses user actions
-├── sessions/       # owns session state
-└── transport/      # sends API requests
-```
-
-Mermaid, for interaction:
-
-```mermaid
-sequenceDiagram
-    participant User
-    participant UI
-    participant Daemon
-    User->>UI: choose command
-    UI->>Daemon: send expanded prompt
-    Daemon-->>UI: stream result
-```
-
-A `diff` takes the shape of whatever it changes. For a component change:
-
-```diff
- <SessionPage>
-   useSessionEvents()
-   <SessionToolbar>
-+    <RunSkillButton />
-   <SessionTimeline>
-+    <SkillResultCard />
-```
-
-For a file-layout change:
-
-```diff
- src/
- ├── commands/
-+│   └── show-me.ts       # expands the slash command
- ├── sessions/
--└── transport.ts
-+└── transport/
-+    ├── client.ts
-+    └── stream.ts
-```
-
-For a state or control-flow change:
+For implementation review, keep literal names and enough surrounding structure to expose the change:
 
 ```diff
  on(save)
--  write content
-+  if content is unchanged
-+    return cached result
-+  write new content
+   if content is unchanged
+     return cached result
+   write new content
 +  invalidate cache
+   return fresh result
 ```
 
-For a call tree:
+## Construct the visual
 
-```diff
- submitForm
-   createSession
-     persistPrompt
-+    expandSkillMention
-     launchAgent
--  navigateToSession
-+  navigateToSession
-+    subscribeToEvents
-```
+- **Preserve identity.** Keep names, shapes, positions, and meaningful colors consistent across related views. Distinguish entity identity from emphasis on the current change.
+- **Expose change.** Show added, removed, retained, and transferred state. Align successive states so the reader can compare them without mentally rebuilding the layout.
+- **Explain connections.** Label arrows with the action or payload they represent. Make boundary crossings and handoffs explicit where they affect the inference.
+- **Compare fairly.** Use consistent scales for comparable quantities. Quantitative size and position follow the data; show units, baselines, and relevant scale changes. Mark schematic layouts as unscaled when size could be mistaken for quantity.
+- **Label locally.** Place explanations beside the relevant marks or parts. Use direct labels where they remove a legend lookup.
+- **Layer detail.** Keep each view coherent. Split or simplify when labels, crossings, or competing relationships obscure its question; preserve links between overview and detail. Node and control counts are simplification heuristics, not limits.
+- **Color semantically.** Use neutral structure and a small palette for meaningful entities, categories, or emphasis. Pair color with labels or shapes, with readable contrast in the intended themes.
 
-Show the whole block instead when most of it is new, or when omitted context would hide ownership or order.
+Use interaction for a specific investigative benefit. When considering selection, stepping, or parameter changes, read [WIDGETS.md](WIDGETS.md) to assess eligibility and construct the interaction.
 
-```ts
-function expandSkill(command: string): string {
-  const skillName = command.slice(1);
-  return `use the ${skillName} skill`;
-}
-```
+## Write and substantiate
 
-### Tables
+Name the actor and the action. Use the domain's real names and examples, explain unfamiliar terms, and keep prose near the evidence it interprets. Use short, front-loaded labels when they help scanning.
 
-Cells hold numbers with units (`ms`, `GB/s`, `tokens/s`) and `Yes`/`No`, not prose. One row per option, one column per variable. A cell the sources leave empty says `n/a`, never a guess.
+Trace factual claims and quantitative figures to sources, code, or recorded events. Provide inspectable references where possible. Label invented data or schematic examples _illustrative_; identify estimates and assumptions where they affect interpretation. State a source gap rather than filling it with a guess.
 
-### Before and after
+Preserve measurement meaning throughout the headline, labels, and conclusions: quote matching, semantic support, and successful execution are different outcomes. Distinguish observations, implementation facts, and interpretations. A missing term in a text search alone does not establish that a mechanism is absent.
 
-For a mutation, show the literal state twice and let the reader diff it:
+Tables support both lookup and comparison: include units and concise text where needed; distinguish unknown values from values that are not applicable. State excerpts and omitted context explicitly when shortening literal payloads.
 
-Before:
+## Check the explanation
 
-```json
-{ "cache": { "entries": 4096, "evicted": 0 } }
-```
+Check whether the representation supplies the information needed for the intended inference.
 
-After:
+**Coverage** comes first: every unit the overview names has its input, action, and output on the page. For each handoff between units, answer one counterfactual from the page alone ("if unit N's output changed, what does unit N+1 see?"). A unit you cannot answer for is a gap; fill it before polishing anything else.
 
-```json
-{ "cache": { "entries": 3584, "evicted": 512 } }
-```
+Then, for a mechanism, trace another case; for a comparison, check the decision against its criteria; for a reference or review, check that the needed fact or change can be located. This is an artifact check, not proof of reader comprehension or a requirement to add a quiz. When revising an artifact, run this whole check again, not only the rules that changed.
 
-### Diagrams
-
-- **Six to eight nodes.** A topology that needs more becomes an **exploded view**: a macro diagram of about five nodes, then a second diagram of the one component that matters, usually the bottleneck.
-- **Data-ink.** No decorative styling, no labels that restate the node. Where size or length encodes anything, it is proportional to the real quantity.
-- **Colour by role.** Colour carries meaning or is absent. Leave ordinary nodes unstyled so they take the renderer's theme. Style only the two roles below, always with an explicit text colour, so the node reads on light and dark backgrounds alike:
-
-```mermaid
-flowchart LR
-    client[Client] --> router[Router]
-    router --> cache[Prefix cache]
-    router --> gpu[GPU pool]
-    gpu --> queue[Admission queue]
-    class cache novel
-    class queue bottleneck
-    classDef novel fill:#ccfbf1,stroke:#0f766e,color:#134e4a
-    classDef bottleneck fill:#fef3c7,stroke:#b45309,color:#78350f
-```
-
-- **`novel`** (teal) marks the mechanism the material introduces.
-- **`bottleneck`** (amber) marks a constraint, a failure state, or a latency wall, and nothing else.
-
-In HTML the same roles hold: slate `#475569` for ordinary structure, teal `#0f766e` for the novel mechanism, amber `#b45309` for bottlenecks. A host product's palette may supply the neutrals and the type; the two roles keep their colours.
-
-## Widgets
-
-When a point turns on a variable the reader should feel by dragging it, read [WIDGETS.md](WIDGETS.md) before building anything.
+For rendered artifacts, inspect an intended desktop width and a narrow width. Check labels, reading order, scales, and representative interaction states. For inline diagrams, inspect the available rendering without creating a separate page solely to satisfy this check. When rendering is unavailable, check the source and report what remains unverified; delivery can proceed. Claim reader comprehension only when it has actually been tested.
