@@ -113,6 +113,8 @@ Check with the user that these seams match their expectations.
    hand off to `/to-tickets`, which splits the **spec**, not the parent item, and hangs
    its tickets under it.
 
+Write the spec in plain English for a reader who has none of this conversation's context: say what it is and why it matters before the details, explain any term outside the project's glossary, and name things instead of pointing at the conversation. No filler: skip preambles, recaps, hedging, and praise, and cut any sentence the reader would not miss.
+
 <spec-template>
 
 ## Problem Statement

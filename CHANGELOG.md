@@ -11,6 +11,12 @@ This repo diverged from [mattpocock/skills](https://github.com/mattpocock/skills
 maintained independently, under the MIT license it was released with. `LICENSE` retains the
 original copyright notice as MIT requires, with the fork's added alongside it.
 
+**Skills that write documents write them in plain English, with no filler.** `pr`, `to-spec`,
+`to-tickets`, `research`, `triage`, `handoff`, `to-questionnaire` and `synthesize` now say to write for
+a reader who has none of the conversation's context: what the thing is and why it matters before the
+details, terms outside the project's glossary explained, and no preambles, recaps, hedging or praise.
+`pr` also assumes the reader may not be a developer and spells out how to try the change.
+
 **`two-axis-review` checks that every new guard has a test.** Three PRs in a row shipped a
 guard (a condition that rejects input, stops early, or skips a side effect) that could be
 deleted with the whole suite green, and both review axes passed each one. The Standards axis

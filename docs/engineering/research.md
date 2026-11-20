@@ -70,6 +70,7 @@ No, it fires them for you. A charting session spawns a `/research` subagent per 
 - Every claim in it carries a link, and following two at random lands you on an official doc, a spec, or the actual source file, not on someone's write-up of it.
 - You can make the decision you were stuck on from the file alone, without going back to the sources yourself.
 - The report ends with the file's path and an offer to run `/synthesize` on it.
+- You could hand the file to someone who wasn't in the conversation and they would follow it: plain English, terms explained, and no preamble, recap, or padding.
 
 ## Where it fits
 

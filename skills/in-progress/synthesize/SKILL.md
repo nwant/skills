@@ -42,7 +42,7 @@ sources:
 <central finding, sections, and views selected using information-design>
 ```
 
-Include sections only when they serve the reader's task and the sources support them. Cite inline with the source number, `[2]`, after each claim it supports. Keep gaps explicit.
+Include sections only when they serve the reader's task and the sources support them. Cite inline with the source number, `[2]`, after each claim it supports. Keep gaps explicit. Write it in plain English for a reader who has none of this conversation's context: say what it is and why it matters before the details, explain any term outside the project's glossary, and name things instead of pointing at the conversation. No filler: skip preambles, recaps, hedging, and praise, and cut any sentence the reader would not miss.
 
 ## 5. Deliver or offer interaction
 

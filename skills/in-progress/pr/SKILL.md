@@ -28,7 +28,7 @@ Use this template for writing the PR body:
 
 ## Sections
 
-Skip all preambles and keep prose brief. Use the user's domain language from `CONTEXT.md`.
+Write the PR in plain English for a reader who has none of this conversation's context: say what changes for the people who use the thing (and why) before the details, explain any term outside the project's glossary, and name things instead of pointing at the conversation. No filler: skip preambles, recaps, hedging, and praise, and cut any sentence the reader would not miss. The reader may not be a developer and opens only this PR, so spell out anything they must do to try it. Use the user's domain language from `CONTEXT.md`.
 
 ### Summary
 

@@ -98,6 +98,7 @@ The skill stops at the artifact, and there is no auto-dispatch mode. Dispatch is
 - Nothing in a ticket body is a file path or a line number, except a snippet a prototype produced.
 - Each ticket reads like something a fresh session could finish without you in the room.
 - Prefactoring, where it found any, is at the front of the order rather than mixed into feature tickets.
+- You could hand any ticket to someone who wasn't in the conversation and they would follow it: plain English, terms explained, and no preamble, recap, or padding.
 
 ## Where it fits
 
