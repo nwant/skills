@@ -17,7 +17,7 @@ Turn something the user can't answer alone into a **questionnaire**: a Markdown 
 
 ## Document structure
 
-Frame the document as a **discovery questionnaire**: the user lacks context, the recipient holds it. Order questions most-important-first, since async means you may only get one pass, and group them under `##` headings by theme once there are more than a handful. Write it using the template below.
+Frame the document as a **discovery questionnaire**: the user lacks context, the recipient holds it. Order questions most-important-first, since async means you may only get one pass, and group them under `##` headings by theme once there are more than a handful. Write it using the template below, in plain English for a reader who has none of this conversation's context: say what it is and why it matters before the details, explain any term outside the project's glossary, and name things instead of pointing at the conversation. No filler: skip preambles, recaps, hedging, and praise, and cut any sentence the reader would not miss.
 
 <questionnaire-template>
 

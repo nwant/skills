@@ -97,6 +97,8 @@ changes.
 Keep a ticket under roughly 3,000 characters. If one needs more than that to say what to
 build, it is usually two tickets.
 
+Write each ticket in plain English for a reader who has none of this conversation's context: say what it is and why it matters before the details, explain any term outside the project's glossary, and name things instead of pointing at the conversation. No filler: skip preambles, recaps, hedging, and praise, and cut any sentence the reader would not miss.
+
 <local-ticket-template>
 
 # <NN>: <Ticket title>

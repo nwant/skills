@@ -72,6 +72,7 @@ Both work; they suit different situations. As a skill it ships and updates throu
 - In the fork case, your original session is still sitting there untouched when you come back to it.
 - The suggested-skills section names the skill you'd have reached for yourself.
 - Nothing in it is a key, a token, or a password.
+- You could hand the document to someone who wasn't in the conversation and they would follow it: plain English, terms explained, and no preamble, recap, or padding.
 
 ## Where it fits
 

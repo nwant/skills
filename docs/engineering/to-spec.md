@@ -80,6 +80,7 @@ This was the symptom that moved the spec out of the tracker. A dense spec can ou
 - Its `parent:` value names the configured tracker's real parent structure.
 - Every decision in it is one you can remember making. Nothing was invented to fill a section.
 - The out-of-scope section has real things in it: the things you refused are usually the most useful lines on the page.
+- You could hand the spec to someone who wasn't in the conversation and they would follow it: plain English, terms explained, and no preamble, recap, or padding.
 
 ## Where it fits
 

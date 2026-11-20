@@ -5,7 +5,7 @@ argument-hint: "What will the next session be used for?"
 disable-model-invocation: true
 ---
 
-Write a handoff document summarizing the current conversation so a fresh agent can continue the work. Save to the temporary directory of the user's OS (`$TMPDIR`, else `/tmp`; `%TEMP%` on Windows) - not the current workspace.
+Write a handoff document summarizing the current conversation so a fresh agent can continue the work. Save to the temporary directory of the user's OS (`$TMPDIR`, else `/tmp`; `%TEMP%` on Windows) - not the current workspace. Write it in plain English for a reader who has none of this conversation's context: say what it is and why it matters before the details, explain any term outside the project's glossary, and name things instead of pointing at the conversation. No filler: skip preambles, recaps, hedging, and praise, and cut any sentence the reader would not miss.
 
 Include a "suggested skills" section in the document, naming which skills the next agent should call the Skill tool for.
 

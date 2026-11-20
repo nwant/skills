@@ -70,7 +70,7 @@ Yes, and plenty of people did before it existed: `OPEN_QUESTIONS.md` files, spre
 - It asks about the recipient and about what you need back, then stops asking. A question about the subject itself is the skill off the rails.
 - Every item you named as "what I need back" is traceable to a question in the file.
 - The questions read as aimed at what the *recipient* knows, not as your own open questions copied down verbatim.
-- You could hand the file to someone who wasn't in the conversation and they would know why they got it and by when to reply.
+- You could hand the file to someone who wasn't in the conversation and they would know why they got it and by when to reply, in plain English with no preamble or padding.
 - The answers that come back are usable input for a new grilling round, rather than a fresh set of questions.
 
 ## Where it fits
